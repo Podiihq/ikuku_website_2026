@@ -83,26 +83,28 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
-            <section className='max-w-screen-2xl mx-auto px-4 lg:px-0 text-[#FEF8E2] border-2 border-black rounded-xl bg-[#697B3B]'>
-                <div className='px-4 pt-4 lg:px-10 lg:pt-10 space-y-3'>
-                    <p className='uppercase'>Hard work isn't the problem!</p>
-                    <h1 className="creative-font max-w-5xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
-                        We digitize how farmers think, unlocking the true value of their hard work.
-                    </h1>
-                    <p className='max-w-5xl'>Poultry farming takes an incredible amount of dedication. Yet, so many farmers find themselves fighting to keep their margins above water. The issue isn't a lack of hard work, it’s that they use methods simply weren't built to scale with a growing business.</p>
-                    <Button
-                        bgColor="#FEF8E2"
-                        href="#app"
-                        icon={<GooglePlayMark />}
-                        textColor="#000000"
-                    >
-                        Download App
-                    </Button>
-                </div>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#F9B420] pt-6 px-6 rounded-xl mt-10'>
-                    <img src={Screen1} alt="" />
-                    <img src={Screen2} alt="" className='hidden md:block' />
-                    <img src={Screen3} alt="" className='hidden md:block' />
+            <section className='max-w-screen-2xl mx-auto px-4 lg:px-0 text-[#FEF8E2]'>
+                <div className='border-2 border-black rounded-xl bg-[#697B3B]'>
+                    <div className='px-4 pt-4 lg:px-10 lg:pt-10 space-y-3'>
+                        <p className='uppercase'>Hard work isn't the problem!</p>
+                        <h1 className="creative-font max-w-5xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
+                            We digitize how farmers think, unlocking the true value of their hard work.
+                        </h1>
+                        <p className='max-w-5xl'>Poultry farming takes an incredible amount of dedication. Yet, so many farmers find themselves fighting to keep their margins above water. The issue isn't a lack of hard work, it’s that they use methods simply weren't built to scale with a growing business.</p>
+                        <Button
+                            bgColor="#FEF8E2"
+                            href="#app"
+                            icon={<GooglePlayMark />}
+                            textColor="#000000"
+                        >
+                            Download App
+                        </Button>
+                    </div>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#F9B420] pt-6 px-6 rounded-xl mt-10'>
+                        <img src={Screen1} alt="" />
+                        <img src={Screen2} alt="" className='hidden md:block' />
+                        <img src={Screen3} alt="" className='hidden md:block' />
+                    </div>
                 </div>
             </section>
             <section className='max-w-screen-2xl mx-auto py-20 px-4 lg:px-0'>
@@ -253,10 +255,10 @@ const caseData = [
 export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) => {
     return (
         <div className='grid lg:grid-cols-5 gap-3'>
-            <div className='border-2 rounded-xl lg:col-span-3 p-6 flex items-center'>
+            <div className='border-2 rounded-xl lg:col-span-3 p-6 flex items-end'>
                 <div className='space-y-4'>
                     <p className='creative-font text-4xl'>{title}</p>
-                    <p>{description}</p>
+                    <p className='lg:w-2/3'>{description}</p>
                     <Button
                         bgColor="#ffb51c"
                         href={pageLink}
@@ -267,7 +269,7 @@ export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) 
                 </div>
             </div>
             <div className='lg:col-span-2'>
-                <img src={caseImage} alt="" className='border-2 rounded-xl w-full object-cover h-60 object-top' />
+                <img src={caseImage} alt="" className='border-2 rounded-xl w-full object-cover h-80 object-top' />
             </div>
         </div>
     )
