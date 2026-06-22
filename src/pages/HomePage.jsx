@@ -18,12 +18,29 @@ import Image4 from "../assets/images/photos/image5.png"
 import Image5 from "../assets/images/photos/image6.png"
 import illustration1 from "../assets/images/illustrations/illustration-5.png"
 import illustration2 from "../assets/images/illustrations/illustration-6.png"
+import Lenis from 'lenis'
+import { useEffect } from 'react'
 
 const HomePage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        return () => {
+            lenis.destroy();
+        };
+    }, []);
     return (
         <main id="home" className="min-h-[160vh] bg-[#F8F0D8]">
-            <section className="bg-[#f8f0d8] px-5 pb-14 lg:pb-5 pt-10 sm:px-8 lg:px-12 lg:pt-12">
-                <div className="mx-auto flex max-w-7xl flex-col items-center text-center">
+            <section className="bg-[#f8f0d8] px-0 pb-14 lg:pb-5 pt-10 lg:px-12 lg:pt-12">
+                <div className="mx-auto flex max-w-7xl flex-col items-center text-center px-4">
                     <h1 className="creative-font max-w-7xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
                         Poultry farmers make lifesaving decisions every{' '}
                         <span className="relative inline-block">
@@ -61,7 +78,7 @@ const HomePage = () => {
                     <div className='md:col-span-4 hidden md:block'>
                         <img src={HeroImage} alt="" className='border-2 rounded-xl' />
                     </div>
-                    <div className='md:col-span-3 border-2 rounded-xl bg-[#EA4335] relative h-full'>
+                    <div className='md:col-span-3 lg:border-2 rounded-xl lg:bg-[#EA4335] relative h-full'>
                         <img src={HeroIllustration} alt="" className='md:absolute h-full w-full -top-10' />
                     </div>
                 </div>
@@ -82,9 +99,9 @@ const HomePage = () => {
                         Download App
                     </Button>
                 </div>
-                <div className='grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#F9B420] pt-6 px-6 rounded-xl mt-10'>
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#F9B420] pt-6 px-6 rounded-xl mt-10'>
                     <img src={Screen1} alt="" />
-                    <img src={Screen2} alt="" />
+                    <img src={Screen2} alt="" className='hidden md:block' />
                     <img src={Screen3} alt="" className='hidden md:block' />
                 </div>
             </section>

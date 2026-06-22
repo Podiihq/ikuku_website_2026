@@ -21,7 +21,7 @@ const Footer = () => {
       <div className="rounded-t-2xl border-2 border-black bg-[#FEC02E] px-5 py-12 text-center text-black sm:rounded-2xl lg:py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-center">
           <div>
-            <h2 className="font-bold uppercase">Website Links</h2>
+            <h2 className="font-bold uppercase creative-font text-3xl">Website Links</h2>
             <nav className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2" aria-label="Footer website links">
               {websiteLinks.map((link) => (
                 <a
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
 
           <div className="mt-8">
-            <h2 className="font-bold uppercase">Social Links</h2>
+            <h2 className="font-bold uppercase creative-font text-3xl">Social Links</h2>
             <nav className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2" aria-label="Footer social links">
               {socialLinks.map((link) => (
                 <a
@@ -68,7 +68,7 @@ const Footer = () => {
             Download App
           </Button>
 
-          <p className="mt-10">Copyright i-kiku 2026 | All Rights Reserved</p>
+          <p className="mt-10">©️Copyright i-kiku 2026 | All Rights Reserved</p>
         </div>
       </div>
     </footer>
