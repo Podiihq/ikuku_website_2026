@@ -17,7 +17,7 @@ const Button = ({
 
   return (
     <Component
-      className={`inline-flex font-bold py-3 w-fit items-center justify-center gap-3 rounded-full border px-6 uppercase transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35] ${className}`}
+      className={`inline-flex cursor-pointer font-bold py-3 w-fit items-center justify-center gap-3 rounded-full border px-6 uppercase transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35] ${className}`}
       href={href}
       style={{
         backgroundColor: bgColor,

@@ -2,6 +2,9 @@ import Button from './Button'
 import GooglePlayMark from './GooglePlayMark'
 import logo from '../assets/images/logo/i-kuku-logo.svg'
 
+import Image1 from "../assets/images/illustrations/illustration-7.png"
+import Image2 from "../assets/images/illustrations/illustration-8.png"
+
 const websiteLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Case Studies', href: '#case-studies' },
@@ -17,8 +20,8 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-[#f8f0d8] lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto">
-      <div className="rounded-t-2xl border-2 border-black bg-[#FEC02E] px-5 py-12 text-center text-black sm:rounded-2xl lg:py-16">
+    <footer className="bg-[#f8f0d8] lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto overflow-hidden">
+      <div className="rounded-t-2xl border-2 border-black bg-[#FEC02E] px-5 py-12 text-center text-black sm:rounded-2xl lg:py-16 relative">
         <div className="mx-auto flex max-w-5xl flex-col items-center">
           <div>
             <h2 className="font-bold uppercase creative-font text-3xl">Website Links</h2>
@@ -69,6 +72,10 @@ const Footer = () => {
           </Button>
 
           <p className="mt-10">©️Copyright i-kiku 2026 | All Rights Reserved</p>
+        </div>
+        <div className='hidden lg:block'>
+          <img src={Image1} alt="" className='absolute w-160 -bottom-16.5 -left-4' />
+          <img src={Image2} alt="" className='absolute w-160 -bottom-15 -right-4' />
         </div>
       </div>
     </footer>

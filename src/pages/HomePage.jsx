@@ -170,7 +170,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
-            <section className='max-w-screen-2xl mx-auto pb-20 px-4 lg:px-0'>
+            <section className='max-w-screen-2xl mx-auto pb-10 px-4 lg:px-0'>
                 <h1 className="creative-font max-w-5xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
                     Case studies
                 </h1>
