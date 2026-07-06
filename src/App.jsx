@@ -1,5 +1,6 @@
 import './App.css'
 import { useEffect, useLayoutEffect } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { HashRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
@@ -50,14 +51,41 @@ const ScrollToTop = () => {
   return null
 }
 
-const AppLayout = () => {
+const pageTransition = {
+  duration: 0.42,
+  ease: [0.22, 1, 0.36, 1],
+}
+
+const PageTransitionRoutes = () => {
+  const location = useLocation()
+  const shouldReduceMotion = useReducedMotion()
+  const routeKey = location.pathname
+
+  const initialState = shouldReduceMotion
+    ? { opacity: 0 }
+    : { opacity: 0, y: 18 }
+
+  const animateState = shouldReduceMotion
+    ? { opacity: 1 }
+    : { opacity: 1, y: 0 }
+
+  const exitState = shouldReduceMotion
+    ? { opacity: 0 }
+    : { opacity: 0, y: -12 }
+
   return (
-    <>
-      <PageLoader />
-      <div className='bg-[#F8F0D8]'>
-        <ScrollToTop />
-        <Navbar />
-        <Routes>
+    <AnimatePresence initial={false} mode="wait">
+      <motion.div
+        animate={animateState}
+        className="relative"
+        data-page-transition=""
+        exit={exitState}
+        initial={initialState}
+        key={routeKey}
+        style={{ willChange: 'opacity, transform' }}
+        transition={shouldReduceMotion ? { duration: 0.18 } : pageTransition}
+      >
+        <Routes location={location}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/app" element={<AppPage />} />
@@ -65,6 +93,19 @@ const AppLayout = () => {
           <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+
+const AppLayout = () => {
+  return (
+    <>
+      <PageLoader />
+      <div className='bg-[#F8F0D8]'>
+        <ScrollToTop />
+        <Navbar />
+        <PageTransitionRoutes />
         <Footer />
       </div>
     </>
