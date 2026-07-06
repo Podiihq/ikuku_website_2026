@@ -119,7 +119,7 @@ const AppPage = () => {
               </div>
             </div>
 
-            <div className="relative min-h-[30rem] overflow-hidden border-t-2 border-black bg-[#FFB51C] sm:min-h-[34rem] lg:col-span-5 lg:min-h-168 lg:border-l-2 lg:border-t-0">
+            <div className="relative min-h-120 overflow-hidden border-t-2 border-black bg-[#FFB51C] sm:min-h-136 lg:col-span-5 lg:min-h-168 lg:border-l-2 lg:border-t-0">
               <div className="absolute -bottom-2 left-1/2 w-[88%] -translate-x-1/2 sm:w-[72%] lg:-bottom-20 lg:w-[88%]">
                 <img
                   src={Screen1}
