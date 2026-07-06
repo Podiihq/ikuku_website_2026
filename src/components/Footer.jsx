@@ -9,7 +9,7 @@ const websiteLinks = [
   { label: 'Home', href: '#/' },
   { label: 'About Us', href: '#/about' },
   { label: 'Case Studies', href: '#/?section=case-studies' },
-  { label: 'I-kuku App', href: '#/?section=app' },
+  { label: 'I-kuku App', href: '#/app' },
   { label: 'Contact Us', href: '#/?section=contact' },
 ]
 
@@ -65,7 +65,7 @@ const Footer = () => {
           <Button
             bgColor="#f8f0d8"
             className="mt-8"
-            href="#/?section=app"
+            href="#/app"
             icon={<GooglePlayMark className="h-6 w-6" />}
             shadowColor="#000000"
             textColor="#000000"

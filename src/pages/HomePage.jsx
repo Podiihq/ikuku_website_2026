@@ -86,7 +86,7 @@ const HomePage = () => {
                     <div className="mt-8 flex w-full flex-col justify-center gap-4 items-center md:flex-row">
                         <Button
                             bgColor="#ffffff"
-                            href="#/?section=app"
+                            href="#/app"
                             icon={<GooglePlayMark />}
                             textColor="#000000"
                         >
@@ -121,7 +121,7 @@ const HomePage = () => {
                         <p className='max-w-5xl'>Poultry farming takes an incredible amount of dedication. Yet, so many farmers find themselves fighting to keep their margins above water. The issue isn't a lack of hard work, it’s that they use methods simply weren't built to scale with a growing business.</p>
                         <Button
                             bgColor="#FEF8E2"
-                            href="#/?section=app"
+                            href="#/app"
                             icon={<GooglePlayMark />}
                             shadowColor="#000000"
                             textColor="#000000"
@@ -167,7 +167,7 @@ const HomePage = () => {
                                 <p className='lg:w-2/3'>Step away from the paperwork. Get real-time, AI-backed guidance on flock health, feed optimization, and margins right in your pocket.</p>
                                 <Button
                                     bgColor="#ffb51c"
-                                    href="#/?section=contact"
+                                    href="#/app"
                                     icon={<FiSmartphone className="text-2xl" aria-hidden="true" />}
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"

@@ -6,7 +6,7 @@ import logo from '../assets/images/logo/i-kuku-logo.svg'
 const navItems = [
   { label: 'Home', href: '#/' },
   { label: 'About Us', href: '#/about' },
-  { label: 'I-kuku App', href: '#/?section=app' },
+  { label: 'I-kuku App', href: '#/app' },
   { label: 'Case Studies', href: '#/?section=case-studies' },
   { label: 'Contact Us', href: '#/?section=contact' },
 ]
