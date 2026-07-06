@@ -133,11 +133,10 @@ const ContactPage = () => {
                 <div className="grid gap-3">
                   {partnershipOptions.map((option) => (
                     <label
-                      className={`grid cursor-pointer gap-1 rounded-lg border-2 p-4 transition-colors duration-200 ${
-                        selectedPartnership === option.value
+                      className={`grid cursor-pointer gap-1 rounded-lg border-2 p-4 transition-colors duration-200 ${selectedPartnership === option.value
                           ? 'border-black bg-[#FFB51C]'
                           : 'border-black bg-white hover:bg-[#F8F0D8]'
-                      }`}
+                        }`}
                       key={option.value}
                     >
                       <span className="flex items-start gap-3">
@@ -186,30 +185,6 @@ const ContactPage = () => {
                 </Button>
               </div>
             </form>
-          </div>
-        </div>
-
-        <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          <div className="rounded-xl border-2 border-black bg-[#FFB51C] p-6">
-            <FiArrowUpRight className="mb-6 text-3xl" aria-hidden="true" />
-            <h2 className="creative-font text-4xl uppercase leading-none">For programmes</h2>
-            <p className="mt-4 leading-relaxed">
-              Turn farmer training into records, insight, and follow-up action.
-            </p>
-          </div>
-          <div className="rounded-xl border-2 border-black bg-[#FEF8E2] p-6">
-            <FiArrowUpRight className="mb-6 text-3xl" aria-hidden="true" />
-            <h2 className="creative-font text-4xl uppercase leading-none">For financing</h2>
-            <p className="mt-4 leading-relaxed">
-              See farm-level activity that can support smarter farmer finance.
-            </p>
-          </div>
-          <div className="rounded-xl border-2 border-black bg-[#EA4335] p-6 text-[#FEF8E2]">
-            <FiArrowUpRight className="mb-6 text-3xl" aria-hidden="true" />
-            <h2 className="creative-font text-4xl uppercase leading-none">For impact</h2>
-            <p className="mt-4 leading-relaxed">
-              Measure what changes when farmers have better daily information.
-            </p>
           </div>
         </div>
       </section>
