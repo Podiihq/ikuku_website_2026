@@ -55,13 +55,9 @@ const AboutPage = () => {
     <main id="about" className="bg-[#F8F0D8] text-neutral-950">
       <section className="px-4 pb-16 pt-8 lg:px-12 lg:pb-24">
         <div className="mx-auto max-w-screen-2xl">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="size-3 rounded-full bg-[#EA4335]" aria-hidden="true" />
-            <p className="text-sm font-bold uppercase tracking-[0.14em]">About i-kuku</p>
-          </div>
-
           <div className="grid items-stretch gap-4 lg:grid-cols-12">
             <div className="flex min-h-136 flex-col justify-between rounded-xl border-2 border-black bg-[#697B3B] p-6 text-[#FEF8E2] sm:p-10 lg:col-span-7 lg:min-h-168 lg:p-12">
+              <p className="text-sm font-bold uppercase tracking-[0.14em]">About i-kuku</p>
               <h1 className="creative-font max-w-4xl text-[clamp(4rem,8vw,8rem)] uppercase leading-[0.82]">
                 Built for real African conditions
               </h1>
