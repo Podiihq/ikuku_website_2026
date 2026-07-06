@@ -20,7 +20,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto overflow-hidden">
+    <footer className="lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto overflow-hidden mb-4">
       <div className="rounded-t-2xl border-2 border-black text-black bg-[#FFB51C] px-5 py-12 text-center sm:rounded-2xl lg:py-16 relative">
         <div className="mx-auto flex max-w-5xl flex-col items-center">
           <div>

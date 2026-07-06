@@ -1,4 +1,4 @@
-import { PiSparkleBold } from 'react-icons/pi'
+import { FiArrowUpRight, FiBriefcase, FiSmartphone, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
 import HeroImage from "../assets/images/photos/Image-1.png"
@@ -56,15 +56,6 @@ const HomePage = () => {
 
                     <div className="mt-8 flex w-full flex-col justify-center gap-4 items-center md:flex-row">
                         <Button
-                            bgColor="#ffb51c"
-                            href="#contact"
-                            icon={<PiSparkleBold className="text-3xl" aria-hidden="true" />}
-                            textColor="#000000"
-                        >
-                            Partner with us
-                        </Button>
-
-                        <Button
                             bgColor="#ffffff"
                             href="#app"
                             icon={<GooglePlayMark />}
@@ -72,13 +63,21 @@ const HomePage = () => {
                         >
                             Download App
                         </Button>
+                        <Button
+                            bgColor="#ffb51c"
+                            href="#contact"
+                            icon={<FiUsers className="text-2xl" aria-hidden="true" />}
+                            textColor="#000000"
+                        >
+                            Partner with us
+                        </Button>
                     </div>
                 </div>
                 <div className='grid md:grid-cols-7 pt-20 gap-4 max-w-screen-2xl mx-auto relative'>
                     <div className='md:col-span-4 hidden md:block'>
                         <img src={HeroImage} alt="" className='border-2 rounded-xl' />
                     </div>
-                    <div className='md:col-span-3 lg:border-2 rounded-xl lg:bg-[#EA4335] relative h-full'>
+                    <div className='md:col-span-3 lg:border-2 rounded-xl lg:bg-[#F9B420] relative h-full'>
                         <img src={HeroIllustration} alt="" className='md:absolute h-full w-full -top-10' />
                     </div>
                 </div>
@@ -95,13 +94,13 @@ const HomePage = () => {
                             bgColor="#FEF8E2"
                             href="#app"
                             icon={<GooglePlayMark />}
-                            shadowColor="#F9B420"
+                            shadowColor="#000000"
                             textColor="#000000"
                         >
                             Download App
                         </Button>
                     </div>
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 bg-[#F9B420] pt-6 px-6 rounded-xl mt-10'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 px-6 rounded-xl mt-10'>
                         <img src={Screen1} alt="" />
                         <img src={Screen2} alt="" className='hidden md:block' />
                         <img src={Screen3} alt="" className='hidden md:block' />
@@ -140,7 +139,7 @@ const HomePage = () => {
                                 <Button
                                     bgColor="#ffb51c"
                                     href="#contact"
-                                    icon={<PiSparkleBold className="text-3xl" aria-hidden="true" />}
+                                    icon={<FiSmartphone className="text-2xl" aria-hidden="true" />}
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"
                                 >
@@ -164,7 +163,7 @@ const HomePage = () => {
                                 <Button
                                     bgColor="#ffb51c"
                                     href="#contact"
-                                    icon={<PiSparkleBold className="text-3xl" aria-hidden="true" />}
+                                    icon={<FiUsers className="text-2xl" aria-hidden="true" />}
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"
                                 >
@@ -265,7 +264,8 @@ export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) 
                     <Button
                         bgColor="#ffb51c"
                         href={pageLink}
-                        icon={<PiSparkleBold className="text-3xl" aria-hidden="true" />}
+                        icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
+                        iconPosition="right"
                         textColor="#000000">
                         Read Case Study
                     </Button>
