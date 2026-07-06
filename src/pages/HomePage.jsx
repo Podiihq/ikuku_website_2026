@@ -1,4 +1,4 @@
-import { FiArrowUpRight, FiBriefcase, FiSmartphone, FiUsers } from 'react-icons/fi'
+import { FiArrowUpRight, FiSmartphone, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
 import HeroImage from "../assets/images/photos/Image-1.png"
@@ -18,25 +18,16 @@ import Image4 from "../assets/images/photos/image5.png"
 import Image5 from "../assets/images/photos/image6.png"
 import illustration1 from "../assets/images/illustrations/illustration-5.png"
 import illustration2 from "../assets/images/illustrations/illustration-6.png"
-import Lenis from 'lenis'
 import { useEffect } from 'react'
+import useSmoothScroll from '../hooks/useSmoothScroll'
 
 const HomePage = () => {
+    useSmoothScroll()
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    useEffect(() => {
-        const lenis = new Lenis();
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-        return () => {
-            lenis.destroy();
-        };
-    }, []);
     return (
         <main id="home" className="min-h-[160vh] bg-[#F8F0D8]">
             <section className="bg-[#f8f0d8] px-0 pb-14 lg:pb-5 pt-10 lg:px-12 lg:pt-12">
@@ -82,7 +73,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
-            <section className='max-w-screen-2xl mx-auto px-4 lg:px-0 text-[#FEF8E2]'>
+            <section id="app" className='max-w-screen-2xl mx-auto px-4 lg:px-0 text-[#FEF8E2]'>
                 <div className='border-2 border-black rounded-xl bg-[#697B3B]'>
                     <div className='px-4 pt-4 lg:px-10 lg:pt-10 space-y-3'>
                         <p className='uppercase'>Hard work isn't the problem!</p>
@@ -174,7 +165,7 @@ const HomePage = () => {
                     </div>
                 </div>
             </section>
-            <section className='max-w-screen-2xl mx-auto pb-10 px-4 lg:px-0'>
+            <section id="case-studies" className='max-w-screen-2xl mx-auto pb-10 px-4 lg:px-0'>
                 <h1 className="creative-font max-w-5xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
                     Case studies
                 </h1>
@@ -248,7 +239,7 @@ const caseData = [
     {
         title: "Record keeping training at Kikuyu",
         description: "See how we moved Kikuyu farmers from guesswork to accurate record keeping.",
-        pageLink: "",
+        pageLink: "#",
         caseImage: Image5
     },
 ]

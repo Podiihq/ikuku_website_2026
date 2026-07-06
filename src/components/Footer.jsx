@@ -6,10 +6,11 @@ import Image1 from "../assets/images/illustrations/illustration-7.png"
 import Image2 from "../assets/images/illustrations/illustration-8.png"
 
 const websiteLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Case Studies', href: '#case-studies' },
-  { label: 'I-kuku App', href: '#app' },
-  { label: 'Contact Us', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Case Studies', href: '/#case-studies' },
+  { label: 'I-kuku App', href: '/#app' },
+  { label: 'Contact Us', href: '/#contact' },
 ]
 
 const socialLinks = [
@@ -20,7 +21,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto overflow-hidden mb-4">
+    <footer id="contact" className="lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto overflow-hidden mb-4">
       <div className="rounded-t-2xl border-2 border-black text-black bg-[#FFB51C] px-5 py-12 text-center sm:rounded-2xl lg:py-16 relative">
         <div className="mx-auto flex max-w-5xl flex-col items-center">
           <div>
@@ -55,7 +56,7 @@ const Footer = () => {
 
           <a
             className="mt-8 inline-flex focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35]"
-            href="#home"
+            href="/"
             aria-label="I-kuku home"
           >
             <img className="h-36 w-auto sm:h-40" src={logo} alt="I-kuku" />
