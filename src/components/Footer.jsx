@@ -21,7 +21,7 @@ const socialLinks = [
 const Footer = () => {
   return (
     <footer className="lg:px-0 pb-0 pt-8 px-4 sm:pb-4 max-w-screen-2xl mx-auto overflow-hidden">
-      <div className="rounded-t-2xl border-2 border-black text-white bg-[#697B3B] px-5 py-12 text-center sm:rounded-2xl lg:py-16 relative">
+      <div className="rounded-t-2xl border-2 border-black text-black bg-[#FFB51C] px-5 py-12 text-center sm:rounded-2xl lg:py-16 relative">
         <div className="mx-auto flex max-w-5xl flex-col items-center">
           <div>
             <h2 className="font-bold uppercase creative-font text-3xl">Website Links</h2>
@@ -66,7 +66,7 @@ const Footer = () => {
             className="mt-8"
             href="#app"
             icon={<GooglePlayMark className="h-6 w-6" />}
-            shadowColor="#F9B420"
+            shadowColor="#000000"
             textColor="#000000"
           >
             Download App

@@ -258,7 +258,7 @@ const caseData = [
 export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) => {
     return (
         <div className='grid lg:grid-cols-5 gap-3'>
-            <div className='border-2 rounded-xl lg:col-span-3 p-6 flex items-end bg-white'>
+            <div className='border-2 rounded-xl lg:col-span-3 p-6 flex items-end'>
                 <div className='space-y-4'>
                     <p className='creative-font text-4xl'>{title}</p>
                     <p className='lg:w-2/3'>{description}</p>
