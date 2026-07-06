@@ -1,6 +1,8 @@
-import { FiArrowUpRight, FiSmartphone, FiUsers } from 'react-icons/fi'
+import { FiSmartphone, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
+import CaseStudyCard from '../components/CaseStudyCard'
 import GooglePlayMark from '../components/GooglePlayMark'
+import { caseStudies } from '../data/caseStudies'
 import HeroImage from "../assets/images/photos/Image-1.png"
 import HeroIllustration from "../assets/images/illustrations/illustration-1.png"
 
@@ -14,8 +16,6 @@ import ProcessIllustration3 from "../assets/images/illustrations/illustration-4.
 
 import Image1 from "../assets/images/photos/image-2.png"
 import Image2 from "../assets/images/photos/image-3.png"
-import Image4 from "../assets/images/photos/image5.png"
-import Image5 from "../assets/images/photos/image6.png"
 import illustration1 from "../assets/images/illustrations/illustration-5.png"
 import illustration2 from "../assets/images/illustrations/illustration-6.png"
 import { useEffect } from 'react'
@@ -208,13 +208,13 @@ const HomePage = () => {
                     Case studies
                 </h1>
                 <div className='space-y-3 pt-6'>
-                    {caseData.map((items, index) => (
-                        <CaseStudyComponent
-                            key={index}
-                            title={items.title}
+                    {caseStudies.map((items) => (
+                        <CaseStudyCard
+                            key={items.slug}
+                            title={items.cardTitle}
                             description={items.description}
-                            caseImage={items.caseImage}
-                            pageLink={items.pageLink}
+                            caseImage={items.image}
+                            pageLink={`#/case-studies/${items.slug}`}
                         />
                     ))}
                 </div>
@@ -266,50 +266,3 @@ export const ProcessCardComponent = ({ title, description, illustration }) => {
     )
 }
 
-
-const caseData = [
-    {
-        title: "Record keeping training at USAID",
-        description: "See how we educated the farmers on the importance of record keeping on their farms.",
-        pageLink: "#",
-        caseImage: Image4
-    },
-    {
-        title: "Record keeping training at Kikuyu",
-        description: "See how we moved Kikuyu farmers from guesswork to accurate record keeping.",
-        pageLink: "#",
-        caseImage: Image5
-    },
-]
-
-
-export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) => {
-    return (
-        <article className='grid overflow-hidden rounded-xl border-2 border-black bg-[#FEF8E2] lg:grid-cols-2'>
-            <div className='flex flex-col justify-center p-6 sm:p-10 lg:p-14'>
-                <p className='mb-4 text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]'>
-                    Case study
-                </p>
-                <h2 className='creative-font text-[clamp(3rem,5vw,5rem)] uppercase leading-[0.9]'>
-                    {title}
-                </h2>
-                <p className='mt-6 max-w-xl text-lg leading-relaxed'>{description}</p>
-                <div className='mt-8'>
-                    <Button
-                        bgColor="#ffb51c"
-                        href={pageLink}
-                        icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
-                        iconPosition="right"
-                        textColor="#000000">
-                        Read Case Study
-                    </Button>
-                </div>
-            </div>
-            <img
-                src={caseImage}
-                alt={title}
-                className='h-full min-h-80 w-full border-t-2 border-black object-cover object-top lg:min-h-112 lg:border-l-2 lg:border-t-0'
-            />
-        </article>
-    )
-}

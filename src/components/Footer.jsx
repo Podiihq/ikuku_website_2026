@@ -8,7 +8,7 @@ import Image2 from "../assets/images/illustrations/illustration-8.png"
 const websiteLinks = [
   { label: 'Home', href: '#/' },
   { label: 'About Us', href: '#/about' },
-  { label: 'Case Studies', href: '#/?section=case-studies' },
+  { label: 'Case Studies', href: '#/case-studies' },
   { label: 'I-kuku App', href: '#/app' },
   { label: 'Contact Us', href: '#/?section=contact' },
 ]

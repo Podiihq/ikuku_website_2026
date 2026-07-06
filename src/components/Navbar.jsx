@@ -7,7 +7,7 @@ const navItems = [
   { label: 'Home', href: '#/' },
   { label: 'About Us', href: '#/about' },
   { label: 'I-kuku App', href: '#/app' },
-  { label: 'Case Studies', href: '#/?section=case-studies' },
+  { label: 'Case Studies', href: '#/case-studies' },
   { label: 'Contact Us', href: '#/?section=contact' },
 ]
 
@@ -72,7 +72,7 @@ const Navbar = () => {
         <div className="hidden h-16 flex-1 items-center justify-end rounded border-2 border-black bg-[#FFFDF5] text-[16px] text-neutral-950 lg:flex">
           {navItems.slice(0, 3).map((item) => (
             <a
-              className="flex h-full uppercase items-center px-6 transition-colors duration-200 hover:bg-[#F8F0D8] hover:text-[#007a35] focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] xl:px-8"
+              className="flex h-full uppercase border-x-2 border-white hover:border-black items-center px-6 transition-colors duration-200 hover:bg-[#F8F0D8] hover:text-[#007a35] focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] xl:px-8"
               href={item.href}
               key={item.label}
             >
@@ -94,7 +94,7 @@ const Navbar = () => {
 
         <a
           className="hidden h-16 items-center rounded border-2 uppercase border-black bg-[#FFFDF5] px-7 transition-colors duration-200 hover:bg-[#F8F0D8] hover:text-[#007a35] focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] lg:flex xl:px-10"
-          href="#/?section=case-studies"
+          href="#/case-studies"
         >
           Case Studies
         </a>
