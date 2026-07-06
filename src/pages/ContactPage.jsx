@@ -66,15 +66,15 @@ const ContactPage = () => {
             <div className="grid border-b-2 border-black sm:grid-cols-3">
               <div className="flex items-center gap-3 border-b-2 border-black bg-[#FFB51C] p-5 sm:border-b-0 sm:border-r-2">
                 <FiUsers className="shrink-0 text-2xl" aria-hidden="true" />
-                <p className="text-sm font-bold uppercase tracking-[0.1em]">Farmers</p>
+                <p className="text-sm font-bold uppercase tracking-widest">Farmers</p>
               </div>
               <div className="flex items-center gap-3 border-b-2 border-black bg-[#F8F0D8] p-5 sm:border-b-0 sm:border-r-2">
                 <FiMessageSquare className="shrink-0 text-2xl" aria-hidden="true" />
-                <p className="text-sm font-bold uppercase tracking-[0.1em]">Conversation</p>
+                <p className="text-sm font-bold uppercase tracking-widest">Conversation</p>
               </div>
               <div className="flex items-center gap-3 bg-[#EA4335] p-5 text-[#FEF8E2]">
                 <FiCheckCircle className="shrink-0 text-2xl" aria-hidden="true" />
-                <p className="text-sm font-bold uppercase tracking-[0.1em]">Growth</p>
+                <p className="text-sm font-bold uppercase tracking-widest">Growth</p>
               </div>
             </div>
 
@@ -134,8 +134,8 @@ const ContactPage = () => {
                   {partnershipOptions.map((option) => (
                     <label
                       className={`grid cursor-pointer gap-1 rounded-lg border-2 p-4 transition-colors duration-200 ${selectedPartnership === option.value
-                          ? 'border-black bg-[#FFB51C]'
-                          : 'border-black bg-white hover:bg-[#F8F0D8]'
+                        ? 'border-black bg-[#FFB51C]'
+                        : 'border-black bg-white hover:bg-[#F8F0D8]'
                         }`}
                       key={option.value}
                     >
