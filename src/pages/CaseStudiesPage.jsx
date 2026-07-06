@@ -25,7 +25,7 @@ const CaseStudiesPage = () => {
             </div>
             {/* <Button
               bgColor="#FFB51C"
-              href="#/?section=contact"
+              href="#/contact"
               icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
               iconPosition="right"
             >

@@ -121,7 +121,7 @@ const CaseStudyDetailPage = () => {
               <Button
                 bgColor="#F8F0D8"
                 className="mt-8"
-                href="#/?section=contact"
+                href="#/contact"
                 icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
                 iconPosition="right"
                 shadowColor="#000000"

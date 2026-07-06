@@ -9,6 +9,7 @@ import AboutPage from './pages/AboutPage'
 import AppPage from './pages/AppPage'
 import CaseStudiesPage from './pages/CaseStudiesPage'
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage'
+import ContactPage from './pages/ContactPage'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -91,6 +92,7 @@ const PageTransitionRoutes = () => {
           <Route path="/app" element={<AppPage />} />
           <Route path="/case-studies" element={<CaseStudiesPage />} />
           <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </motion.div>

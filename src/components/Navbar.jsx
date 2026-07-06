@@ -8,7 +8,7 @@ const navItems = [
   { label: 'About Us', href: '#/about' },
   { label: 'I-kuku App', href: '#/app' },
   { label: 'Case Studies', href: '#/case-studies' },
-  { label: 'Contact Us', href: '#/?section=contact' },
+  { label: 'Contact Us', href: '#/contact' },
 ]
 
 const menuVariants = {
@@ -101,7 +101,7 @@ const Navbar = () => {
 
         <a
           className="hidden h-16 items-center rounded border-2 uppercase border-black bg-[#FFB51C] px-7 font-bold transition-colors duration-200 hover:bg-[#FEF8E2] hover:text-[#007a35] focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] lg:flex xl:px-10"
-          href="#/?section=contact"
+          href="#/contact"
         >
           Contact Us
         </a>

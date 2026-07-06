@@ -94,7 +94,7 @@ const HomePage = () => {
                         </Button>
                         <Button
                             bgColor="#ffb51c"
-                            href="#/?section=contact"
+                            href="#/contact"
                             icon={<FiUsers className="text-2xl" aria-hidden="true" />}
                             textColor="#000000"
                         >
@@ -191,7 +191,7 @@ const HomePage = () => {
                                 <p className='lg:w-2/3'>We collaborate with development partners and cooperatives to deploy scalable, data-driven agricultural training that sticks.</p>
                                 <Button
                                     bgColor="#ffb51c"
-                                    href="#/?section=contact"
+                                    href="#/contact"
                                     icon={<FiUsers className="text-2xl" aria-hidden="true" />}
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"
@@ -265,4 +265,3 @@ export const ProcessCardComponent = ({ title, description, illustration }) => {
         </div>
     )
 }
-

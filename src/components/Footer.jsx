@@ -8,7 +8,7 @@ const websiteLinks = [
   { label: 'About Us', href: '#/about' },
   { label: 'Case Studies', href: '#/case-studies' },
   { label: 'I-kuku App', href: '#/app' },
-  { label: 'Contact Us', href: '#/?section=contact' },
+  { label: 'Contact Us', href: '#/contact' },
 ]
 
 const supportedAudiences =

@@ -264,7 +264,7 @@ const AboutPage = () => {
             <Button
               bgColor="#FFB51C"
               className="mt-8"
-              href="#/?section=contact"
+              href="#/contact"
               icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
               iconPosition="right"
             >
