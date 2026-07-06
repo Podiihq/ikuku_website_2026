@@ -66,6 +66,7 @@ const Footer = () => {
             className="mt-8"
             href="#app"
             icon={<GooglePlayMark className="h-6 w-6" />}
+            shadowColor="#F9B420"
             textColor="#000000"
           >
             Download App

@@ -95,6 +95,7 @@ const HomePage = () => {
                             bgColor="#FEF8E2"
                             href="#app"
                             icon={<GooglePlayMark />}
+                            shadowColor="#F9B420"
                             textColor="#000000"
                         >
                             Download App
@@ -140,6 +141,7 @@ const HomePage = () => {
                                     bgColor="#ffb51c"
                                     href="#contact"
                                     icon={<PiSparkleBold className="text-3xl" aria-hidden="true" />}
+                                    shadowColor="#F8F0D8"
                                     textColor="#000000"
                                 >
                                     See how the app works
@@ -163,6 +165,7 @@ const HomePage = () => {
                                     bgColor="#ffb51c"
                                     href="#contact"
                                     icon={<PiSparkleBold className="text-3xl" aria-hidden="true" />}
+                                    shadowColor="#F8F0D8"
                                     textColor="#000000"
                                 >
                                     Explore partnership opportunities
