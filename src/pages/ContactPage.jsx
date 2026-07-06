@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { FiArrowUpRight, FiCheckCircle, FiMail, FiMessageSquare, FiSend, FiUsers } from 'react-icons/fi'
+import { FiCheckCircle, FiMail, FiMessageSquare, FiSend, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 
