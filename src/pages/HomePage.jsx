@@ -19,14 +19,52 @@ import Image5 from "../assets/images/photos/image6.png"
 import illustration1 from "../assets/images/illustrations/illustration-5.png"
 import illustration2 from "../assets/images/illustrations/illustration-6.png"
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 
 const HomePage = () => {
     useSmoothScroll()
+    const { search } = useLocation()
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+        const sectionId = new URLSearchParams(search).get('section')
+
+        if (!sectionId) {
+            window.scrollTo(0, 0)
+            return
+        }
+
+        let animationFrame
+        let isCancelled = false
+
+        const imagesReady = Array.from(document.images).map((image) => {
+            if (image.complete) return Promise.resolve()
+
+            return new Promise((resolve) => {
+                image.addEventListener('load', resolve, { once: true })
+                image.addEventListener('error', resolve, { once: true })
+            })
+        })
+
+        Promise.allSettled([
+            ...imagesReady,
+            document.fonts?.ready ?? Promise.resolve(),
+        ]).then(() => {
+            if (isCancelled) return
+
+            animationFrame = window.requestAnimationFrame(() => {
+                document.getElementById(sectionId)?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                })
+            })
+        })
+
+        return () => {
+            isCancelled = true
+            window.cancelAnimationFrame(animationFrame)
+        }
+    }, [search]);
 
     return (
         <main id="home" className="min-h-[160vh] bg-[#F8F0D8]">
@@ -48,7 +86,7 @@ const HomePage = () => {
                     <div className="mt-8 flex w-full flex-col justify-center gap-4 items-center md:flex-row">
                         <Button
                             bgColor="#ffffff"
-                            href="#app"
+                            href="#/?section=app"
                             icon={<GooglePlayMark />}
                             textColor="#000000"
                         >
@@ -56,7 +94,7 @@ const HomePage = () => {
                         </Button>
                         <Button
                             bgColor="#ffb51c"
-                            href="#contact"
+                            href="#/?section=contact"
                             icon={<FiUsers className="text-2xl" aria-hidden="true" />}
                             textColor="#000000"
                         >
@@ -83,7 +121,7 @@ const HomePage = () => {
                         <p className='max-w-5xl'>Poultry farming takes an incredible amount of dedication. Yet, so many farmers find themselves fighting to keep their margins above water. The issue isn't a lack of hard work, it’s that they use methods simply weren't built to scale with a growing business.</p>
                         <Button
                             bgColor="#FEF8E2"
-                            href="#app"
+                            href="#/?section=app"
                             icon={<GooglePlayMark />}
                             shadowColor="#000000"
                             textColor="#000000"
@@ -129,7 +167,7 @@ const HomePage = () => {
                                 <p className='lg:w-2/3'>Step away from the paperwork. Get real-time, AI-backed guidance on flock health, feed optimization, and margins right in your pocket.</p>
                                 <Button
                                     bgColor="#ffb51c"
-                                    href="#contact"
+                                    href="#/?section=contact"
                                     icon={<FiSmartphone className="text-2xl" aria-hidden="true" />}
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"
@@ -153,7 +191,7 @@ const HomePage = () => {
                                 <p className='lg:w-2/3'>We collaborate with development partners and cooperatives to deploy scalable, data-driven agricultural training that sticks.</p>
                                 <Button
                                     bgColor="#ffb51c"
-                                    href="#contact"
+                                    href="#/?section=contact"
                                     icon={<FiUsers className="text-2xl" aria-hidden="true" />}
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"
@@ -247,11 +285,16 @@ const caseData = [
 
 export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) => {
     return (
-        <div className='grid lg:grid-cols-5 gap-3'>
-            <div className='border-2 rounded-xl lg:col-span-3 p-6 flex items-end'>
-                <div className='space-y-4'>
-                    <p className='creative-font text-4xl'>{title}</p>
-                    <p className='lg:w-2/3'>{description}</p>
+        <article className='grid overflow-hidden rounded-xl border-2 border-black bg-[#FEF8E2] lg:grid-cols-2'>
+            <div className='flex flex-col justify-center p-6 sm:p-10 lg:p-14'>
+                <p className='mb-4 text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]'>
+                    Case study
+                </p>
+                <h2 className='creative-font text-[clamp(3rem,5vw,5rem)] uppercase leading-[0.9]'>
+                    {title}
+                </h2>
+                <p className='mt-6 max-w-xl text-lg leading-relaxed'>{description}</p>
+                <div className='mt-8'>
                     <Button
                         bgColor="#ffb51c"
                         href={pageLink}
@@ -262,9 +305,11 @@ export const CaseStudyComponent = ({ title, description, caseImage, pageLink }) 
                     </Button>
                 </div>
             </div>
-            <div className='lg:col-span-2'>
-                <img src={caseImage} alt="" className='border-2 rounded-xl w-full object-cover h-80 object-top' />
-            </div>
-        </div>
+            <img
+                src={caseImage}
+                alt={title}
+                className='h-full min-h-80 w-full border-t-2 border-black object-cover object-top lg:min-h-112 lg:border-l-2 lg:border-t-0'
+            />
+        </article>
     )
 }

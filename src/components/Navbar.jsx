@@ -4,11 +4,11 @@ import { FiMenu, FiX } from 'react-icons/fi'
 import logo from '../assets/images/logo/i-kuku-logo.svg'
 
 const navItems = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about' },
-  { label: 'I-kuku App', href: '/#app' },
-  { label: 'Case Studies', href: '/#case-studies' },
-  { label: 'Contact Us', href: '/#contact' },
+  { label: 'Home', href: '#/' },
+  { label: 'About Us', href: '#/about' },
+  { label: 'I-kuku App', href: '#/?section=app' },
+  { label: 'Case Studies', href: '#/?section=case-studies' },
+  { label: 'Contact Us', href: '#/?section=contact' },
 ]
 
 const menuVariants = {
@@ -79,7 +79,7 @@ const Navbar = () => {
 
         <a
           className="flex shrink-0 items-center focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35]"
-          href="/"
+          href="#/"
           aria-label="I-kuku home"
         >
           <img

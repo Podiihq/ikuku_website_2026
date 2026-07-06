@@ -61,7 +61,7 @@ const AboutPage = () => {
           </div>
 
           <div className="grid items-stretch gap-4 lg:grid-cols-12">
-            <div className="flex min-h-136 flex-col justify-between rounded-xl border-2 border-black bg-[#697B3B] p-6 text-[#FEF8E2] sm:p-10 lg:col-span-7 lg:min-h-[42rem] lg:p-12">
+            <div className="flex min-h-136 flex-col justify-between rounded-xl border-2 border-black bg-[#697B3B] p-6 text-[#FEF8E2] sm:p-10 lg:col-span-7 lg:min-h-168 lg:p-12">
               <h1 className="creative-font max-w-4xl text-[clamp(4rem,8vw,8rem)] uppercase leading-[0.82]">
                 Built for real African conditions
               </h1>
@@ -268,7 +268,7 @@ const AboutPage = () => {
             <Button
               bgColor="#FFB51C"
               className="mt-8"
-              href="/#contact"
+              href="#/?section=contact"
               icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
               iconPosition="right"
             >
