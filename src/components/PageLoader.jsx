@@ -140,14 +140,13 @@ const PageLoader = () => {
             initial={{ opacity: 0, scale: 0.9, y: 18 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            <motion.img
-              className="h-32 w-auto sm:h-40"
-              src={logo}
-              alt="I-kuku"
-              transition={{ duration: 2.5, ease: 'easeInOut', repeat: Infinity }}
-            />
 
-            <div className="mt-8 w-full rounded-[1.75rem] border-2 border-neutral-950 bg-[#FFFDF5]/95 p-5 shadow-[10px_10px_0_#0a0a0a] sm:p-7">
+            <div className="mt-8 w-full rounded-[1.75rem] border-2 border-neutral-950 bg-[#FFFDF5]/95 p-5 sm:p-7">
+              <img
+                className="h-32 w-auto sm:h-32 mx-auto"
+                src={logo}
+                alt="I-kuku"
+              />
               <div className="flex items-end justify-between gap-4">
                 <p className="creative-font text-2xl leading-none sm:text-3xl">
                   Loading website
@@ -160,7 +159,7 @@ const PageLoader = () => {
 
               <div
                 aria-hidden="true"
-                className="mt-5 h-4.5 w-full overflow-hidden rounded-full border-2 border-neutral-950 bg-white"
+                className="mt-5 h-6 w-full overflow-hidden rounded-full border-2 border-neutral-950 bg-white"
               >
                 <motion.div
                   animate={{ scaleX: progress / 100 }}
@@ -170,7 +169,7 @@ const PageLoader = () => {
                 />
               </div>
 
-              <div className="mt-4 flex items-center justify-between gap-3">
+              {/* <div className="mt-4 flex items-center justify-between gap-3">
                 <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#697B3B] sm:text-xs">
                   Preparing your experience
                 </p>
@@ -180,7 +179,7 @@ const PageLoader = () => {
                   className="size-3 shrink-0 rounded-full bg-[#EA4335]"
                   transition={{ duration: 1, repeat: Infinity }}
                 />
-              </div>
+              </div> */}
             </div>
           </motion.div>
         </motion.div>
