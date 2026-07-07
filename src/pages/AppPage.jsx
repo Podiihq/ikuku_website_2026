@@ -12,7 +12,7 @@ import {
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
 import useSmoothScroll from '../hooks/useSmoothScroll'
-import Illustration1 from '../assets/images/illustrations/illustration-1.png'
+import Illustration1 from '../assets/images/illustrations/illustration-7.png'
 import ScreenThumb from '../assets/images/screens/Screen-thumb-2.png'
 import ScreenThumb2 from '../assets/images/screens/Screen-thumb-1.png'
 import Screen1 from '../assets/images/screens/screen-1.png'
@@ -124,7 +124,7 @@ const AppPage = () => {
                 <img
                   src={Illustration1}
                   alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover absolute -bottom-13 lg:-bottom-21"
                 />
               </div>
             </div>
