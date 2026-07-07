@@ -12,10 +12,13 @@ import {
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
 import useSmoothScroll from '../hooks/useSmoothScroll'
+import Illustration1 from '../assets/images/illustrations/illustration-1.png'
 import ScreenThumb from '../assets/images/screens/Screen-thumb-2.png'
+import ScreenThumb2 from '../assets/images/screens/Screen-thumb-1.png'
 import Screen1 from '../assets/images/screens/screen-1.png'
-import Screen2 from '../assets/images/screens/screen-2.png'
-import Screen3 from '../assets/images/screens/screen-3.png'
+import Screen2 from '../assets/images/screens/screen-7.png'
+import Screen3 from '../assets/images/screens/screen-4.png'
+import Screen4 from '../assets/images/screens/screen-6.png'
 
 const features = [
   {
@@ -119,7 +122,7 @@ const AppPage = () => {
             <div className="relative min-h-120 overflow-hidden border-t-2 border-black bg-[#FFB51C] lg:col-span-5 lg:border-l-2 lg:border-t-0">
               <div className="h-full">
                 <img
-                  src={ScreenThumb}
+                  src={Illustration1}
                   alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
                   className="w-full h-full object-cover"
                 />
@@ -131,20 +134,11 @@ const AppPage = () => {
 
       <section className="px-4 pb-20 lg:px-12 lg:pb-28">
         <div className="mx-auto max-w-screen-2xl rounded-xl border-2 border-black">
-          <div className="px-4 pt-4 lg:px-10 lg:pt-10">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.14em]">
-              Inside the app
-            </p>
-            <h2 className="creative-font max-w-5xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
-              Farm records, flock visibility, and decisions in one place.
-            </h2>
-            <p className="mt-5 max-w-4xl text-lg leading-relaxed">
-              See your daily farm activity, track flock performance, and keep the numbers
-              that matter close whenever you need them.
-            </p>
+          <div className='h-150 md:hidden'>
+            <img src={ScreenThumb2} alt="" className='h-full w-full object-cover rounded-xl' />
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-4 rounded-xl px-6 pt-6 md:grid-cols-3">
+          <div className="mt-10 md:grid grid-cols-1 gap-4 rounded-xl px-6 pt-6 md:grid-cols-2 lg:grid-cols-4 hidden">
             <img
               src={Screen1}
               alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
@@ -156,6 +150,11 @@ const AppPage = () => {
               className="w-full"
             />
             <img
+              src={Screen4}
+              alt="I-kuku mobile app farm records screen"
+              className="hidden w-full md:block"
+            />
+            <img
               src={Screen3}
               alt="I-kuku mobile app farm records screen"
               className="hidden w-full md:block"
@@ -163,6 +162,7 @@ const AppPage = () => {
           </div>
         </div>
       </section>
+
 
       <section className="px-4 pb-20 lg:px-12 lg:pb-28">
         <div className="mx-auto max-w-screen-2xl">

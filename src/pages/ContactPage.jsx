@@ -48,7 +48,7 @@ const ContactPage = () => {
               <p className="mb-5 text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
                 Partner with i-kuku
               </p>
-              <h1 className="creative-font text-[clamp(3.8rem,7vw,7.5rem)] uppercase leading-[0.84]">
+              <h1 className="creative-font text-[clamp(3.8rem,7vw,6rem)] uppercase leading-[0.84]">
                 Let’s move your farmers from guesswork to growth.
               </h1>
             </div>

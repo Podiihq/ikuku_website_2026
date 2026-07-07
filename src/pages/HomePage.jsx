@@ -70,8 +70,8 @@ const HomePage = () => {
         <main id="home" className="min-h-[160vh] bg-[#F8F0D8]">
             <section className="bg-[#f8f0d8] px-0 pb-14 lg:pb-5 pt-10 lg:px-12 lg:pt-20">
                 <div className="mx-auto flex max-w-7xl flex-col items-center text-center px-4">
-                    <h1 className="creative-font max-w-6xl lg:px-10 text-[clamp(3rem,6vw,6.75rem)] uppercase leading-[0.98]">
-                        Poultry farmers make lifesaving decisions every{' '}
+                    <h1 className="creative-font max-w-6xl lg:px-20 text-[clamp(3rem,6vw,6.75rem)] uppercase leading-[0.98]">
+                        Poultry farmers make life-saving decisions every{' '}
                         <span className="relative inline-block">
                             <span className="line-through decoration-[0.08em] creative-font">day</span>
                         </span>{' '}

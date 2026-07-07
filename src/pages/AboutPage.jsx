@@ -40,7 +40,7 @@ const values = [
     title: 'African-Built',
     description:
       'Products are designed from an African perspective, with local realities, challenges, and opportunities at the centre. Solutions are built specifically for African farmers rather than adapted from foreign markets.',
-    background: '#EA4335',
+    background: '#697B3B',
     textColor: '#FEF8E2',
   },
 ]
@@ -112,7 +112,7 @@ const AboutPage = () => {
           </div>
 
           <div className="grid gap-4 lg:grid-cols-2">
-            <article className="flex min-h-120 flex-col rounded-xl border-2 border-black bg-[#EA4335] p-6 text-[#000000] sm:p-10">
+            <article className="flex min-h-120 flex-col rounded-xl border-2 border-black bg-[#FFB51C] p-6 text-[#000000] sm:p-10">
               <div className="flex items-center justify-between border-b border-black/40 pb-5">
                 <p className="text-sm font-bold uppercase tracking-[0.14em]">Our Vision</p>
                 <FiTarget className="text-3xl" aria-hidden="true" />

@@ -11,9 +11,6 @@ const websiteLinks = [
   { label: 'Contact Us', href: '#/contact' },
 ]
 
-const supportedAudiences =
-  'Farmer groups, NGOs, development programs, poultry agribusinesses, and household poultry farmers.'
-
 const footerHighlights = [
   {
     label: 'Digital records',
@@ -52,13 +49,13 @@ const Footer = () => {
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
               <Button
                 bgColor="#FFB51C"
-                href="#/case-studies"
+                href="#/contact"
                 icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
                 iconPosition="right"
                 shadowColor="#000000"
                 textColor="#000000"
               >
-                View case studies
+                Partner with us
               </Button>
               <Button
                 bgColor="#FEF8E2"
@@ -73,13 +70,16 @@ const Footer = () => {
           </div>
 
           <div className="border-t-2 border-black bg-[#FFB51C] p-6 text-black sm:p-10 lg:col-span-5 lg:border-l-2 lg:border-t-0 lg:p-12">
-            <a
-              className="inline-flex rounded-xl border-2 border-black bg-[#FEF8E2] p-4 focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35]"
-              href="#/"
-              aria-label="I-kuku home"
-            >
-              <img className="h-28 w-auto sm:h-32" src={logo} alt="I-kuku" />
-            </a>
+            <div className='flex justify-center items-center'>
+              <a
+                className="w-fit rounded-xl border-2 border-black bg-[#FEF8E2] p-4 focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35]"
+                href="#/"
+                aria-label="I-kuku home"
+              >
+                <img className="h-28 w-auto sm:h-32" src={logo} alt="I-kuku" />
+              </a>
+            </div>
+
             <p className="mt-8 text-sm font-bold uppercase tracking-[0.14em]">
               Built for
             </p>
@@ -101,8 +101,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-12 lg:p-12">
-          <div className="lg:col-span-4">
+        <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-12 lg:items-start lg:p-12">
+          <div className="lg:col-span-6">
             <h3 className="creative-font text-4xl uppercase leading-none">
               Poultry decisions, backed by records.
             </h3>
@@ -111,11 +111,11 @@ const Footer = () => {
             </p>
           </div>
 
-          <nav className="lg:col-span-3" aria-label="Footer website links">
+          <nav className="lg:col-span-6" aria-label="Footer website links">
             <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
               Explore
             </h3>
-            <div className="mt-4 grid gap-3">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {websiteLinks.map((link) => (
                 <a
                   className="group inline-flex w-fit items-center gap-2 font-bold uppercase transition-colors duration-200 hover:text-[#FFCA55] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#FFCA55]"
@@ -131,24 +131,6 @@ const Footer = () => {
               ))}
             </div>
           </nav>
-
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
-              Who it serves
-            </h3>
-            <p className="mt-4 max-w-xs leading-relaxed text-[#FEF8E2]/85">
-              {supportedAudiences}
-            </p>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
-              Focus
-            </h3>
-            <p className="mt-4 leading-relaxed text-[#FEF8E2]/85">
-              Record keeping, flock visibility, training support, and profitability insight.
-            </p>
-          </div>
         </div>
 
         <div className="flex flex-col gap-3 border-t-2 border-black px-6 py-5 text-sm uppercase tracking-[0.08em] text-[#FEF8E2]/80 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">
