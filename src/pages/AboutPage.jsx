@@ -8,7 +8,8 @@ import {
 } from 'react-icons/fi'
 import Button from '../components/Button'
 import useSmoothScroll from '../hooks/useSmoothScroll'
-import HeroImage from '../assets/images/photos/Image-1.png'
+import HeroImage from '../assets/images/photos/Image-7.png'
+import Illustration1 from '../assets/images/illustrations/illustration-11.png'
 import FarmImage from '../assets/images/photos/image6.png'
 import WorkshopImage from '../assets/images/photos/image5.png'
 
@@ -81,14 +82,19 @@ const AboutPage = () => {
           </div>
 
           <div className="mt-4 grid gap-4 lg:grid-cols-12">
-            <div className="rounded-xl border-2 border-black bg-[#FFB51C] p-6 lg:col-span-4 lg:p-8">
-              <p className="text-xl font-bold uppercase">Why we exist</p>
+            <div className="rounded-xl border-2 border-black bg-[#FFB51C] lg:col-span-4 hidden lg:block">
+              <img src={Illustration1} alt="" className='w-full h-full' />
             </div>
-            <div className="rounded-xl border-2 border-black bg-[#FEF8E2] p-6 lg:col-span-8 lg:p-8">
+            <div className="rounded-xl border-2 border-black bg-[#FEF8E2] p-6 lg:col-span-8 lg:p-8 space-y-2 flex flex-col">
+              <p className="lg:text-xl font-bold uppercase text-[#697B3B]">Why we exist</p>
+              <div className='flex-1' />
               <p className="creative-font text-[clamp(2.2rem,4.2vw,4.5rem)] uppercase leading-[0.95]">
-                To make every African poultry farmer profitable and resilient — because
+                To make every <span className='creative-font text-[#697B3B]'> African poultry farmers profitable and resilient, </span> because
                 food sustainability starts at the farm gate.
               </p>
+            </div>
+            <div className="rounded-xl border-2 border-black bg-[#FFB51C] lg:col-span-4 lg:hidden">
+              <img src={Illustration1} alt="" className='w-full h-full' />
             </div>
           </div>
         </div>
@@ -106,9 +112,9 @@ const AboutPage = () => {
           </div>
 
           <div className="grid gap-4 lg:grid-cols-2">
-            <article className="flex min-h-120 flex-col rounded-xl border-2 border-black bg-[#EA4335] p-6 text-[#FEF8E2] sm:p-10">
-              <div className="flex items-center justify-between border-b border-[#FEF8E2]/40 pb-5">
-                <p className="text-sm font-bold uppercase tracking-[0.14em]">Vision</p>
+            <article className="flex min-h-120 flex-col rounded-xl border-2 border-black bg-[#EA4335] p-6 text-[#000000] sm:p-10">
+              <div className="flex items-center justify-between border-b border-black/40 pb-5">
+                <p className="text-sm font-bold uppercase tracking-[0.14em]">Our Vision</p>
                 <FiTarget className="text-3xl" aria-hidden="true" />
               </div>
               <div className="flex flex-1 items-end pt-14">
@@ -126,7 +132,7 @@ const AboutPage = () => {
 
             <article className="flex min-h-120 flex-col rounded-xl border-2 border-black bg-[#FFB51C] p-6 sm:p-10">
               <div className="flex items-center justify-between border-b border-black/35 pb-5">
-                <p className="text-sm font-bold uppercase tracking-[0.14em]">Mission</p>
+                <p className="text-sm font-bold uppercase tracking-[0.14em]">Our Mission</p>
                 <FiBarChart2 className="text-3xl" aria-hidden="true" />
               </div>
               <div className="flex flex-1 items-end pt-14">

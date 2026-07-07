@@ -3,7 +3,7 @@ import Button from '../components/Button'
 import CaseStudyCard from '../components/CaseStudyCard'
 import GooglePlayMark from '../components/GooglePlayMark'
 import { caseStudies } from '../data/caseStudies'
-import HeroImage from "../assets/images/photos/Image-1.png"
+import HeroImage from "../assets/images/photos/Image-8.png"
 import HeroIllustration from "../assets/images/illustrations/illustration-1.png"
 
 import Screen1 from "../assets/images/screens/screen-1.png"

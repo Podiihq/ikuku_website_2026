@@ -12,6 +12,7 @@ import {
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
 import useSmoothScroll from '../hooks/useSmoothScroll'
+import ScreenThumb from '../assets/images/screens/Screen-thumb-2.png'
 import Screen1 from '../assets/images/screens/screen-1.png'
 import Screen2 from '../assets/images/screens/screen-2.png'
 import Screen3 from '../assets/images/screens/screen-3.png'
@@ -90,7 +91,7 @@ const AppPage = () => {
                 <p className="mb-5 text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
                   Your farm. In your pocket.
                 </p>
-                <h1 className="creative-font max-w-4xl text-[clamp(4rem,8vw,8rem)] uppercase leading-[0.82]">
+                <h1 className="creative-font max-w-4xl text-[clamp(4rem,8vw,7rem)] uppercase leading-[0.82]">
                   Turn your poultry farm into a profitable business.
                 </h1>
               </div>
@@ -115,12 +116,12 @@ const AppPage = () => {
               </div>
             </div>
 
-            <div className="relative min-h-120 overflow-hidden border-t-2 border-black bg-[#FFB51C] sm:min-h-136 lg:col-span-5 lg:min-h-168 lg:border-l-2 lg:border-t-0">
-              <div className="absolute -bottom-2 left-1/2 w-[88%] -translate-x-1/2 sm:w-[72%] lg:-bottom-20 lg:w-[88%]">
+            <div className="relative min-h-120 overflow-hidden border-t-2 border-black bg-[#FFB51C] lg:col-span-5 lg:border-l-2 lg:border-t-0">
+              <div className="h-full">
                 <img
-                  src={Screen1}
+                  src={ScreenThumb}
                   alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
-                  className="w-full drop-shadow-[0_24px_20px_rgba(0,0,0,0.25)]"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
