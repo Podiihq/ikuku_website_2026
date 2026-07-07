@@ -23,7 +23,7 @@ const features = [
     description:
       'Keeps all your farm records organized, accessible, and secure across every production cycle.',
     icon: FiBookOpen,
-    background: '#FFB51C',
+    background: '#F8F0D8',
   },
   {
     number: '02',
@@ -47,8 +47,8 @@ const features = [
     description:
       'Shows you exactly where your money goes and how much each batch earns, making profitability easier to measure.',
     icon: FiDollarSign,
-    background: '#EA4335',
-    color: '#FEF8E2',
+    background: '#F8F0D8',
+    color: '#000000',
   },
   {
     number: '05',
@@ -64,8 +64,8 @@ const features = [
     description:
       'Turns your farm records into practical recommendations, helping you make better decisions with confidence.',
     icon: FiActivity,
-    background: '#697B3B',
-    color: '#FEF8E2',
+    background: '#F8F0D8',
+    color: '#000000',
   },
 ]
 
@@ -83,14 +83,10 @@ const AppPage = () => {
     <main id="app-page" className="bg-[#F8F0D8] text-neutral-950">
       <section className="px-4 pb-16 pt-8 lg:px-12 lg:pb-24">
         <div className="mx-auto max-w-screen-2xl">
-          {/* <div className="mb-6 flex items-center gap-3">
-            <span className="size-3 rounded-full bg-[#EA4335]" aria-hidden="true" />
-            <p className="text-sm font-bold uppercase tracking-[0.14em]">I-kuku app</p>
-          </div> */}
           <div className="grid overflow-hidden rounded-xl border-2 border-black bg-[#697B3B] text-[#FEF8E2] lg:grid-cols-12">
             <div className="flex flex-col justify-between p-6 sm:p-10 lg:col-span-7 lg:min-h-168 lg:p-12">
               <div>
-                <p className="text-4xl mb-4 font-bold tracking-[0.14em creative-font">i-Kuku Mobile App</p>
+                <p className="text-xl mb-4 font-bold">i-KUKU Mobile App</p>
                 <p className="mb-5 text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
                   Your farm. In your pocket.
                 </p>
@@ -99,7 +95,7 @@ const AppPage = () => {
                 </h1>
               </div>
 
-              <div className="mt-12 max-w-2xl border-t border-[#FEF8E2]/40 pt-6">
+              <div className="mt-12 max-w-2xl pt-6">
                 <p className="text-lg leading-relaxed sm:text-xl">
                   i-kuku brings every part of your poultry operation into one simple
                   platform; tracking your birds, resources, and daily activity, then turning
@@ -159,7 +155,7 @@ const AppPage = () => {
                   key={feature.number}
                   style={{ backgroundColor: feature.background, color: feature.color }}
                 >
-                  <div className="flex items-center justify-between border-b border-current/30 pb-5">
+                  <div className="flex items-center justify-between pb-5">
                     <span className="creative-font text-4xl">{feature.number}</span>
                     <Icon className="text-3xl" aria-hidden="true" />
                   </div>

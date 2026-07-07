@@ -57,12 +57,12 @@ const AboutPage = () => {
         <div className="mx-auto max-w-screen-2xl">
           <div className="grid items-stretch gap-4 lg:grid-cols-12">
             <div className="flex min-h-136 flex-col justify-between rounded-xl border-2 border-black bg-[#697B3B] p-6 text-[#FEF8E2] sm:p-10 lg:col-span-7 lg:min-h-168 lg:p-12">
-              <p className="text-sm font-bold uppercase tracking-[0.14em]">About i-kuku</p>
+              <p className="text-xl font-bold uppercase">About i-kuku</p>
               <h1 className="creative-font max-w-4xl text-[clamp(4rem,8vw,8rem)] uppercase leading-[0.82]">
                 Built for real African conditions
               </h1>
 
-              <div className="max-w-2xl border-t border-[#FEF8E2]/45 pt-6">
+              <div className="max-w-2xl pt-6">
                 <p className="text-lg leading-relaxed sm:text-xl">
                   For growth-minded African poultry farmers who want to scale profitably,
                   i-kuku is a decision intelligence platform that guides farmers from gut
@@ -82,7 +82,7 @@ const AboutPage = () => {
 
           <div className="mt-4 grid gap-4 lg:grid-cols-12">
             <div className="rounded-xl border-2 border-black bg-[#FFB51C] p-6 lg:col-span-4 lg:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.14em]">Why we exist</p>
+              <p className="text-xl font-bold uppercase">Why we exist</p>
             </div>
             <div className="rounded-xl border-2 border-black bg-[#FEF8E2] p-6 lg:col-span-8 lg:p-8">
               <p className="creative-font text-[clamp(2.2rem,4.2vw,4.5rem)] uppercase leading-[0.95]">
@@ -148,7 +148,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <section className="bg-[#697B3B] px-4 py-20 text-[#FEF8E2] lg:px-12 lg:py-28">
+      <section className="bg-[#697B3B] px-4 py-20 text-[#FEF8E2] lg:px-12 lg:py-28 border-y-2 border-black">
         <div className="mx-auto max-w-screen-2xl">
           <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-7">

@@ -19,18 +19,7 @@ const CaseStudiesPage = () => {
               <p className="mb-4 text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]">
                 Stories from the field
               </p>
-              {/* <h2 className="creative-font max-w-5xl text-[clamp(3.5rem,7vw,7rem)] uppercase leading-[0.86]">
-                Select a case study.
-              </h2> */}
             </div>
-            {/* <Button
-              bgColor="#FFB51C"
-              href="#/contact"
-              icon={<FiArrowUpRight className="text-2xl" aria-hidden="true" />}
-              iconPosition="right"
-            >
-              Partner with us
-            </Button> */}
           </div>
 
           <div className="space-y-3">

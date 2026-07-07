@@ -26,7 +26,7 @@ const CaseStudyDetailPage = () => {
       <section className="px-4 pb-16 pt-8 lg:px-12 lg:pb-24">
         <div className="mx-auto max-w-screen-2xl">
           <a
-            className="mb-5 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.12em] transition-colors duration-200 hover:text-[#007a35] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35]"
+            className="mb-5 inline-flex items-center gap-2 text-sm font-bold uppercase transition-colors duration-200 hover:text-[#007a35] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35]"
             href="#/case-studies"
           >
             <FiArrowLeft aria-hidden="true" />
@@ -36,7 +36,7 @@ const CaseStudyDetailPage = () => {
           <div className="grid overflow-hidden rounded-xl border-2 border-black bg-[#FEF8E2] lg:grid-cols-12">
             <div className="flex min-h-136 flex-col justify-between p-6 sm:p-10 lg:col-span-7 lg:min-h-168 lg:p-12">
               <div>
-                <p className="mb-5 text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]">
+                <p className="mb-5 text-sm font-bold uppercase text-[#697B3B]">
                   Case study
                 </p>
                 <h1 className="creative-font max-w-5xl text-[clamp(3.6rem,7vw,7rem)] uppercase leading-[0.84]">
@@ -44,15 +44,15 @@ const CaseStudyDetailPage = () => {
                 </h1>
               </div>
 
-              <div className="mt-12 grid gap-3 border-t border-black/30 pt-6 sm:grid-cols-2">
+              <div className="mt-12 grid gap-3 pt-6 sm:grid-cols-2">
                 <div className="rounded-lg border-2 border-black bg-[#F8F0D8] p-5">
                   <FiUsers className="mb-6 text-3xl" aria-hidden="true" />
-                  <p className="text-xs font-bold uppercase tracking-[0.14em]">Partner</p>
+                  <p className="text-xs font-bold uppercase">Partner</p>
                   <p className="mt-2 text-lg font-bold">{caseStudy.partner}</p>
                 </div>
                 <div className="rounded-lg border-2 border-black bg-[#FFB51C] p-5">
                   <FiMapPin className="mb-6 text-3xl" aria-hidden="true" />
-                  <p className="text-xs font-bold uppercase tracking-[0.14em]">Focus</p>
+                  <p className="text-xs font-bold uppercase">Focus</p>
                   <p className="mt-2 text-lg font-bold">{caseStudy.location}</p>
                 </div>
               </div>
@@ -73,7 +73,7 @@ const CaseStudyDetailPage = () => {
         <div className="mx-auto grid max-w-screen-2xl gap-4 lg:grid-cols-12">
           <aside className="lg:col-span-4">
             <div className="sticky top-28 rounded-xl border-2 border-black bg-[#697B3B] p-6 text-[#FEF8E2] sm:p-8">
-              <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
+              <p className="text-sm font-bold uppercase text-[#FFCA55]">
                 Overview
               </p>
               <h2 className="creative-font mt-5 text-[clamp(3rem,5vw,5rem)] uppercase leading-[0.9]">
@@ -95,7 +95,7 @@ const CaseStudyDetailPage = () => {
               >
                 <div className="mb-12 flex items-start justify-between gap-4 border-b border-black/30 pb-5">
                   <div>
-                    <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]">
+                    <p className="text-sm font-bold uppercase text-[#697B3B]">
                       {section.eyebrow}
                     </p>
                     <h2 className="creative-font mt-4 text-[clamp(2.8rem,5vw,5rem)] uppercase leading-[0.9]">
@@ -136,7 +136,7 @@ const CaseStudyDetailPage = () => {
       {relatedCaseStudies.length > 0 && (
         <section className="px-4 pb-16 lg:px-12 lg:pb-24">
           <div className="mx-auto max-w-screen-2xl rounded-xl border-2 border-black bg-[#FEF8E2] p-6 sm:p-8 lg:p-10">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]">
+            <p className="mb-4 text-sm font-bold uppercase text-[#697B3B]">
               More case studies
             </p>
             <div className="grid gap-4 lg:grid-cols-2">

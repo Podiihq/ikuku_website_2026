@@ -81,7 +81,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-3 z-50 px-3 py-1 sm:px-4 lg:px-8">
-      <nav className="mx-auto flex w-full max-w-7xl gap-1">
+      <nav className="mx-auto flex w-full max-w-6xl gap-1">
         <a
           className="flex h-16 w-20 shrink-0 items-center justify-center rounded border-2 border-black bg-[#FFFDF5] px-3 focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35]"
           href="#/"
