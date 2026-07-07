@@ -134,11 +134,11 @@ const AppPage = () => {
 
       <section className="px-4 pb-20 lg:px-12 lg:pb-28">
         <div className="mx-auto max-w-screen-2xl rounded-xl border-2 border-black">
-          <div className='h-150 md:hidden'>
+          <div className='h-150 lg:hidden'>
             <img src={ScreenThumb2} alt="" className='h-full w-full object-cover rounded-xl' />
           </div>
 
-          <div className="mt-10 md:grid grid-cols-1 gap-4 rounded-xl px-6 pt-6 md:grid-cols-2 lg:grid-cols-4 hidden">
+          <div className="mt-10 lg:grid grid-cols-1 gap-4 rounded-xl px-6 pt-6 md:grid-cols-2 lg:grid-cols-4 hidden">
             <img
               src={Screen1}
               alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"

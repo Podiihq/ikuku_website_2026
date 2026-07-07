@@ -9,6 +9,8 @@ import HeroIllustration from "../assets/images/illustrations/illustration-1.png"
 import Screen1 from "../assets/images/screens/screen-1.png"
 import Screen2 from "../assets/images/screens/screen-2.png"
 import Screen3 from "../assets/images/screens/screen-3.png"
+import Screen4 from "../assets/images/screens/screen-4.png"
+import ScreenThumb from "../assets/images/screens/Screen-thumb-2.png"
 
 import ProcessIllustration1 from "../assets/images/illustrations/illustration-2.png"
 import ProcessIllustration2 from "../assets/images/illustrations/illustration-3.png"
@@ -102,11 +104,11 @@ const HomePage = () => {
                         </Button>
                     </div>
                 </div>
-                <div className='grid md:grid-cols-7 pt-20 gap-4 max-w-screen-2xl mx-auto relative'>
+                <div className='grid md:grid-cols-7 pt-20 gap-4 max-w-screen-2xl mx-auto relative md:px-4 lg:px-0'>
                     <div className='md:col-span-4 hidden md:block'>
                         <img src={HeroImage} alt="" className='border-2 rounded-xl' />
                     </div>
-                    <div className='md:col-span-3 lg:border-2 rounded-xl lg:bg-[#F9B420] relative h-full'>
+                    <div className='md:col-span-3 md:border-2 rounded-xl md:bg-[#F9B420] relative h-full'>
                         <img src={HeroIllustration} alt="" className='md:absolute h-full w-full -top-10' />
                     </div>
                 </div>
@@ -129,11 +131,16 @@ const HomePage = () => {
                             Download App
                         </Button>
                     </div>
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 px-6 rounded-xl mt-10'>
+                    <div className='lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 px-6 rounded-xl mt-10 hidden'>
                         <img src={Screen1} alt="" />
                         <img src={Screen2} alt="" className='hidden md:block' />
                         <img src={Screen3} alt="" className='hidden md:block' />
+                        <img src={Screen4} alt="" className='hidden md:block' />
                     </div>
+                    <div className='h-150 lg:hidden mt-6 '>
+                        <img src={ScreenThumb} alt="" className='h-full w-full object-cover rounded-b-xl bg-[#FFB51C]' />
+                    </div>
+
                 </div>
             </section>
             <section className='max-w-screen-2xl mx-auto py-20 px-4 lg:px-0'>
@@ -142,7 +149,7 @@ const HomePage = () => {
                 </h1>
                 <p className='text-center'>Most farm records tell you what happened, i-kuku shows you what to do.</p>
                 <div className='py-5' />
-                <div className='grid lg:grid-cols-3 gap-4'>
+                <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
                     {processData.map((items, index) => (
                         <ProcessCardComponent
                             key={index}
@@ -196,7 +203,7 @@ const HomePage = () => {
                                     shadowColor="#F8F0D8"
                                     textColor="#000000"
                                 >
-                                    Explore partnership opportunities
+                                    Partner with Us
                                 </Button>
                             </div>
                         </div>
