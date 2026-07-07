@@ -141,7 +141,6 @@ const PageLoader = () => {
             transition={{ duration: 0.6, ease: 'easeOut' }}
           >
             <motion.img
-              animate={{ rotate: [0, -2, 2, 0], y: [0, -4, 0] }}
               className="h-32 w-auto sm:h-40"
               src={logo}
               alt="I-kuku"

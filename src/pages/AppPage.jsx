@@ -147,12 +147,12 @@ const AppPage = () => {
             <img
               src={Screen1}
               alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
-              className="w-full"
+              className="hidden w-full md:block"
             />
             <img
               src={Screen2}
               alt="I-kuku mobile app poultry batch screen"
-              className="hidden w-full md:block"
+              className="w-full"
             />
             <img
               src={Screen3}

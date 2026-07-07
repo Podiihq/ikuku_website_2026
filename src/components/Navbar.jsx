@@ -26,7 +26,7 @@ const desktopLinkActive = 'border-black bg-[#FFB51C]'
 const desktopLinkInactive = 'border-transparent hover:bg-[#F8F0D8] hover:text-[#007a35]'
 
 const standaloneLinkBase =
-  'hidden h-16 items-center rounded border-2 border-black px-7 uppercase transition-colors duration-200 focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] lg:flex xl:px-10'
+  'hidden h-14 items-center rounded border-2 border-black px-7 uppercase transition-colors duration-200 focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] lg:flex xl:px-10'
 
 const mobileLinkBase =
   'border-2 border-black px-5 py-4 text-lg font-semibold transition-colors duration-200 focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35]'
@@ -83,14 +83,14 @@ const Navbar = () => {
     <header className="sticky top-3 z-50 px-3 py-1 sm:px-4 lg:px-8">
       <nav className="mx-auto flex w-full max-w-6xl gap-1">
         <a
-          className="flex h-16 w-20 shrink-0 items-center justify-center rounded border-2 border-black bg-[#FFFDF5] px-3 focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35]"
+          className="flex h-14 w-20 shrink-0 items-center justify-center rounded border-2 border-black bg-[#FFFDF5] px-3 focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35]"
           href="#/"
           aria-label="I-kuku home"
         >
           <img className="h-14 w-auto" src={logo} alt="I-kuku" />
         </a>
 
-        <div className="hidden h-16 flex-1 items-center justify-end rounded border-2 border-black bg-[#FFFDF5] text-[16px] text-neutral-950 lg:flex">
+        <div className="hidden h-14 flex-1 items-center justify-end rounded border-2 border-black bg-[#FFFDF5] text-[16px] text-neutral-950 lg:flex">
           {navItems.slice(0, 3).map((item) => {
             const isActive = isActiveNavItem(pathname, item.path)
 
@@ -109,7 +109,7 @@ const Navbar = () => {
         </div>
 
         <button
-          className="inline-flex h-16 flex-1 items-center justify-end rounded border-2 border-black bg-[#FFFDF5] px-5 text-3xl text-neutral-950 transition-colors duration-200 hover:text-[#007a35] focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] lg:hidden"
+          className="inline-flex h-14 flex-1 items-center justify-end rounded border-2 border-black bg-[#FFFDF5] px-5 text-3xl text-neutral-950 transition-colors duration-200 hover:text-[#007a35] focus-visible:outline focus-visible:-outline-offset-4 focus-visible:outline-[#007a35] lg:hidden"
           type="button"
           aria-controls="mobile-navigation"
           aria-expanded={isOpen}
