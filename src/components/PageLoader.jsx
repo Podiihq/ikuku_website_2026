@@ -125,7 +125,7 @@ const PageLoader = () => {
         <motion.div
           animate={{ opacity: 1 }}
           aria-label={`Loading website: ${progress}%`}
-          className="fixed inset-0 z-[9999] flex min-h-dvh items-center justify-center overflow-hidden bg-[#F8F0D8] px-6"
+          className="fixed inset-0 z-9999 flex min-h-dvh items-center justify-center overflow-hidden bg-[#F8F0D8] px-6"
           exit={{
             opacity: 0,
             y: '-100%',
@@ -161,7 +161,7 @@ const PageLoader = () => {
 
               <div
                 aria-hidden="true"
-                className="mt-5 h-[18px] w-full overflow-hidden rounded-full border-2 border-neutral-950 bg-white"
+                className="mt-5 h-4.5 w-full overflow-hidden rounded-full border-2 border-neutral-950 bg-white"
               >
                 <motion.div
                   animate={{ scaleX: progress / 100 }}

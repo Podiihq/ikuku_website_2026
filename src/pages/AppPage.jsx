@@ -129,6 +129,41 @@ const AppPage = () => {
       </section>
 
       <section className="px-4 pb-20 lg:px-12 lg:pb-28">
+        <div className="mx-auto max-w-screen-2xl rounded-xl border-2 border-black">
+          <div className="px-4 pt-4 lg:px-10 lg:pt-10">
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.14em]">
+              Inside the app
+            </p>
+            <h2 className="creative-font max-w-5xl text-[clamp(3rem,6vw,5.75rem)] uppercase leading-[0.98]">
+              Farm records, flock visibility, and decisions in one place.
+            </h2>
+            <p className="mt-5 max-w-4xl text-lg leading-relaxed">
+              See your daily farm activity, track flock performance, and keep the numbers
+              that matter close whenever you need them.
+            </p>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-4 rounded-xl px-6 pt-6 md:grid-cols-3">
+            <img
+              src={Screen1}
+              alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
+              className="w-full"
+            />
+            <img
+              src={Screen2}
+              alt="I-kuku mobile app poultry batch screen"
+              className="hidden w-full md:block"
+            />
+            <img
+              src={Screen3}
+              alt="I-kuku mobile app farm records screen"
+              className="hidden w-full md:block"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-20 lg:px-12 lg:pb-28">
         <div className="mx-auto max-w-screen-2xl">
           <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
