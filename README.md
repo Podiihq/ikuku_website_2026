@@ -1,5 +1,30 @@
 # React + Vite
 
+## EmailJS contact form
+
+The contact page sends submissions through EmailJS. Create a local `.env` file from
+`.env.example` and fill in the values from your EmailJS dashboard:
+
+```bash
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+Configure your EmailJS template with these variables:
+
+- `{{full_name}}`
+- `{{organisation}}`
+- `{{role}}`
+- `{{email}}`
+- `{{reply_to}}`
+- `{{partnerships}}`
+- `{{message}}`
+- `{{submitted_at}}`
+
+Use `{{reply_to}}` in the template Reply-To field so replies go to the person who
+submitted the form.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

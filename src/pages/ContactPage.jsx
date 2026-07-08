@@ -1,3 +1,4 @@
+import emailjs from '@emailjs/browser'
 import { useEffect, useState } from 'react'
 import { FiCheckCircle, FiMail, FiMessageSquare, FiSend, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
@@ -31,9 +32,20 @@ const partnershipOptions = [
   },
 ]
 
+const emailjsConfig = {
+  // serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  // templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  // publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+  serviceId: "service_k2saasr",
+  templateId: "template_tg754td",
+  publicKey: "SZYWOg6gWnIjwuAez",
+}
+
 const ContactPage = () => {
   useSmoothScroll()
   const [selectedPartnerships, setSelectedPartnerships] = useState([])
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submissionStatus, setSubmissionStatus] = useState(null)
 
   const togglePartnership = (value) => {
     setSelectedPartnerships((currentSelections) =>
@@ -46,6 +58,69 @@ const ContactPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setSubmissionStatus(null)
+
+    if (selectedPartnerships.length === 0) {
+      setSubmissionStatus({
+        type: 'error',
+        message: 'Please select at least one partnership option.',
+      })
+      return
+    }
+
+    if (!emailjsConfig.serviceId || !emailjsConfig.templateId || !emailjsConfig.publicKey) {
+      setSubmissionStatus({
+        type: 'error',
+        message: 'Email sending is not configured yet. Please add the EmailJS environment values.',
+      })
+      return
+    }
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const selectedPartnershipLabels = partnershipOptions
+      .filter((option) => selectedPartnerships.includes(option.value))
+      .map((option) => option.label)
+
+    const templateParams = {
+      full_name: formData.get('fullName'),
+      organisation: formData.get('organisation'),
+      role: formData.get('role'),
+      email: formData.get('email'),
+      reply_to: formData.get('email'),
+      partnerships: selectedPartnershipLabels.join(', '),
+      message: formData.get('message'),
+      submitted_at: new Date().toLocaleString('en-KE', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }),
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      await emailjs.send(emailjsConfig.serviceId, emailjsConfig.templateId, templateParams, {
+        publicKey: emailjsConfig.publicKey,
+      })
+
+      form.reset()
+      setSelectedPartnerships([])
+      setSubmissionStatus({
+        type: 'success',
+        message: 'Thanks. Your message has been sent and we’ll respond soon.',
+      })
+    } catch (error) {
+      setSubmissionStatus({
+        type: 'error',
+        message: error?.text || 'Something went wrong while sending your message. Please try again.',
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <main className="bg-[#F8F0D8] px-4 pb-16 pt-8 text-neutral-950 lg:px-12 lg:pb-24">
@@ -86,7 +161,7 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <form className="grid gap-6 p-6 sm:p-10 lg:p-12" onSubmit={(event) => event.preventDefault()}>
+            <form className="grid gap-6 p-6 sm:p-10 lg:p-12" onSubmit={handleSubmit}>
               <div className="grid gap-5 md:grid-cols-2">
                 <label className="grid gap-2">
                   <span className="text-sm font-bold uppercase tracking-[0.12em]">Full name</span>
@@ -154,7 +229,7 @@ const ContactPage = () => {
                           <input
                             checked={isSelected}
                             className="mt-1 size-4 accent-[#007a35]"
-                            name="partnership"
+                            name="partnerships"
                             onChange={() => togglePartnership(option.value)}
                             type="checkbox"
                             value={option.value}
@@ -176,7 +251,7 @@ const ContactPage = () => {
                 </span>
                 <textarea
                   className="min-h-40 rounded-lg border-2 border-black bg-white px-4 py-4 text-base outline-none transition-colors duration-200 placeholder:text-neutral-500 focus:border-[#007a35] focus:bg-[#FFFDF5]"
-                  name="farmers"
+                  name="message"
                   placeholder="Who do you work with? What’s the challenge you’re trying to solve?"
                   required
                 />
@@ -189,13 +264,26 @@ const ContactPage = () => {
                 </p>
                 <Button
                   bgColor="#FFB51C"
+                  className={isSubmitting ? 'opacity-70' : ''}
+                  disabled={isSubmitting}
                   icon={<FiSend className="text-xl" aria-hidden="true" />}
                   iconPosition="right"
                   type="submit"
                 >
-                  Start the conversation
+                  {isSubmitting ? 'Sending...' : 'Start the conversation'}
                 </Button>
               </div>
+              {submissionStatus && (
+                <p
+                  className={`rounded-lg border-2 border-black px-4 py-3 text-sm font-bold ${submissionStatus.type === 'success'
+                    ? 'bg-[#D7E8B0] text-[#30410F]'
+                    : 'bg-[#F8D6D0] text-[#7A1F16]'
+                    }`}
+                  role="status"
+                >
+                  {submissionStatus.message}
+                </p>
+              )}
             </form>
           </div>
         </div>
