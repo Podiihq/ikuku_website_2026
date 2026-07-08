@@ -181,7 +181,17 @@ const Footer = () => {
 
         <div className="flex flex-col gap-3 border-t-2 border-black px-6 py-5 text-sm uppercase tracking-[0.08em] text-[#FEF8E2]/80 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">
           <p>© Copyright i-kuku 2026. All rights reserved.</p>
-          <p>Built for African poultry farms.</p>
+          <p>
+            Developed by{' '}
+            <a
+              className="font-bold underline text-[#FFCA55] transition-colors duration-200 hover:text-[#FEF8E2] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#FFCA55]"
+              href="https://podiihq.com/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Podii
+            </a>
+          </p>
         </div>
       </div>
     </footer>
