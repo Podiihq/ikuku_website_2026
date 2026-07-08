@@ -33,7 +33,15 @@ const partnershipOptions = [
 
 const ContactPage = () => {
   useSmoothScroll()
-  const [selectedPartnership, setSelectedPartnership] = useState(partnershipOptions[0].value)
+  const [selectedPartnerships, setSelectedPartnerships] = useState([])
+
+  const togglePartnership = (value) => {
+    setSelectedPartnerships((currentSelections) =>
+      currentSelections.includes(value)
+        ? currentSelections.filter((selection) => selection !== value)
+        : [...currentSelections, value],
+    )
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -129,32 +137,36 @@ const ContactPage = () => {
                 <legend className="mb-1 text-sm font-bold uppercase tracking-[0.12em]">
                   How are you looking to partner?
                 </legend>
-                <p className="text-sm font-semibold text-[#697B3B]">Select one:</p>
+                <p className="text-sm font-semibold text-[#697B3B]">Select all that apply:</p>
                 <div className="grid gap-3">
-                  {partnershipOptions.map((option) => (
-                    <label
-                      className={`grid cursor-pointer gap-1 rounded-lg border-2 p-4 transition-colors duration-200 ${selectedPartnership === option.value
-                        ? 'border-black bg-[#FFB51C]'
-                        : 'border-black bg-white hover:bg-[#F8F0D8]'
-                        }`}
-                      key={option.value}
-                    >
-                      <span className="flex items-start gap-3">
-                        <input
-                          checked={selectedPartnership === option.value}
-                          className="mt-1 size-4 accent-[#007a35]"
-                          name="partnership"
-                          onChange={() => setSelectedPartnership(option.value)}
-                          type="radio"
-                          value={option.value}
-                        />
-                        <span>
-                          <span className="font-bold">{option.label}</span>
-                          <span> — {option.description}</span>
+                  {partnershipOptions.map((option) => {
+                    const isSelected = selectedPartnerships.includes(option.value)
+
+                    return (
+                      <label
+                        className={`grid cursor-pointer gap-1 rounded-lg border-2 p-4 transition-colors duration-200 ${isSelected
+                          ? 'border-black bg-[#FFB51C]'
+                          : 'border-black bg-white hover:bg-[#F8F0D8]'
+                          }`}
+                        key={option.value}
+                      >
+                        <span className="flex items-start gap-3">
+                          <input
+                            checked={isSelected}
+                            className="mt-1 size-4 accent-[#007a35]"
+                            name="partnership"
+                            onChange={() => togglePartnership(option.value)}
+                            type="checkbox"
+                            value={option.value}
+                          />
+                          <span>
+                            <span className="font-bold">{option.label}</span>
+                            <span> — {option.description}</span>
+                          </span>
                         </span>
-                      </span>
-                    </label>
-                  ))}
+                      </label>
+                    )
+                  })}
                 </div>
               </fieldset>
 
