@@ -11,9 +11,9 @@ import {
 } from 'react-icons/fi'
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
+import { playStoreLink } from '../data/appLinks'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 import Illustration1 from '../assets/images/illustrations/illustration-7.png'
-import ScreenThumb from '../assets/images/screens/Screen-thumb-2.png'
 import ScreenThumb2 from '../assets/images/screens/Screen-thumb-1.png'
 import Screen1 from '../assets/images/screens/screen-1.png'
 import Screen2 from '../assets/images/screens/screen-7.png'
@@ -73,8 +73,7 @@ const features = [
   },
 ]
 
-// Replace this with the Google Play listing URL when it is available.
-const androidDownloadLink = '#/app'
+const androidDownloadLink = playStoreLink
 
 const AppPage = () => {
   useSmoothScroll()
@@ -111,7 +110,9 @@ const AppPage = () => {
                   className="mt-8"
                   href={androidDownloadLink}
                   icon={<GooglePlayMark />}
+                  rel="noreferrer"
                   shadowColor="#111111"
+                  target="_blank"
                   textColor="#000000"
                 >
                   Download for Android
@@ -276,7 +277,9 @@ const AppPage = () => {
             className="mt-9"
             href={androidDownloadLink}
             icon={<GooglePlayMark />}
+            rel="noreferrer"
             shadowColor="#000000"
+            target="_blank"
             textColor="#000000"
           >
             Download i-kuku

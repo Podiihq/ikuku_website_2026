@@ -1,6 +1,8 @@
 import { FiArrowUpRight, FiBookOpen, FiSmartphone, FiUsers } from 'react-icons/fi'
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import Button from './Button'
 import GooglePlayMark from './GooglePlayMark'
+import { playStoreLink } from '../data/appLinks'
 import logo from '../assets/images/logo/i-kuku-logo.svg'
 
 const websiteLinks = [
@@ -9,6 +11,24 @@ const websiteLinks = [
   { label: 'Case Studies', href: '#/case-studies' },
   { label: 'I-kuku App', href: '#/app' },
   { label: 'Contact Us', href: '#/contact' },
+]
+
+const socialLinks = [
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/i-kuku/',
+    icon: FaLinkedinIn,
+  },
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/ikuku.org/',
+    icon: FaFacebookF,
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/ikuku_ke/',
+    icon: FaInstagram,
+  },
 ]
 
 const footerHighlights = [
@@ -59,9 +79,11 @@ const Footer = () => {
               </Button>
               <Button
                 bgColor="#FEF8E2"
-                href="#/app"
+                href={playStoreLink}
                 icon={<GooglePlayMark className="h-6 w-6" />}
+                rel="noreferrer"
                 shadowColor="#000000"
+                target="_blank"
                 textColor="#000000"
               >
                 Download app
@@ -102,7 +124,7 @@ const Footer = () => {
         </div>
 
         <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-12 lg:items-start lg:p-12">
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-5">
             <h3 className="creative-font text-4xl uppercase leading-none">
               Poultry decisions, backed by records.
             </h3>
@@ -111,7 +133,7 @@ const Footer = () => {
             </p>
           </div>
 
-          <nav className="lg:col-span-6" aria-label="Footer website links">
+          <nav className="lg:col-span-4" aria-label="Footer website links">
             <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
               Explore
             </h3>
@@ -131,6 +153,30 @@ const Footer = () => {
               ))}
             </div>
           </nav>
+
+          <div className="lg:col-span-3">
+            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
+              Social
+            </h3>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {socialLinks.map((link) => {
+                const Icon = link.icon
+
+                return (
+                  <a
+                    aria-label={`Follow i-kuku on ${link.label}`}
+                    className="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-[#FEF8E2] text-black shadow-[4px_4px_0_#000000] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000000] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#FFCA55]"
+                    href={link.href}
+                    key={link.label}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <Icon className="text-xl" aria-hidden="true" />
+                  </a>
+                )
+              })}
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 border-t-2 border-black px-6 py-5 text-sm uppercase tracking-[0.08em] text-[#FEF8E2]/80 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-12">

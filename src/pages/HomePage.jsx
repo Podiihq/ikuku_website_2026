@@ -22,6 +22,7 @@ import illustration1 from "../assets/images/illustrations/illustration-5.png"
 import illustration2 from "../assets/images/illustrations/illustration-6.png"
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { playStoreLink } from '../data/appLinks'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 
 const HomePage = () => {
@@ -88,8 +89,10 @@ const HomePage = () => {
                     <div className="mt-8 flex w-full flex-col justify-center gap-4 items-center md:flex-row">
                         <Button
                             bgColor="#ffffff"
-                            href="#/app"
+                            href={playStoreLink}
                             icon={<GooglePlayMark />}
+                            rel="noreferrer"
+                            target="_blank"
                             textColor="#000000"
                         >
                             Download App
@@ -123,9 +126,11 @@ const HomePage = () => {
                         <p className='max-w-5xl'>Poultry farming takes an incredible amount of dedication. Yet, so many farmers find themselves fighting to keep their margins above water. The issue isn't a lack of hard work, it’s that they use methods simply weren't built to scale with a growing business.</p>
                         <Button
                             bgColor="#FEF8E2"
-                            href="#/app"
+                            href={playStoreLink}
                             icon={<GooglePlayMark />}
+                            rel="noreferrer"
                             shadowColor="#000000"
+                            target="_blank"
                             textColor="#000000"
                         >
                             Download App
