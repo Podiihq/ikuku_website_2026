@@ -20,6 +20,9 @@ import Image1 from "../assets/images/photos/image-2.png"
 import Image2 from "../assets/images/photos/image-3.png"
 import illustration1 from "../assets/images/illustrations/illustration-5.png"
 import illustration2 from "../assets/images/illustrations/illustration-6.png"
+import UsaidLogo from "../assets/images/partners/USAID-LOGO.svg"
+import E4ImpactLogo from "../assets/images/partners/E4IMPACT-LOGO.svg"
+import KopiaLogo from "../assets/images/partners/KOPIA-LOGO.svg"
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { playStoreLink } from '../data/appLinks'
@@ -105,6 +108,22 @@ const HomePage = () => {
                         >
                             Partner with us
                         </Button>
+                    </div>
+
+                    <div className="mt-12 w-full max-w-5xl">
+                        <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#697B3B]">
+                            We've partnered with
+                        </p>
+                        <div className="mt-4 lg:mt-8 flex justify-center flex-wrap items-center gap-2">
+                            {partners.map((partner) => (
+                                <img
+                                    key={partner.name}
+                                    src={partner.logo}
+                                    alt={`${partner.name} logo`}
+                                    className="w-40 md:w-50 object-contain bg-[#F8F0D8] border-2 rounded"
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className='grid md:grid-cols-7 pt-20 gap-4 max-w-screen-2xl mx-auto relative md:px-4 lg:px-0'>
@@ -258,6 +277,22 @@ const processData = [
         description: "With a clear picture of your farm, and AI insights every decision you make is informed from your own records.",
         illustration: ProcessIllustration3
     },
+]
+
+const partners = [
+    {
+        name: "KOPIA",
+        logo: KopiaLogo,
+    },
+    {
+        name: "E4Impact",
+        logo: E4ImpactLogo,
+    },
+    {
+        name: "USAID",
+        logo: UsaidLogo,
+    },
+
 ]
 
 

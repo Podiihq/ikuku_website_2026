@@ -1,4 +1,5 @@
-import { FiArrowUpRight, FiBookOpen, FiSmartphone, FiUsers } from 'react-icons/fi'
+import { useMemo, useState } from 'react'
+import { FiArrowUpRight, FiBookOpen, FiEye, FiPhone, FiSmartphone, FiUsers } from 'react-icons/fi'
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import Button from './Button'
 import GooglePlayMark from './GooglePlayMark'
@@ -46,7 +47,21 @@ const footerHighlights = [
   },
 ]
 
+const encodedPhoneDigits = [55, 62, 60, 60, 58, 61, 60, 60, 62, 57]
+const phoneDigitOffset = 7
+
+const formatPhoneNumber = (digits) =>
+  `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}`
+
 const Footer = () => {
+  const [isPhoneVisible, setIsPhoneVisible] = useState(false)
+  const phoneDigits = useMemo(
+    () => encodedPhoneDigits.map((digit) => String.fromCharCode(digit - phoneDigitOffset)).join(''),
+    [],
+  )
+  const phoneDisplay = formatPhoneNumber(phoneDigits)
+  const phoneHref = `tel:+254${phoneDigits.slice(1)}`
+
   return (
     <footer
       id="contact"
@@ -154,10 +169,38 @@ const Footer = () => {
             </div>
           </nav>
 
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
-              Social
-            </h3>
+          <div className="space-y-8 lg:col-span-3">
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
+                Contact
+              </h3>
+              <div className="mt-4">
+                {isPhoneVisible ? (
+                  <a
+                    className="inline-flex items-center gap-3 rounded-full border-2 border-black bg-[#FEF8E2] px-5 py-3 font-bold text-black shadow-[4px_4px_0_#000000] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000000] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#FFCA55]"
+                    href={phoneHref}
+                    aria-label="Call i-kuku"
+                  >
+                    <FiPhone className="text-xl" aria-hidden="true" />
+                    <span>{phoneDisplay}</span>
+                  </a>
+                ) : (
+                  <button
+                    className="inline-flex cursor-pointer items-center gap-3 rounded-full border-2 border-black bg-[#FEF8E2] px-5 py-3 font-bold uppercase text-black shadow-[4px_4px_0_#000000] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000000] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#FFCA55]"
+                    type="button"
+                    onClick={() => setIsPhoneVisible(true)}
+                  >
+                    <FiEye className="text-xl" aria-hidden="true" />
+                    <span>Show phone</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
+                Social
+              </h3>
             <div className="mt-4 flex flex-wrap gap-3">
               {socialLinks.map((link) => {
                 const Icon = link.icon
@@ -175,6 +218,7 @@ const Footer = () => {
                   </a>
                 )
               })}
+            </div>
             </div>
           </div>
         </div>
