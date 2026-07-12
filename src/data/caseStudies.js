@@ -76,10 +76,10 @@ export const caseStudies = [
         eyebrow: 'The intervention',
         title: 'We shifted mindsets toward sustainable farming.',
         body: [
-          'Before we introduced any tool, we listened. i-kuku ran deep conversations with the parents to understand what their days actually looked like: the constraints, the habits, and the fears around changing the way they had always done things.',
+          'Before we introduced any tool, we listened and ran deep conversations with the parents to understand how their days looked like: the constraints, the habits, and the fears around changing the way they had always done things.',
           'We focused on making data feel useful, not burdensome. A simple daily record became an early-warning system for catching health issues before they spread, and financial leaks before they drained the whole flock.',
           'We taught sustainable farm practice, including biosecurity, feed management, and basic flock care grounded in what is realistic for a household environment.',
-          'We also demystified digital tools. Mobile-first farm management was introduced as a concept, not an app demo, but a conversation about what it would feel like to have something handle calculations and track farm data so farmers did not have to.',
+          'Mobile-first farm management was introduced as a concept. Therefore, we had a conversation about what it would feel like to have something handle calculations and track farm data so farmers did not have to.',
         ],
       },
       {

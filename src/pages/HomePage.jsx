@@ -219,7 +219,7 @@ const HomePage = () => {
                             <img src={Image2} alt="" className='w-full h-full object-cover border-2 rounded-xl' />
                             <div className='space-y-3 absolute bottom-10 lg:left-10 left-5 right-5 z-10 text-white'>
                                 <p className='text-5xl creative-font font-bold'>For Organizations</p>
-                                <p className='lg:w-2/3'>We collaborate with development partners and cooperatives to deploy scalable, data-driven agricultural training that sticks.</p>
+                                <p className='lg:w-2/3'>We collaborate with development partners and cooperatives to deploy scalable, data-driven agricultural training.</p>
                                 <Button
                                     bgColor="#ffb51c"
                                     href="#/contact"
