@@ -1472,7 +1472,16 @@ function DemoPage() {
   }
 
   return (
-    <main className="flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#fffdf3_0%,#f8f0d8_48%,#e8dcc1_100%)] p-3 text-[#243b25]">
+    <main className="relative flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#fffdf3_0%,#f8f0d8_48%,#e8dcc1_100%)] p-3 text-[#243b25]">
+      <a
+        aria-label="Go back to the i-Kuku homepage"
+        className="absolute left-4 top-4 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-[#ffb51c] font-bold uppercase leading-none text-black shadow-[6px_6px_0_#0a0a0a] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#0a0a0a] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0_#0a0a0a] sm:h-14 sm:w-auto sm:gap-3 sm:px-6"
+        href="#/"
+      >
+        <PiArrowLeft aria-hidden="true" className="shrink-0 text-xl" />
+        <span className="hidden sm:inline">Back to homepage</span>
+      </a>
+
       <section
         aria-label="Interactive i-Kuku mobile application demo"
         className="relative h-[min(844px,calc(100dvh-24px),calc((100vw-24px)*844/390))] aspect-[390/844] [container-type:inline-size]"
