@@ -273,28 +273,50 @@ const DashboardScreen = ({ farmSummary, onOpenFarmReport, onShowNotice }) => (
     <section className="flex min-h-0 flex-1 flex-col px-[3.4cqw] pt-[4.2cqw]">
       <h2 className="pl-[5.2cqw] text-[4.65cqw] font-medium text-[#586b59]">Quick Actions</h2>
       <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-3 pb-[1.5cqw] pt-[3.3cqw]">
-        {quickActions.map((action) => (
-          <button
-            className="group flex touch-manipulation flex-col items-center justify-center self-stretch rounded-[4cqw] px-[1cqw] transition duration-150 active:scale-[0.94] active:bg-[#f7f8f5]"
-            key={action.label}
-            onClick={() =>
-              action.label === 'Farm Report'
-                ? onOpenFarmReport()
-                : onShowNotice(action.label)
-            }
-            type="button"
-          >
-            <img
-              alt=""
-              className="size-[15.15cqw] shrink-0 select-none object-contain transition duration-150 group-active:scale-95"
-              draggable="false"
-              src={action.icon}
-            />
-            <span className="mt-[1.3cqw] max-w-full text-[3.55cqw] font-normal leading-tight">
-              {action.label}
-            </span>
-          </button>
-        ))}
+        {quickActions.map((action) => {
+          const isFarmReport = action.label === 'Farm Report'
+
+          return (
+            <button
+              className={`group relative flex touch-manipulation flex-col items-center justify-center self-stretch rounded-[4cqw] px-[1cqw] transition duration-150 active:scale-[0.94] ${
+                isFarmReport
+                  ? 'mx-[1.2cqw] my-[0.8cqw] bg-[linear-gradient(145deg,#fff8df_0%,#fff1b9_100%)] ring-[0.55cqw] ring-inset ring-[#ffb51c] shadow-[0_1.8cqw_4cqw_rgba(158,188,50,0.24)] active:brightness-95'
+                  : 'active:bg-[#f7f8f5]'
+              }`}
+              key={action.label}
+              onClick={() =>
+                isFarmReport
+                  ? onOpenFarmReport()
+                  : onShowNotice(action.label)
+              }
+              type="button"
+            >
+              {isFarmReport && (
+                <span
+                  aria-hidden="true"
+                  className="absolute right-[2.4cqw] top-[1.8cqw] rounded-full bg-[#00681d] px-[2.2cqw] py-[0.75cqw] text-[2.05cqw] font-bold uppercase tracking-[0.08em] text-white shadow-sm"
+                >
+                  Start here
+                </span>
+              )}
+              <img
+                alt=""
+                className={`size-[15.15cqw] shrink-0 select-none object-contain transition duration-150 group-active:scale-95 ${
+                  isFarmReport ? 'drop-shadow-[0_1cqw_1.2cqw_rgba(0,104,29,0.2)]' : ''
+                }`}
+                draggable="false"
+                src={action.icon}
+              />
+              <span
+                className={`mt-[1.3cqw] max-w-full text-[3.55cqw] leading-tight ${
+                  isFarmReport ? 'font-bold text-[#00681d]' : 'font-normal'
+                }`}
+              >
+                {action.label}
+              </span>
+            </button>
+          )
+        })}
       </div>
     </section>
 
