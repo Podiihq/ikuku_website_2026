@@ -125,7 +125,7 @@ const AppPage = () => {
                     shadowColor="#111111"
                     textColor="#000000"
                   >
-                    Try the demo
+                    Open interactive demo
                   </Button>
                 </div>
               </div>

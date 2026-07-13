@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   PiAlarmFill,
   PiArrowLeft,
@@ -1334,6 +1334,7 @@ const ReportSuccessScreen = ({ batch, onBackToReports }) => (
 )
 
 function DemoPage() {
+  const shouldReduceMotion = useReducedMotion()
   const [notice, setNotice] = useState('')
   const [screen, setScreen] = useState('dashboard')
   const [direction, setDirection] = useState(1)
@@ -1482,9 +1483,21 @@ function DemoPage() {
         <span className="hidden sm:inline">Back to homepage</span>
       </a>
 
-      <section
+      <motion.section
+        animate={{ opacity: 1, rotateX: 0, scale: 1, y: 0 }}
         aria-label="Interactive i-Kuku mobile application demo"
         className="relative h-[min(844px,calc(100dvh-24px),calc((100vw-24px)*844/390))] aspect-[390/844] [container-type:inline-size]"
+        initial={
+          shouldReduceMotion
+            ? { opacity: 0 }
+            : { opacity: 0, rotateX: 7, scale: 0.88, y: 72 }
+        }
+        style={{ transformOrigin: '50% 70%', transformPerspective: 1200 }}
+        transition={
+          shouldReduceMotion
+            ? { duration: 0.18, ease: 'easeOut' }
+            : { type: 'spring', stiffness: 135, damping: 18, mass: 0.9 }
+        }
       >
         <span className="absolute -left-[1.15cqw] top-[18cqw] h-[7.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
         <span className="absolute -left-[1.15cqw] top-[29cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
@@ -1594,7 +1607,7 @@ function DemoPage() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </main>
   )
 }
