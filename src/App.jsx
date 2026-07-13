@@ -10,6 +10,7 @@ import AppPage from './pages/AppPage'
 import CaseStudiesPage from './pages/CaseStudiesPage'
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage'
 import ContactPage from './pages/ContactPage'
+import DemoPage from './pages/DemoPage'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -103,7 +104,6 @@ const PageTransitionRoutes = () => {
 const AppLayout = () => {
   return (
     <>
-      <PageLoader />
       <div className='bg-[#F8F0D8]'>
         <ScrollToTop />
         <Navbar />
@@ -114,10 +114,22 @@ const AppLayout = () => {
   )
 }
 
+const AppRoutes = () => {
+  const { pathname } = useLocation()
+
+  if (pathname === '/demo') {
+    return <DemoPage />
+  }
+
+  return <AppLayout />
+}
+
 function App() {
   return (
     <HashRouter>
-      <AppLayout />
+      {/* Keep the loader global because it also reveals the initially hidden root. */}
+      <PageLoader />
+      <AppRoutes />
     </HashRouter>
   )
 }

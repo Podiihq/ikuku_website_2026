@@ -1,0 +1,745 @@
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  PiAlarmFill,
+  PiArrowLeft,
+  PiArrowRight,
+  PiBatteryFullFill,
+  PiBellSimple,
+  PiBluetoothFill,
+  PiCaretDownFill,
+  PiCaretRight,
+  PiCaretUpFill,
+  PiCheckCircleFill,
+  PiCellSignalFullFill,
+  PiHouseFill,
+  PiMagnifyingGlass,
+  PiPlus,
+  PiPlusCircleFill,
+  PiStorefrontFill,
+  PiUserCircleFill,
+  PiWifiHighFill,
+  PiXCircleFill,
+} from 'react-icons/pi'
+
+import batchIcon from '../assets/images/mobile-demo-assets/dashboard-icons/batch_icon.svg'
+import extensionServicesIcon from '../assets/images/mobile-demo-assets/dashboard-icons/extension-services-icon.svg'
+import farmReportIcon from '../assets/images/mobile-demo-assets/dashboard-icons/farm-report-icon.svg'
+import farmStoreIcon from '../assets/images/mobile-demo-assets/dashboard-icons/farm-store-icon.svg'
+import financialSummaryIcon from '../assets/images/mobile-demo-assets/dashboard-icons/financial-summary-icon.svg'
+import smartTipsIcon from '../assets/images/mobile-demo-assets/dashboard-icons/smart-tips-icon.svg'
+import chickenIcon from '../assets/images/mobile-demo-assets/summary-icons/chicken-icon.svg'
+import eggsIcon from '../assets/images/mobile-demo-assets/summary-icons/eggs-icon.svg'
+import feedsIcon from '../assets/images/mobile-demo-assets/summary-icons/feeds-icon.svg'
+
+const summaryItems = [
+  { label: 'Birds', value: '120', icon: chickenIcon },
+  { label: 'Feeds', value: '20kgs', icon: feedsIcon },
+  { label: 'Eggs', value: '40', icon: eggsIcon },
+]
+
+const quickActions = [
+  { label: 'Add Chick Batch', icon: batchIcon },
+  { label: 'Farm Report', icon: farmReportIcon },
+  { label: 'Farm Store', icon: farmStoreIcon },
+  { label: 'Financial Summary', icon: financialSummaryIcon },
+  { label: 'Smart Tips', icon: smartTipsIcon },
+  { label: 'Extension Services', icon: extensionServicesIcon },
+]
+
+const bottomNavigation = [
+  { label: 'Home', icon: PiHouseFill, active: true },
+  { label: 'My Shop', icon: PiStorefrontFill },
+  { label: 'Profile', icon: PiUserCircleFill },
+]
+
+const previousReports = [
+  { name: 'Kienyeji Coop 1', date: '7th March 2026', type: 'Kienyeji' },
+  { name: 'Broiler Batch', date: '7th March 2026', type: 'Broiler' },
+  { name: 'Kienyeji Coop 2', date: '7th March 2026', type: 'Kienyeji' },
+  { name: 'Broiler Batch', date: '6th March 2026', type: 'Broiler' },
+  { name: 'Kienyeji Coop 1', date: '6th March 2026', type: 'Kienyeji' },
+]
+
+const batches = [
+  { name: 'Batch 1', birds: '2000 Layers', age: '1 day old', action: 'Start report' },
+  { name: 'Batch 2', birds: '1500 Layers', age: '2 weeks old', action: 'Start report' },
+  { name: 'Batch 3', birds: '260 Layers', age: '1 day old', action: 'View report', complete: true },
+  { name: 'Batch 4', birds: '520 Broilers', age: '1 day old', action: 'View report', complete: true },
+]
+
+const screenVariants = {
+  enter: (direction) => ({
+    opacity: direction > 0 ? 1 : 0.85,
+    x: direction > 0 ? '100%' : '-28%',
+  }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction) => ({
+    opacity: direction > 0 ? 0.85 : 1,
+    x: direction > 0 ? '-28%' : '100%',
+  }),
+}
+
+const DashboardScreen = ({ onOpenFarmReport, onShowNotice }) => (
+  <>
+    <header className="flex h-[12.5cqw] shrink-0 items-center justify-between px-[3.5cqw]">
+      <h1 className="text-[5cqw] font-medium tracking-[-0.04em]">Dashboard</h1>
+      <button
+        aria-label="Notifications"
+        className="grid size-[9cqw] touch-manipulation place-items-center rounded-full text-[6.3cqw] transition active:scale-90 active:bg-[#eef3ec]"
+        onClick={() => onShowNotice('Notifications')}
+        type="button"
+      >
+        <PiBellSimple aria-hidden="true" />
+      </button>
+    </header>
+
+    <section className="relative z-10 h-[31cqw] shrink-0 rounded-b-[4.2cqw] bg-white px-[3cqw] pt-[3cqw] shadow-[0_4cqw_6cqw_-2.5cqw_rgba(0,0,0,0.18)]">
+      <h2 className="text-[4cqw] font-normal">Kuku Farm</h2>
+      <div className="mt-[2.3cqw] grid grid-cols-3">
+        {summaryItems.map((item) => (
+          <div
+            className="flex flex-col items-center first:items-start last:items-end"
+            key={item.label}
+          >
+            <div className="flex items-center gap-[0.2cqw] text-[3.65cqw] font-medium text-[#00681d]">
+              <img alt="" className="size-[3.1cqw] object-contain" src={item.icon} />
+              <span>{item.label}</span>
+            </div>
+            <span className="mt-[0.65cqw] text-[6.2cqw] font-normal leading-none tracking-[-0.04em] tabular-nums">
+              {item.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section className="flex min-h-0 flex-1 flex-col px-[3.4cqw] pt-[4.2cqw]">
+      <h2 className="pl-[5.2cqw] text-[4.65cqw] font-medium text-[#586b59]">Quick Actions</h2>
+      <div className="grid min-h-0 flex-1 grid-cols-2 grid-rows-3 pb-[1.5cqw] pt-[3.3cqw]">
+        {quickActions.map((action) => (
+          <button
+            className="group flex touch-manipulation flex-col items-center justify-center self-stretch rounded-[4cqw] px-[1cqw] transition duration-150 active:scale-[0.94] active:bg-[#f7f8f5]"
+            key={action.label}
+            onClick={() =>
+              action.label === 'Farm Report'
+                ? onOpenFarmReport()
+                : onShowNotice(action.label)
+            }
+            type="button"
+          >
+            <img
+              alt=""
+              className="size-[15.15cqw] shrink-0 select-none object-contain transition duration-150 group-active:scale-95"
+              draggable="false"
+              src={action.icon}
+            />
+            <span className="mt-[1.3cqw] max-w-full text-[3.55cqw] font-normal leading-tight">
+              {action.label}
+            </span>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <nav aria-label="App navigation" className="relative z-20 grid h-[17cqw] shrink-0 grid-cols-3 bg-white px-[2cqw]">
+      {bottomNavigation.map((item) => {
+        const Icon = item.icon
+        return (
+          <button
+            aria-current={item.active ? 'page' : undefined}
+            className={`flex touch-manipulation flex-col items-center justify-center gap-[0.55cqw] rounded-[3cqw] transition active:scale-95 ${
+              item.active ? 'text-[#007b2f]' : 'text-[#9d9d9d]'
+            }`}
+            key={item.label}
+            onClick={() => !item.active && onShowNotice(item.label)}
+            type="button"
+          >
+            <Icon aria-hidden="true" className="text-[7.3cqw]" />
+            <span className={`text-[2.7cqw] ${item.active ? 'font-medium' : 'font-normal'}`}>
+              {item.label}
+            </span>
+          </button>
+        )
+      })}
+    </nav>
+  </>
+)
+
+const FarmReportScreen = ({ onAddReport, onBack, onShowNotice }) => (
+  <>
+    <header className="relative flex h-[14cqw] shrink-0 items-center justify-between px-[2.2cqw]">
+      <button
+        aria-label="Back to dashboard"
+        className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
+        onClick={onBack}
+        type="button"
+      >
+        <PiArrowLeft aria-hidden="true" />
+      </button>
+      <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
+        Farm report
+      </h1>
+      <button
+        aria-label="Notifications"
+        className="relative grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.4cqw] transition active:scale-90 active:bg-[#eef3ec]"
+        onClick={() => onShowNotice('Notifications')}
+        type="button"
+      >
+        <PiBellSimple aria-hidden="true" />
+        <span className="absolute right-[1.5cqw] top-[1.35cqw] size-[1.55cqw] rounded-full bg-[#f9b420] ring-[0.55cqw] ring-white" />
+      </button>
+    </header>
+
+    <div className="min-h-0 flex-1 px-[3cqw] pt-[7.2cqw]">
+      <section>
+        <h2 className="text-[4.2cqw] font-medium">To do&nbsp; Today</h2>
+        <button
+          className="mt-[2.15cqw] flex h-[13cqw] w-full touch-manipulation items-center gap-[3.2cqw] rounded-[2.3cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_44%,#9ebc32_100%)] px-[4.3cqw] text-left text-[4.4cqw] font-medium text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+          onClick={onAddReport}
+          type="button"
+        >
+          <PiPlus aria-hidden="true" className="shrink-0 text-[6cqw]" />
+          <span>Add a farm report</span>
+        </button>
+      </section>
+
+      <section className="mt-[9cqw]">
+        <div className="flex items-center justify-between">
+          <h2 className="text-[4.2cqw] font-medium">Previous Reports</h2>
+          <button
+            className="touch-manipulation rounded px-[0.5cqw] py-[1cqw] text-[2.8cqw] font-medium text-[#00681d] underline underline-offset-[0.45cqw] transition active:scale-95"
+            onClick={() => onShowNotice('All farm reports')}
+            type="button"
+          >
+            SEE ALL
+          </button>
+        </div>
+
+        <div className="mt-[3.6cqw]">
+          {previousReports.map((report, index) => (
+            <button
+              className="flex h-[15.2cqw] w-full touch-manipulation items-center justify-between rounded-[1.5cqw] text-left transition active:scale-[0.985] active:bg-[#f4f6f2]"
+              key={`${report.name}-${report.date}-${index}`}
+              onClick={() => onShowNotice(report.name)}
+              type="button"
+            >
+              <span className="flex min-w-0 flex-col">
+                <span className="truncate text-[3.65cqw] font-normal">{report.name}</span>
+                <span className="mt-[1.55cqw] flex items-center gap-[1.5cqw] text-[2.65cqw] text-[#637064]">
+                  <span>{report.date}</span>
+                  <span className="size-[0.9cqw] rounded-full bg-[#637064]" />
+                  <span>{report.type}</span>
+                </span>
+              </span>
+              <PiCaretRight aria-hidden="true" className="mr-[0.6cqw] shrink-0 text-[5.4cqw] text-[#526b56]" />
+            </button>
+          ))}
+        </div>
+      </section>
+    </div>
+  </>
+)
+
+const SelectBatchScreen = ({ onBack, onSelectBatch, onShowNotice }) => {
+  const [query, setQuery] = useState('')
+  const normalizedQuery = query.trim().toLowerCase()
+  const visibleBatches = batches.filter((batch) =>
+    `${batch.name} ${batch.birds} ${batch.age}`.toLowerCase().includes(normalizedQuery),
+  )
+
+  return (
+    <>
+      <header className="relative flex h-[14cqw] shrink-0 items-center px-[2.2cqw]">
+        <button
+          aria-label="Back to farm reports"
+          className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
+          onClick={onBack}
+          type="button"
+        >
+          <PiArrowLeft aria-hidden="true" />
+        </button>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
+          Select Batch
+        </h1>
+      </header>
+
+      <div className="min-h-0 flex-1 overflow-y-auto px-[4.1cqw] pt-[6.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <h2 className="text-[5.25cqw] font-normal tracking-[-0.025em]">
+          Select the type of birds
+        </h2>
+
+        <label className="relative mt-[5cqw] block">
+          <span className="sr-only">Search batch name</span>
+          <PiMagnifyingGlass
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[4.5cqw] top-1/2 z-10 -translate-y-1/2 text-[6.2cqw]"
+          />
+          <input
+            autoComplete="off"
+            className="h-[12.8cqw] w-full rounded-[4.2cqw] bg-[#f3f3f3] pl-[14.3cqw] pr-[4cqw] text-[3.55cqw] text-[#243b25] outline-none placeholder:text-[#536656] focus:ring-[0.55cqw] focus:ring-[#9ebc32]"
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search Batch name"
+            type="search"
+            value={query}
+          />
+        </label>
+
+        <div className="mt-[6.3cqw] flex items-center justify-between">
+          <h2 className="text-[4cqw] font-normal text-[#586b59]">Batches</h2>
+          <button
+            className="flex touch-manipulation items-center gap-[1.4cqw] rounded-full px-[0.5cqw] py-[1cqw] text-[3.7cqw] transition active:scale-95 active:bg-[#f4f6f2]"
+            onClick={() => onShowNotice('Add new batch')}
+            type="button"
+          >
+            <PiPlusCircleFill aria-hidden="true" className="text-[5.3cqw]" />
+            <span>Add new batch</span>
+          </button>
+        </div>
+
+        <div className="mt-[3.5cqw] space-y-[4.1cqw] pb-[4cqw]">
+          {visibleBatches.map((batch) => (
+            <button
+              className="flex h-[20.4cqw] w-full touch-manipulation items-center justify-between rounded-[4cqw] border border-[#d3d8d2] px-[2.9cqw] text-left transition active:scale-[0.985] active:bg-[#f7f8f6]"
+              key={batch.name}
+              onClick={() =>
+                batch.name === 'Batch 1'
+                  ? onSelectBatch(batch)
+                  : onShowNotice(`${batch.action} for ${batch.name}`)
+              }
+              type="button"
+            >
+              <span className="flex min-w-0 flex-col">
+                <span className="text-[4.1cqw] font-normal">{batch.name}</span>
+                <span className="mt-[1.7cqw] flex items-center gap-[4.8cqw] whitespace-nowrap text-[3.65cqw] text-[#5d6f60]">
+                  <span>{batch.birds}</span>
+                  <span>{batch.age}</span>
+                </span>
+              </span>
+              <span className="ml-[2cqw] flex shrink-0 items-center gap-[1.6cqw] text-[3cqw] font-medium text-[#007b2f]">
+                <span>{batch.action}</span>
+                {batch.complete ? (
+                  <PiCheckCircleFill aria-hidden="true" className="text-[4.1cqw] text-[#9ac33c]" />
+                ) : (
+                  <PiArrowRight aria-hidden="true" className="text-[4.8cqw]" />
+                )}
+              </span>
+            </button>
+          ))}
+
+          {visibleBatches.length === 0 && (
+            <p className="py-[10cqw] text-center text-[3.7cqw] text-[#637064]">
+              No batches match “{query}”.
+            </p>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
+
+const NumberField = ({ id, label, onChange, placeholder, prefix, value }) => {
+  const changeBy = (amount) => {
+    const nextValue = Math.max(0, (Number(value) || 0) + amount)
+    onChange(String(nextValue))
+  }
+
+  return (
+    <div>
+      <label className="block text-[2.8cqw] text-[#687369]" htmlFor={id}>
+        {label}
+      </label>
+      <div className="mt-[1cqw] flex h-[8.4cqw] items-center border-b border-[#929792]">
+        {prefix && <span className="mr-[2.4cqw] text-[4cqw] text-[#777d78]">{prefix}</span>}
+        <input
+          className="min-w-0 flex-1 bg-transparent text-[4cqw] text-[#415745] outline-none placeholder:text-[3.5cqw] placeholder:text-[#8b938c] [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          id={id}
+          min="0"
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          type="number"
+          value={value}
+        />
+        <span className="flex h-full w-[9cqw] flex-col items-center justify-center text-[#777d78]">
+          <button
+            aria-label={`Increase ${label.toLowerCase()}`}
+            className="grid h-1/2 w-full touch-manipulation place-items-center active:text-[#007b2f]"
+            onClick={() => changeBy(1)}
+            type="button"
+          >
+            <PiCaretUpFill aria-hidden="true" className="text-[3.2cqw]" />
+          </button>
+          <button
+            aria-label={`Decrease ${label.toLowerCase()}`}
+            className="grid h-1/2 w-full touch-manipulation place-items-center active:text-[#007b2f]"
+            onClick={() => changeBy(-1)}
+            type="button"
+          >
+            <PiCaretDownFill aria-hidden="true" className="text-[3.2cqw]" />
+          </button>
+        </span>
+      </div>
+    </div>
+  )
+}
+
+const BirdCountScreen = ({ onBack, onContinue }) => {
+  const [hasReduced, setHasReduced] = useState('')
+  const [selectedReasons, setSelectedReasons] = useState([])
+  const [reasonsOpen, setReasonsOpen] = useState(false)
+  const [mortalityCount, setMortalityCount] = useState('')
+  const [soldCount, setSoldCount] = useState('')
+  const [sellingPrice, setSellingPrice] = useState('')
+  const reasonOptions = ['Mortality', 'Sold']
+  const displayedReasons = ['Sold', 'Mortality'].filter((reason) =>
+    selectedReasons.includes(reason),
+  )
+
+  const toggleReason = (reason) => {
+    setSelectedReasons((currentReasons) =>
+      currentReasons.includes(reason)
+        ? currentReasons.filter((currentReason) => currentReason !== reason)
+        : [...currentReasons, reason],
+    )
+  }
+
+  return (
+    <>
+      <header className="relative flex h-[14cqw] shrink-0 items-center px-[2.2cqw]">
+        <button
+          aria-label="Back to select batch"
+          className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
+          onClick={onBack}
+          type="button"
+        >
+          <PiArrowLeft aria-hidden="true" />
+        </button>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
+          Batch No. 2
+        </h1>
+      </header>
+
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3.8cqw] pb-[2.8cqw] pt-[7.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <h2 className="pl-[1.3cqw] text-[5.25cqw] font-normal tracking-[-0.025em] text-[#536656]">
+          Update Number of Birds
+        </h2>
+
+        <section
+          aria-label="Selected batch bird summary"
+          className="mt-[6.6cqw] flex h-[21.2cqw] shrink-0 items-start justify-between rounded-[4.3cqw] border border-[#d8d2bd] bg-[#fff9e6] px-[3.2cqw] pt-[3.5cqw]"
+        >
+          <div className="flex flex-col">
+            <span className="text-[3.45cqw] text-[#647064]">Type of Bird</span>
+            <span className="mt-[1.1cqw] text-[5.9cqw] font-normal leading-none text-[#536656]">
+              Layers
+            </span>
+          </div>
+          <div className="flex flex-col items-end pr-[1.1cqw]">
+            <span className="text-[3.45cqw] text-[#647064]">No of birds</span>
+            <span className="mt-[1.1cqw] text-[6.2cqw] font-normal leading-none text-[#536656] tabular-nums">
+              2000
+            </span>
+          </div>
+        </section>
+
+        <fieldset className="mt-[8.7cqw] shrink-0">
+          <legend className="text-[4.15cqw] font-normal">
+            Has the number of birds reduced?
+          </legend>
+          <div className="mt-[6.1cqw] flex items-center justify-between px-[2.4cqw] pr-[27cqw]">
+            {['Yes', 'No'].map((option) => (
+              <label
+                className="flex cursor-pointer touch-manipulation items-center gap-[3.1cqw] text-[4cqw]"
+                key={option}
+              >
+                <input
+                  checked={hasReduced === option.toLowerCase()}
+                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
+                  name="bird-count-reduced"
+                  onChange={() => setHasReduced(option.toLowerCase())}
+                  type="radio"
+                  value={option.toLowerCase()}
+                />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <AnimatePresence initial={false}>
+          {hasReduced === 'yes' && (
+            <motion.div
+              animate={{ height: 'auto', opacity: 1, y: 0 }}
+              className="shrink-0 overflow-visible"
+              exit={{ height: 0, opacity: 0, y: -8 }}
+              initial={{ height: 0, opacity: 0, y: -8 }}
+              key="decrease-fields"
+              transition={{ duration: 0.24, ease: 'easeOut' }}
+            >
+              <div className="relative mt-[7.5cqw]">
+                <p className="text-[2.8cqw]">Reasons for the decrease in number</p>
+                <div className="relative mt-[2.7cqw] flex min-h-[8cqw] items-center border-b border-[#007b2f] pb-[1.7cqw]">
+                  <button
+                    aria-controls="decrease-reasons-list"
+                    aria-expanded={reasonsOpen}
+                    aria-haspopup="listbox"
+                    aria-label="Choose reasons for decrease"
+                    className="absolute inset-0 z-0 cursor-pointer touch-manipulation rounded-[1cqw] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.7cqw] focus-visible:outline-[#9ebc32]"
+                    onClick={() => setReasonsOpen((isOpen) => !isOpen)}
+                    type="button"
+                  />
+                  <div className="pointer-events-none relative z-10 flex min-w-0 flex-1 flex-wrap gap-[2.1cqw]">
+                    {displayedReasons.length === 0 && (
+                      <span className="text-[3.4cqw] text-[#7a857c]">Select reasons</span>
+                    )}
+                    {displayedReasons.map((reason) => (
+                      <span
+                        className="flex items-center gap-[1.25cqw] rounded-full border border-[#4db66d] px-[2.3cqw] py-[0.9cqw] text-[3.35cqw] text-[#237a3f]"
+                        key={reason}
+                      >
+                        {reason}
+                        <button
+                          aria-label={`Remove ${reason}`}
+                          className="pointer-events-auto touch-manipulation rounded-full active:scale-90"
+                          onClick={() => toggleReason(reason)}
+                          type="button"
+                        >
+                          <PiXCircleFill aria-hidden="true" className="text-[3.6cqw] text-[#5bae72]" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <span className="pointer-events-none relative z-10 grid size-[8cqw] shrink-0 place-items-center">
+                    {reasonsOpen ? (
+                      <PiCaretUpFill aria-hidden="true" className="text-[3.8cqw]" />
+                    ) : (
+                      <PiCaretDownFill aria-hidden="true" className="text-[3.8cqw]" />
+                    )}
+                  </span>
+                </div>
+
+                <AnimatePresence>
+                  {reasonsOpen && (
+                    <motion.div
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      aria-label="Reasons for decrease"
+                      aria-multiselectable="true"
+                      className="absolute left-0 right-0 top-full z-50 mt-[1.5cqw] overflow-hidden rounded-[3cqw] border border-[#d3d8d2] bg-white p-[1.3cqw] shadow-[0_3cqw_8cqw_rgba(28,51,30,0.18)]"
+                      exit={{ opacity: 0, scale: 0.98, y: -4 }}
+                      initial={{ opacity: 0, scale: 0.98, y: -4 }}
+                      id="decrease-reasons-list"
+                      role="listbox"
+                    >
+                      {reasonOptions.map((reason) => {
+                        const isSelected = selectedReasons.includes(reason)
+                        return (
+                          <button
+                            aria-selected={isSelected}
+                            className="flex h-[10cqw] w-full touch-manipulation items-center justify-between rounded-[2cqw] px-[3cqw] text-left text-[3.6cqw] hover:bg-[#f4f7f2] active:bg-[#eaf2e7]"
+                            key={reason}
+                            onClick={() => toggleReason(reason)}
+                            role="option"
+                            type="button"
+                          >
+                            <span>{reason}</span>
+                            {isSelected && (
+                              <PiCheckCircleFill aria-hidden="true" className="text-[4.5cqw] text-[#67a847]" />
+                            )}
+                          </button>
+                        )
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-[6.2cqw] space-y-[7.8cqw]">
+                {selectedReasons.includes('Mortality') && (
+                  <NumberField
+                    id="mortality-count"
+                    label="How many birds died?"
+                    onChange={setMortalityCount}
+                    placeholder="Enter number"
+                    value={mortalityCount}
+                  />
+                )}
+                {selectedReasons.includes('Sold') && (
+                  <>
+                    <NumberField
+                      id="sold-count"
+                      label="How many birds were sold?"
+                      onChange={setSoldCount}
+                      placeholder="Enter number"
+                      value={soldCount}
+                    />
+                    <NumberField
+                      id="selling-price"
+                      label="What was the selling price per bird?"
+                      onChange={setSellingPrice}
+                      placeholder="Enter price"
+                      prefix="Ksh"
+                      value={sellingPrice}
+                    />
+                  </>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {hasReduced && (
+          <div className="mt-auto shrink-0 pt-[8cqw]">
+            <button
+              className="flex h-[11.2cqw] w-full touch-manipulation items-center justify-center rounded-[4.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.5cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+              onClick={onContinue}
+              type="button"
+            >
+              Save &amp; Continue
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+function DemoPage() {
+  const [notice, setNotice] = useState('')
+  const [screen, setScreen] = useState('dashboard')
+  const [direction, setDirection] = useState(1)
+
+  useEffect(() => {
+    if (!notice) return undefined
+
+    const timeout = window.setTimeout(() => setNotice(''), 1800)
+    return () => window.clearTimeout(timeout)
+  }, [notice])
+
+  const showNotice = (label) => {
+    setNotice(`${label} is coming in the next demo screen`)
+  }
+
+  const openFarmReport = () => {
+    setNotice('')
+    setDirection(1)
+    setScreen('farm-report')
+  }
+
+  const returnToDashboard = () => {
+    setNotice('')
+    setDirection(-1)
+    setScreen('dashboard')
+  }
+
+  const openSelectBatch = () => {
+    setNotice('')
+    setDirection(1)
+    setScreen('select-batch')
+  }
+
+  const returnToFarmReport = () => {
+    setNotice('')
+    setDirection(-1)
+    setScreen('farm-report')
+  }
+
+  const openBirdCount = () => {
+    setNotice('')
+    setDirection(1)
+    setScreen('bird-count')
+  }
+
+  const returnToSelectBatch = () => {
+    setNotice('')
+    setDirection(-1)
+    setScreen('select-batch')
+  }
+
+  return (
+    <main className="flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#fffdf3_0%,#f8f0d8_48%,#e8dcc1_100%)] p-3 text-[#243b25]">
+      <section
+        aria-label="Interactive i-Kuku mobile application demo"
+        className="relative h-[min(844px,calc(100dvh-24px),calc((100vw-24px)*844/390))] aspect-[390/844] [container-type:inline-size]"
+      >
+        <span className="absolute -left-[1.15cqw] top-[18cqw] h-[7.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
+        <span className="absolute -left-[1.15cqw] top-[29cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
+        <span className="absolute -left-[1.15cqw] top-[43cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
+        <span className="absolute -right-[1.15cqw] top-[31cqw] h-[20cqw] w-[1.4cqw] rounded-r-[1cqw] bg-[#222] shadow-[inset_-1px_0_1px_#555]" />
+
+        <div className="relative h-full w-full rounded-[13cqw] bg-[linear-gradient(145deg,#404040_0%,#090909_18%,#000_72%,#333_100%)] p-[2.05cqw] shadow-[0_3.5cqw_9cqw_rgba(31,39,24,0.34),inset_0_0_0_0.35cqw_#5b5b5b]">
+          <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[10.95cqw] bg-white">
+            <div className="pointer-events-none absolute left-1/2 top-[2.1cqw] z-30 h-[7.2cqw] w-[25.6cqw] -translate-x-1/2 rounded-full bg-black shadow-[inset_0_-0.3cqw_0.5cqw_#272727]">
+              <span className="absolute right-[2.1cqw] top-1/2 size-[1.7cqw] -translate-y-1/2 rounded-full bg-[#101922] shadow-[inset_0_0_0_0.35cqw_#162b43]" />
+            </div>
+
+            <div className="relative z-20 flex h-[12cqw] shrink-0 items-center justify-between px-[4.3cqw] pt-[1cqw] text-[3.1cqw] font-bold">
+              <time dateTime="17:13">5:13 PM</time>
+              <div aria-label="Phone status" className="flex items-center gap-[1.3cqw] text-[3.55cqw]">
+                <PiAlarmFill aria-hidden="true" />
+                <PiBluetoothFill aria-hidden="true" />
+                <PiWifiHighFill aria-hidden="true" />
+                <PiCellSignalFullFill aria-hidden="true" />
+                <PiBatteryFullFill aria-hidden="true" className="text-[4.1cqw]" />
+              </div>
+            </div>
+
+            <div className="relative min-h-0 flex-1 overflow-hidden bg-white">
+              <AnimatePresence custom={direction} initial={false} mode="sync">
+                <motion.div
+                  animate="center"
+                  className="absolute inset-0 flex flex-col bg-white"
+                  custom={direction}
+                  exit="exit"
+                  initial="enter"
+                  key={screen}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  variants={screenVariants}
+                >
+                  {screen === 'dashboard' ? (
+                    <DashboardScreen
+                      onOpenFarmReport={openFarmReport}
+                      onShowNotice={showNotice}
+                    />
+                  ) : screen === 'farm-report' ? (
+                    <FarmReportScreen
+                      onAddReport={openSelectBatch}
+                      onBack={returnToDashboard}
+                      onShowNotice={showNotice}
+                    />
+                  ) : screen === 'select-batch' ? (
+                    <SelectBatchScreen
+                      onBack={returnToFarmReport}
+                      onSelectBatch={openBirdCount}
+                      onShowNotice={showNotice}
+                    />
+                  ) : (
+                    <BirdCountScreen
+                      onBack={returnToSelectBatch}
+                      onContinue={() => showNotice('Next farm report step')}
+                    />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="flex h-[5.2cqw] shrink-0 items-start justify-center bg-white pt-[1.2cqw]">
+              <span className="h-[1.25cqw] w-[34cqw] rounded-full bg-black" />
+            </div>
+
+            <div
+              aria-live="polite"
+              className={`pointer-events-none absolute bottom-[21cqw] left-1/2 z-40 max-w-[80cqw] -translate-x-1/2 rounded-full bg-[#243b25] px-[4cqw] py-[2.2cqw] text-center text-[3.1cqw] font-medium text-white shadow-lg transition-all duration-200 ${
+                notice ? 'translate-y-0 opacity-100' : 'translate-y-[2cqw] opacity-0'
+              }`}
+              role="status"
+            >
+              {notice}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+}
+
+export default DemoPage

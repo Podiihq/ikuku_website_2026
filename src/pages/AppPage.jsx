@@ -7,6 +7,7 @@ import {
   FiGlobe,
   FiHeart,
   FiPieChart,
+  FiPlay,
   FiWifiOff,
 } from 'react-icons/fi'
 import Button from '../components/Button'
@@ -105,18 +106,28 @@ const AppPage = () => {
                   those records into clear guidance that helps you grow healthier birds and
                   farm more profitably.
                 </p>
-                <Button
-                  bgColor="#FFB51C"
-                  className="mt-8"
-                  href={androidDownloadLink}
-                  icon={<GooglePlayMark />}
-                  rel="noreferrer"
-                  shadowColor="#111111"
-                  target="_blank"
-                  textColor="#000000"
-                >
-                  Download for Android
-                </Button>
+                <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+                  <Button
+                    bgColor="#FFB51C"
+                    href={androidDownloadLink}
+                    icon={<GooglePlayMark />}
+                    rel="noreferrer"
+                    shadowColor="#111111"
+                    target="_blank"
+                    textColor="#000000"
+                  >
+                    Download for Android
+                  </Button>
+                  <Button
+                    bgColor="#FEF8E2"
+                    href="#/demo"
+                    icon={<FiPlay className="text-xl" aria-hidden="true" />}
+                    shadowColor="#111111"
+                    textColor="#000000"
+                  >
+                    Try the demo
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -272,18 +283,28 @@ const AppPage = () => {
           <h2 className="creative-font max-w-5xl text-[clamp(3.5rem,7vw,7rem)] uppercase leading-[0.86]">
             Start managing your farm smarter.
           </h2>
-          <Button
-            bgColor="#F8F0D8"
-            className="mt-9"
-            href={androidDownloadLink}
-            icon={<GooglePlayMark />}
-            rel="noreferrer"
-            shadowColor="#000000"
-            target="_blank"
-            textColor="#000000"
-          >
-            Download i-kuku
-          </Button>
+          <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center">
+            <Button
+              bgColor="#F8F0D8"
+              href={androidDownloadLink}
+              icon={<GooglePlayMark />}
+              rel="noreferrer"
+              shadowColor="#000000"
+              target="_blank"
+              textColor="#000000"
+            >
+              Download i-kuku
+            </Button>
+            <Button
+              bgColor="#697B3B"
+              href="#/demo"
+              icon={<FiPlay className="text-xl" aria-hidden="true" />}
+              shadowColor="#000000"
+              textColor="#FEF8E2"
+            >
+              Open interactive demo
+            </Button>
+          </div>
         </div>
       </section>
     </main>
