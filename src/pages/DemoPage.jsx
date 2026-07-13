@@ -35,10 +35,10 @@ import eggsIcon from '../assets/images/mobile-demo-assets/summary-icons/eggs-ico
 import feedsIcon from '../assets/images/mobile-demo-assets/summary-icons/feeds-icon.svg'
 import successIllustration from '../assets/images/mobile-demo-assets/others/Success.svg'
 
-const summaryItems = [
-  { label: 'Birds', value: '120', icon: chickenIcon },
-  { label: 'Feeds', value: '20kgs', icon: feedsIcon },
-  { label: 'Eggs', value: '40', icon: eggsIcon },
+const summaryItemDefinitions = [
+  { key: 'birds', label: 'Birds', icon: chickenIcon },
+  { key: 'feeds', label: 'Feeds', icon: feedsIcon },
+  { key: 'eggs', label: 'Eggs', icon: eggsIcon },
 ]
 
 const quickActions = [
@@ -54,21 +54,6 @@ const bottomNavigation = [
   { label: 'Home', icon: PiHouseFill, active: true },
   { label: 'My Shop', icon: PiStorefrontFill },
   { label: 'Profile', icon: PiUserCircleFill },
-]
-
-const previousReports = [
-  { name: 'Kienyeji Coop 1', date: '7th March 2026', type: 'Kienyeji' },
-  { name: 'Broiler Batch', date: '7th March 2026', type: 'Broiler' },
-  { name: 'Kienyeji Coop 2', date: '7th March 2026', type: 'Kienyeji' },
-  { name: 'Broiler Batch', date: '6th March 2026', type: 'Broiler' },
-  { name: 'Kienyeji Coop 1', date: '6th March 2026', type: 'Kienyeji' },
-]
-
-const batches = [
-  { name: 'Batch 1', birds: '2000 Layers', birdCount: 2000, birdType: 'Layers', age: '1 day old', action: 'Start report' },
-  { name: 'Batch 2', birds: '1500 Layers', birdCount: 1500, birdType: 'Layers', age: '2 weeks old', action: 'Start report' },
-  { name: 'Batch 3', birds: '260 Layers', birdCount: 260, birdType: 'Layers', age: '1 day old', action: 'View report', complete: true },
-  { name: 'Batch 4', birds: '520 Broilers', birdCount: 520, birdType: 'Broilers', age: '1 day old', action: 'View report', complete: true },
 ]
 
 const initialReportData = {
@@ -94,6 +79,151 @@ const initialReportData = {
   },
 }
 
+const defaultBatches = [
+  {
+    id: 'kienyeji-coop-1',
+    name: 'Kienyeji Coop 1',
+    birdCount: 2000,
+    birdType: 'Layers',
+    age: '1 day old',
+    feedKg: 1200,
+    eggCount: 180,
+  },
+  {
+    id: 'kienyeji-coop-2',
+    name: 'Kienyeji Coop 2',
+    birdCount: 1500,
+    birdType: 'Layers',
+    age: '2 weeks old',
+    feedKg: 900,
+    eggCount: 125,
+  },
+  {
+    id: 'kienyeji-coop-3',
+    name: 'Kienyeji Coop 3',
+    birdCount: 260,
+    birdType: 'Layers',
+    age: '5 weeks old',
+    feedKg: 180,
+    eggCount: 24,
+  },
+  {
+    id: 'broiler-batch-1',
+    name: 'Broiler Batch 1',
+    birdCount: 520,
+    birdType: 'Broilers',
+    age: '3 weeks old',
+    feedKg: 360,
+    eggCount: 0,
+  },
+]
+
+const emptyMedicationData = {
+  hasUsedMedicine: 'no',
+  selectedMedication: [],
+  medicationAmounts: {},
+}
+
+const defaultReports = [
+  {
+    id: 'demo-report-1',
+    batchId: 'kienyeji-coop-1',
+    name: 'Kienyeji Coop 1',
+    date: '13th July 2026',
+    completedAt: '2026-07-13T06:15:00+03:00',
+    type: 'Layers',
+    batchSnapshot: { ...defaultBatches[0], birdCount: 2012 },
+    data: {
+      birds: { hasReduced: 'yes', selectedReasons: ['Mortality'], mortalityCount: '12', soldCount: '', sellingPrice: '' },
+      eggs: { collectedEggs: '180', brokenEggs: '4', shouldGrade: 'yes', deformedEggs: '6', smallEggs: '45', largeEggs: '125' },
+      medication: { hasUsedMedicine: 'yes', selectedMedication: ['New castle'], medicationAmounts: { 'New castle': '1.5' } },
+    },
+  },
+  {
+    id: 'demo-report-2',
+    batchId: 'broiler-batch-1',
+    name: 'Broiler Batch 1',
+    date: '12th July 2026',
+    completedAt: '2026-07-12T17:40:00+03:00',
+    type: 'Broilers',
+    batchSnapshot: { ...defaultBatches[3], birdCount: 528 },
+    data: {
+      birds: { hasReduced: 'yes', selectedReasons: ['Mortality'], mortalityCount: '8', soldCount: '', sellingPrice: '' },
+      eggs: { collectedEggs: '0', brokenEggs: '0', shouldGrade: 'no', deformedEggs: '', smallEggs: '', largeEggs: '' },
+      medication: emptyMedicationData,
+    },
+  },
+]
+
+const DEMO_STORAGE_KEY = 'ikuku-interactive-demo-v1'
+const activeDefaultReportIds = new Set(defaultReports.map((report) => report.id))
+const cloneData = (data) => JSON.parse(JSON.stringify(data))
+const createInitialFarmData = () => ({
+  batches: cloneData(defaultBatches),
+  reports: cloneData(defaultReports),
+})
+const createEmptyReportData = () => cloneData(initialReportData)
+
+const loadFarmData = () => {
+  try {
+    const storedData = window.localStorage.getItem(DEMO_STORAGE_KEY)
+    if (!storedData) return createInitialFarmData()
+
+    const parsedData = JSON.parse(storedData)
+    if (!Array.isArray(parsedData.batches) || !Array.isArray(parsedData.reports)) {
+      return createInitialFarmData()
+    }
+    return {
+      ...parsedData,
+      reports: parsedData.reports.filter(
+        (report) =>
+          !report.id?.startsWith('demo-report-') ||
+          activeDefaultReportIds.has(report.id),
+      ),
+    }
+  } catch {
+    return createInitialFarmData()
+  }
+}
+
+const formatCount = (value) => new Intl.NumberFormat('en-KE').format(value)
+
+const formatReportDate = (date) => {
+  const day = date.getDate()
+  const ordinal = day % 10 === 1 && day !== 11
+    ? 'st'
+    : day % 10 === 2 && day !== 12
+      ? 'nd'
+      : day % 10 === 3 && day !== 13
+        ? 'rd'
+        : 'th'
+  const month = new Intl.DateTimeFormat('en-KE', { month: 'long' }).format(date)
+  return `${day}${ordinal} ${month} ${date.getFullYear()}`
+}
+
+const formatReportTimestamp = (dateString) => new Intl.DateTimeFormat('en-KE', {
+  dateStyle: 'medium',
+  timeStyle: 'short',
+}).format(new Date(dateString))
+
+const getReportAdjustments = (batch, report) => {
+  const mortality = report.birds.selectedReasons.includes('Mortality')
+    ? Number(report.birds.mortalityCount) || 0
+    : 0
+  const sold = report.birds.selectedReasons.includes('Sold')
+    ? Number(report.birds.soldCount) || 0
+    : 0
+  const birdDecrease = report.birds.hasReduced === 'yes' ? mortality + sold : 0
+  const remainingBirds = Math.max(0, batch.birdCount - birdDecrease)
+  const usableEggs = Math.max(
+    0,
+    (Number(report.eggs.collectedEggs) || 0) - (Number(report.eggs.brokenEggs) || 0),
+  )
+  const feedUsedKg = Math.min(batch.feedKg, Math.round(remainingBirds * 0.11))
+
+  return { birdDecrease, feedUsedKg, remainingBirds, usableEggs }
+}
+
 const screenVariants = {
   enter: (direction) => ({
     opacity: direction > 0 ? 1 : 0.85,
@@ -106,7 +236,7 @@ const screenVariants = {
   }),
 }
 
-const DashboardScreen = ({ onOpenFarmReport, onShowNotice }) => (
+const DashboardScreen = ({ farmSummary, onOpenFarmReport, onShowNotice }) => (
   <>
     <header className="flex h-[12.5cqw] shrink-0 items-center justify-between px-[3.5cqw]">
       <h1 className="text-[5cqw] font-medium tracking-[-0.04em]">Dashboard</h1>
@@ -123,7 +253,7 @@ const DashboardScreen = ({ onOpenFarmReport, onShowNotice }) => (
     <section className="relative z-10 h-[31cqw] shrink-0 rounded-b-[4.2cqw] bg-white px-[3cqw] pt-[3cqw] shadow-[0_4cqw_6cqw_-2.5cqw_rgba(0,0,0,0.18)]">
       <h2 className="text-[4cqw] font-normal">Kuku Farm</h2>
       <div className="mt-[2.3cqw] grid grid-cols-3">
-        {summaryItems.map((item) => (
+        {summaryItemDefinitions.map((item) => (
           <div
             className="flex flex-col items-center first:items-start last:items-end"
             key={item.label}
@@ -133,7 +263,7 @@ const DashboardScreen = ({ onOpenFarmReport, onShowNotice }) => (
               <span>{item.label}</span>
             </div>
             <span className="mt-[0.65cqw] text-[6.2cqw] font-normal leading-none tracking-[-0.04em] tabular-nums">
-              {item.value}
+              {farmSummary[item.key]}
             </span>
           </div>
         ))}
@@ -174,9 +304,8 @@ const DashboardScreen = ({ onOpenFarmReport, onShowNotice }) => (
         return (
           <button
             aria-current={item.active ? 'page' : undefined}
-            className={`flex touch-manipulation flex-col items-center justify-center gap-[0.55cqw] rounded-[3cqw] transition active:scale-95 ${
-              item.active ? 'text-[#007b2f]' : 'text-[#9d9d9d]'
-            }`}
+            className={`flex touch-manipulation flex-col items-center justify-center gap-[0.55cqw] rounded-[3cqw] transition active:scale-95 ${item.active ? 'text-[#007b2f]' : 'text-[#9d9d9d]'
+              }`}
             key={item.label}
             onClick={() => !item.active && onShowNotice(item.label)}
             type="button"
@@ -192,7 +321,7 @@ const DashboardScreen = ({ onOpenFarmReport, onShowNotice }) => (
   </>
 )
 
-const FarmReportScreen = ({ onAddReport, onBack, onShowNotice }) => (
+const FarmReportScreen = ({ onAddReport, onBack, onOpenReport, onShowNotice, reports }) => (
   <>
     <header className="relative flex h-[14cqw] shrink-0 items-center justify-between px-[2.2cqw]">
       <button
@@ -217,7 +346,7 @@ const FarmReportScreen = ({ onAddReport, onBack, onShowNotice }) => (
       </button>
     </header>
 
-    <div className="min-h-0 flex-1 px-[3cqw] pt-[7.2cqw]">
+    <div className="min-h-0 flex-1 overflow-y-auto px-[3cqw] pb-[4cqw] pt-[7.2cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
       <section>
         <h2 className="text-[4.2cqw] font-medium">To do&nbsp; Today</h2>
         <button
@@ -243,11 +372,11 @@ const FarmReportScreen = ({ onAddReport, onBack, onShowNotice }) => (
         </div>
 
         <div className="mt-[3.6cqw]">
-          {previousReports.map((report, index) => (
+          {reports.map((report) => (
             <button
               className="flex h-[15.2cqw] w-full touch-manipulation items-center justify-between rounded-[1.5cqw] text-left transition active:scale-[0.985] active:bg-[#f4f6f2]"
-              key={`${report.name}-${report.date}-${index}`}
-              onClick={() => onShowNotice(report.name)}
+              key={report.id}
+              onClick={() => onOpenReport(report)}
               type="button"
             >
               <span className="flex min-w-0 flex-col">
@@ -267,11 +396,32 @@ const FarmReportScreen = ({ onAddReport, onBack, onShowNotice }) => (
   </>
 )
 
-const SelectBatchScreen = ({ onBack, onSelectBatch, onShowNotice }) => {
+const SelectBatchScreen = ({
+  batches,
+  onBack,
+  onOpenReport,
+  onSelectBatch,
+  onShowNotice,
+  reports,
+}) => {
   const [query, setQuery] = useState('')
   const normalizedQuery = query.trim().toLowerCase()
+  const today = formatReportDate(new Date())
+  const completedReportsByBatch = new Map()
+
+  reports.forEach((report) => {
+    if (
+      report.date === today &&
+      !completedReportsByBatch.has(report.batchId)
+    ) {
+      completedReportsByBatch.set(report.batchId, report)
+    }
+  })
+
   const visibleBatches = batches.filter((batch) =>
-    `${batch.name} ${batch.birds} ${batch.age}`.toLowerCase().includes(normalizedQuery),
+    `${batch.name} ${batch.birdCount} ${batch.birdType} ${batch.age}`
+      .toLowerCase()
+      .includes(normalizedQuery),
   )
 
   return (
@@ -290,8 +440,8 @@ const SelectBatchScreen = ({ onBack, onSelectBatch, onShowNotice }) => {
         </h1>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-[4.1cqw] pt-[6.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <h2 className="text-[5.25cqw] font-normal tracking-[-0.025em]">
+      <div className="min-h-0 flex-1 overflow-y-auto px-[4.1cqw] pt-[6.2cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
+        <h2 className="text-[5.25cqw] font-normal tracking-tight">
           Select the type of birds
         </h2>
 
@@ -324,34 +474,41 @@ const SelectBatchScreen = ({ onBack, onSelectBatch, onShowNotice }) => {
         </div>
 
         <div className="mt-[3.5cqw] space-y-[4.1cqw] pb-[4cqw]">
-          {visibleBatches.map((batch) => (
-            <button
-              className="flex h-[20.4cqw] w-full touch-manipulation items-center justify-between rounded-[4cqw] border border-[#d3d8d2] px-[2.9cqw] text-left transition active:scale-[0.985] active:bg-[#f7f8f6]"
-              key={batch.name}
-              onClick={() =>
-                batch.name === 'Batch 1'
-                  ? onSelectBatch(batch)
-                  : onShowNotice(`${batch.action} for ${batch.name}`)
-              }
-              type="button"
-            >
-              <span className="flex min-w-0 flex-col">
-                <span className="text-[4.1cqw] font-normal">{batch.name}</span>
-                <span className="mt-[1.7cqw] flex items-center gap-[4.8cqw] whitespace-nowrap text-[3.65cqw] text-[#5d6f60]">
-                  <span>{batch.birds}</span>
-                  <span>{batch.age}</span>
+          {visibleBatches.map((batch) => {
+            const completedReport = completedReportsByBatch.get(batch.id)
+
+            return (
+              <button
+                className="flex h-[20.4cqw] w-full touch-manipulation items-center justify-between rounded-[4cqw] border border-[#d3d8d2] px-[2.9cqw] text-left transition active:scale-[0.985] active:bg-[#f7f8f6]"
+                key={batch.name}
+                onClick={() =>
+                  completedReport
+                    ? onOpenReport(completedReport)
+                    : onSelectBatch(batch)
+                }
+                type="button"
+              >
+                <span className="flex min-w-0 flex-col">
+                  <span className="text-[4.1cqw] font-normal">{batch.name}</span>
+                  <span className="mt-[1.7cqw] flex items-center gap-[4.8cqw] whitespace-nowrap text-[3.65cqw] text-[#5d6f60]">
+                    <span>{formatCount(batch.birdCount)} {batch.birdType}</span>
+                    <span>{batch.age}</span>
+                  </span>
                 </span>
-              </span>
-              <span className="ml-[2cqw] flex shrink-0 items-center gap-[1.6cqw] text-[3cqw] font-medium text-[#007b2f]">
-                <span>{batch.action}</span>
-                {batch.complete ? (
-                  <PiCheckCircleFill aria-hidden="true" className="text-[4.1cqw] text-[#9ac33c]" />
-                ) : (
-                  <PiArrowRight aria-hidden="true" className="text-[4.8cqw]" />
-                )}
-              </span>
-            </button>
-          ))}
+                <span className="ml-[2cqw] flex shrink-0 items-center gap-[1.6cqw] text-[3cqw] font-medium text-[#007b2f]">
+                  <span>{completedReport ? 'View report' : 'Start report'}</span>
+                  {completedReport ? (
+                    <PiCheckCircleFill
+                      aria-hidden="true"
+                      className="text-[4.5cqw] text-[#9ac33c]"
+                    />
+                  ) : (
+                    <PiArrowRight aria-hidden="true" className="text-[4.8cqw]" />
+                  )}
+                </span>
+              </button>
+            )
+          })}
 
           {visibleBatches.length === 0 && (
             <p className="py-[10cqw] text-center text-[3.7cqw] text-[#637064]">
@@ -537,8 +694,8 @@ const BirdCountScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
         </h1>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3.8cqw] pb-[2.8cqw] pt-[7.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <h2 className="pl-[1.3cqw] text-[5.25cqw] font-normal tracking-[-0.025em] text-[#536656]">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3.8cqw] pb-[2.8cqw] pt-[7.2cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
+        <h2 className="pl-[1.3cqw] text-[5.25cqw] font-normal tracking-tight text-[#536656]">
           Update Number of Birds
         </h2>
 
@@ -572,7 +729,7 @@ const BirdCountScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
               >
                 <input
                   checked={hasReduced === option.toLowerCase()}
-                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
+                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
                   name="bird-count-reduced"
                   onChange={() => onDataChange({ hasReduced: option.toLowerCase() })}
                   type="radio"
@@ -602,7 +759,7 @@ const BirdCountScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
                     aria-expanded={reasonsOpen}
                     aria-haspopup="listbox"
                     aria-label="Choose reasons for decrease"
-                    className="absolute inset-0 z-0 cursor-pointer touch-manipulation rounded-[1cqw] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.7cqw] focus-visible:outline-[#9ebc32]"
+                    className="absolute inset-0 z-0 cursor-pointer touch-manipulation rounded-[1cqw] focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.7cqw] focus-visible:outline-[#9ebc32]"
                     onClick={() => setReasonsOpen((isOpen) => !isOpen)}
                     type="button"
                   />
@@ -819,8 +976,8 @@ const EggStoreScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
         </h1>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3cqw] pb-[2.8cqw] pt-[7.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <h2 className="pl-[2.1cqw] text-[5.25cqw] font-normal tracking-[-0.025em] text-[#536656]">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3cqw] pb-[2.8cqw] pt-[7.2cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
+        <h2 className="pl-[2.1cqw] text-[5.25cqw] font-normal tracking-tight text-[#536656]">
           Update Eggs in Store
         </h2>
 
@@ -873,7 +1030,7 @@ const EggStoreScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
               >
                 <input
                   checked={shouldGrade === option.toLowerCase()}
-                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
+                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
                   name="grade-eggs"
                   onChange={() => onDataChange({ shouldGrade: option.toLowerCase() })}
                   type="radio"
@@ -956,6 +1113,9 @@ const EggStoreScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
 const MedicationScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
   const medicationOptions = ['New castle', 'Gumboro']
   const medicationStock = { 'New castle': 7, Gumboro: 7 }
+  const birdGroupLabel = batch.birdType.toLowerCase().includes('broiler')
+    ? 'broiler birds'
+    : 'layer birds'
   const [medicationMenuOpen, setMedicationMenuOpen] = useState(false)
   const medicationMenuRef = useOutsideDismiss(
     medicationMenuOpen,
@@ -1020,8 +1180,8 @@ const MedicationScreen = ({ batch, data, onBack, onContinue, onDataChange }) => 
         </h1>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3.9cqw] pb-[2.8cqw] pt-[7.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <h2 className="text-[5.25cqw] font-normal tracking-[-0.025em] text-[#536656]">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3.9cqw] pb-[2.8cqw] pt-[7.2cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
+        <h2 className="text-[5.25cqw] font-normal tracking-tight text-[#536656]">
           Update medication used
         </h2>
 
@@ -1052,7 +1212,7 @@ const MedicationScreen = ({ batch, data, onBack, onContinue, onDataChange }) => 
               >
                 <input
                   checked={hasUsedMedicine === option.toLowerCase()}
-                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
+                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
                   name="medicine-used"
                   onChange={() => onDataChange({ hasUsedMedicine: option.toLowerCase() })}
                   type="radio"
@@ -1075,14 +1235,16 @@ const MedicationScreen = ({ batch, data, onBack, onContinue, onDataChange }) => 
               transition={{ duration: 0.24, ease: 'easeOut' }}
             >
               <div className="relative mt-[7.5cqw]" ref={medicationMenuRef}>
-                <p className="text-[2.8cqw]">What medicine have you used for layer birds</p>
+                <p className="text-[2.8cqw]">
+                  What medicine have you used for {birdGroupLabel}
+                </p>
                 <div className="relative mt-[2.4cqw] flex min-h-[8cqw] items-center border-b border-[#929792] pb-[1.4cqw]">
                   <button
                     aria-controls="medication-options-list"
                     aria-expanded={medicationMenuOpen}
                     aria-haspopup="listbox"
                     aria-label="Choose medicines used"
-                    className="absolute inset-0 z-0 cursor-pointer touch-manipulation rounded-[1cqw] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.7cqw] focus-visible:outline-[#9ebc32]"
+                    className="absolute inset-0 z-0 cursor-pointer touch-manipulation rounded-[1cqw] focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.7cqw] focus-visible:outline-[#9ebc32]"
                     onClick={() => setMedicationMenuOpen((isOpen) => !isOpen)}
                     type="button"
                   />
@@ -1191,13 +1353,15 @@ const SummarySection = ({ onEdit, rows, title }) => (
   <section className="mt-[6.3cqw]">
     <div className="flex items-center justify-between px-[4cqw]">
       <h2 className="text-[3.55cqw] font-normal uppercase text-[#657466]">{title}</h2>
-      <button
-        className="touch-manipulation text-[3.25cqw] font-medium text-[#007b2f] underline underline-offset-[0.5cqw] transition active:scale-95"
-        onClick={onEdit}
-        type="button"
-      >
-        EDIT ITEMS
-      </button>
+      {onEdit && (
+        <button
+          className="touch-manipulation text-[3.25cqw] font-medium text-[#007b2f] underline underline-offset-[0.5cqw] transition active:scale-95"
+          onClick={onEdit}
+          type="button"
+        >
+          EDIT ITEMS
+        </button>
+      )}
     </div>
     <div className="mt-[2.6cqw] rounded-[2cqw] bg-white px-[6.2cqw] py-[4.5cqw] shadow-[0_1.3cqw_1.4cqw_-1cqw_rgba(0,104,29,0.24)]">
       <dl className="space-y-[3.8cqw]">
@@ -1214,20 +1378,30 @@ const SummarySection = ({ onEdit, rows, title }) => (
   </section>
 )
 
-const ReportSummaryScreen = ({ batch, data, onBack, onEdit, onFinish }) => {
+const ReportSummaryScreen = ({
+  batch,
+  data,
+  onBack,
+  onEdit,
+  onFinish,
+  preparedAt,
+  reportDate,
+  readOnly = false,
+}) => {
+  const isBroilerBatch = batch.birdType.toLowerCase().includes('broiler')
   const birdRows =
     data.birds.hasReduced === 'yes'
       ? [
-          ...(data.birds.selectedReasons.includes('Sold')
-            ? [
-                { label: 'Sold', value: data.birds.soldCount },
-                { label: 'Selling price / bird', value: `Ksh ${data.birds.sellingPrice}` },
-              ]
-            : []),
-          ...(data.birds.selectedReasons.includes('Mortality')
-            ? [{ label: 'Died', value: data.birds.mortalityCount }]
-            : []),
-        ]
+        ...(data.birds.selectedReasons.includes('Sold')
+          ? [
+            { label: 'Sold', value: data.birds.soldCount },
+            { label: 'Selling price / bird', value: `Ksh ${data.birds.sellingPrice}` },
+          ]
+          : []),
+        ...(data.birds.selectedReasons.includes('Mortality')
+          ? [{ label: 'Died', value: data.birds.mortalityCount }]
+          : []),
+      ]
       : [{ label: 'Birds reduced', value: 'No' }]
 
   const eggRows = [
@@ -1235,26 +1409,26 @@ const ReportSummaryScreen = ({ batch, data, onBack, onEdit, onFinish }) => {
     { label: 'Broken', value: data.eggs.brokenEggs },
     ...(data.eggs.shouldGrade === 'yes'
       ? [
-          { label: 'Small', value: data.eggs.smallEggs },
-          { label: 'Deformed', value: data.eggs.deformedEggs },
-          { label: 'Large', value: data.eggs.largeEggs },
-        ]
+        { label: 'Small', value: data.eggs.smallEggs },
+        { label: 'Deformed', value: data.eggs.deformedEggs },
+        { label: 'Large', value: data.eggs.largeEggs },
+      ]
       : [{ label: 'Graded', value: 'No' }]),
   ]
 
   const medicationRows =
     data.medication.hasUsedMedicine === 'yes'
       ? data.medication.selectedMedication.map((medication) => ({
-          label: medication,
-          value: `${data.medication.medicationAmounts[medication] || '—'} L`,
-        }))
+        label: medication,
+        value: `${data.medication.medicationAmounts[medication] || '—'} L`,
+      }))
       : [{ label: 'Medication used', value: 'None' }]
 
   return (
     <>
       <header className="relative flex h-[14cqw] shrink-0 items-center border-b border-[#f3f3f3] px-[2.2cqw]">
         <button
-          aria-label="Back to medication"
+          aria-label={readOnly ? 'Back to previous reports' : 'Back to medication'}
           className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
           onClick={onBack}
           type="button"
@@ -1266,13 +1440,13 @@ const ReportSummaryScreen = ({ batch, data, onBack, onEdit, onFinish }) => {
         </h1>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#fbfbfb] px-[5.5cqw] pb-[3cqw] pt-[6cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#fbfbfb] px-[5.5cqw] pb-[3cqw] pt-[6cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
         <section className="rounded-[2.2cqw] bg-[#fff9e6] px-[6cqw] py-[5.2cqw]">
           <h2 className="text-[5cqw] font-normal text-[#007b2f]">Kuku’s Farm report</h2>
           <div className="mt-[3.2cqw] flex flex-wrap items-center gap-x-[4.2cqw] gap-y-[1.5cqw] text-[3cqw] text-[#657466]">
             <span className="flex items-center gap-[1cqw]">
               <PiCalendarBlank aria-hidden="true" className="text-[3.7cqw]" />
-              23rd May 2025
+              {reportDate}
             </span>
             <span className="flex items-center gap-[1cqw]">
               <PiLinkSimple aria-hidden="true" className="text-[3.7cqw]" />
@@ -1282,30 +1456,38 @@ const ReportSummaryScreen = ({ batch, data, onBack, onEdit, onFinish }) => {
         </section>
 
         <SummarySection
-          onEdit={() => onEdit('birds')}
+          onEdit={readOnly ? undefined : () => onEdit('birds')}
           rows={birdRows}
           title={`Birds– ${batch.birdType}`}
         />
-        <SummarySection onEdit={() => onEdit('eggs')} rows={eggRows} title="Eggs" />
+        {!isBroilerBatch && (
+          <SummarySection
+            onEdit={readOnly ? undefined : () => onEdit('eggs')}
+            rows={eggRows}
+            title="Eggs"
+          />
+        )}
         <SummarySection
-          onEdit={() => onEdit('medication')}
+          onEdit={readOnly ? undefined : () => onEdit('medication')}
           rows={medicationRows}
           title="Medication Used"
         />
 
-        <p className="mt-[7cqw] text-center text-[3.55cqw] leading-[2] text-[#344b38]">
+        <p className="mt-[7cqw] text-center text-[3.55cqw] leading-loose text-[#344b38]">
           This report was prepared by Mwangi
           <br />
-          on 24/06/2022 at 6:00am
+          on {preparedAt}
         </p>
 
-        <button
-          className="mt-[5.5cqw] flex h-[11.2cqw] w-full shrink-0 touch-manipulation items-center justify-center rounded-[2.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.8cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
-          onClick={onFinish}
-          type="button"
-        >
-          Finish Reporting
-        </button>
+        {!readOnly && (
+          <button
+            className="mt-[5.5cqw] flex h-[11.2cqw] w-full shrink-0 touch-manipulation items-center justify-center rounded-[2.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.8cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+            onClick={onFinish}
+            type="button"
+          >
+            Finish Reporting
+          </button>
+        )}
       </div>
     </>
   )
@@ -1319,7 +1501,7 @@ const ReportSuccessScreen = ({ batch, onBackToReports }) => (
       src={successIllustration}
     />
 
-    <p className="mt-[10cqw] text-center text-[4cqw] leading-[1.5] text-black">
+    <p className="mt-[10cqw] text-center text-[4cqw] leading-normal text-black">
       Yay! You are done reporting for {batch.name}!
     </p>
 
@@ -1335,12 +1517,36 @@ const ReportSuccessScreen = ({ batch, onBackToReports }) => (
 
 function DemoPage() {
   const shouldReduceMotion = useReducedMotion()
+  const [farmData, setFarmData] = useState(loadFarmData)
   const [notice, setNotice] = useState('')
   const [screen, setScreen] = useState('dashboard')
   const [direction, setDirection] = useState(1)
-  const [reportData, setReportData] = useState(initialReportData)
+  const [reportData, setReportData] = useState(createEmptyReportData)
   const [editingSection, setEditingSection] = useState(null)
-  const [selectedBatch, setSelectedBatch] = useState(batches[0])
+  const [selectedBatch, setSelectedBatch] = useState(() => farmData.batches[0])
+  const [selectedHistoryReport, setSelectedHistoryReport] = useState(null)
+  const [reportDetailOrigin, setReportDetailOrigin] = useState('farm-report')
+  const [draftStartedAt, setDraftStartedAt] = useState(() => new Date().toISOString())
+
+  const farmSummary = {
+    birds: formatCount(
+      farmData.batches.reduce((total, batch) => total + batch.birdCount, 0),
+    ),
+    feeds: `${formatCount(
+      farmData.batches.reduce((total, batch) => total + batch.feedKg, 0),
+    )}kg`,
+    eggs: formatCount(
+      farmData.batches.reduce((total, batch) => total + batch.eggCount, 0),
+    ),
+  }
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(DEMO_STORAGE_KEY, JSON.stringify(farmData))
+    } catch {
+      // Keep the demo usable if storage is unavailable or full.
+    }
+  }, [farmData])
 
   useEffect(() => {
     if (!notice) return undefined
@@ -1377,6 +1583,8 @@ function DemoPage() {
 
   const openSelectBatch = () => {
     setNotice('')
+    setReportData(createEmptyReportData())
+    setDraftStartedAt(new Date().toISOString())
     setDirection(1)
     setScreen('select-batch')
   }
@@ -1424,6 +1632,22 @@ function DemoPage() {
     setScreen('egg-store')
   }
 
+  const continueFromBirdCount = () => {
+    if (selectedBatch.birdType.toLowerCase().includes('broiler')) {
+      openMedication()
+      return
+    }
+    openEggStore()
+  }
+
+  const returnFromMedication = () => {
+    if (selectedBatch.birdType.toLowerCase().includes('broiler')) {
+      returnToBirdCount()
+      return
+    }
+    returnToEggStore()
+  }
+
   const openSummary = () => {
     setNotice('')
     setEditingSection(null)
@@ -1439,8 +1663,35 @@ function DemoPage() {
   }
 
   const finishReport = () => {
+    const completedAt = new Date().toISOString()
+    const adjustments = getReportAdjustments(selectedBatch, reportData)
+    const updatedBatch = {
+      ...selectedBatch,
+      birdCount: adjustments.remainingBirds,
+      eggCount: selectedBatch.eggCount + adjustments.usableEggs,
+      feedKg: Math.max(0, selectedBatch.feedKg - adjustments.feedUsedKg),
+    }
+    const completedReport = {
+      id: `report-${Date.now()}`,
+      batchId: selectedBatch.id,
+      name: selectedBatch.name,
+      date: formatReportDate(new Date(completedAt)),
+      completedAt,
+      type: selectedBatch.birdType,
+      batchSnapshot: cloneData(updatedBatch),
+      data: cloneData(reportData),
+      adjustments,
+    }
+
     setNotice('')
     setEditingSection(null)
+    setFarmData((currentFarmData) => ({
+      batches: currentFarmData.batches.map((batch) =>
+        batch.id === updatedBatch.id ? updatedBatch : batch,
+      ),
+      reports: [completedReport, ...currentFarmData.reports],
+    }))
+    setSelectedBatch(updatedBatch)
     setDirection(1)
     setScreen('success')
   }
@@ -1459,6 +1710,20 @@ function DemoPage() {
     setScreen('summary')
   }
 
+  const openPreviousReport = (report, origin = 'farm-report') => {
+    setNotice('')
+    setSelectedHistoryReport(report)
+    setReportDetailOrigin(origin)
+    setDirection(1)
+    setScreen('report-detail')
+  }
+
+  const returnToReportOrigin = () => {
+    setNotice('')
+    setDirection(-1)
+    setScreen(reportDetailOrigin)
+  }
+
   const editReportSection = (section) => {
     const targetScreen = {
       birds: 'bird-count',
@@ -1473,7 +1738,7 @@ function DemoPage() {
   }
 
   return (
-    <main className="relative flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#fffdf3_0%,#f8f0d8_48%,#e8dcc1_100%)] p-3 text-[#243b25]">
+    <main className="relative flex h-dvh w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_top,#fffdf3_0%,#f8f0d8_48%,#e8dcc1_100%)] p-3 text-[#243b25]">
       <a
         aria-label="Go back to the i-Kuku homepage"
         className="absolute left-4 top-4 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-black bg-[#ffb51c] font-bold uppercase leading-none text-black shadow-[6px_6px_0_#0a0a0a] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#0a0a0a] focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[#007a35] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0_#0a0a0a] sm:h-14 sm:w-auto sm:gap-3 sm:px-6"
@@ -1486,7 +1751,7 @@ function DemoPage() {
       <motion.section
         animate={{ opacity: 1, rotateX: 0, scale: 1, y: 0 }}
         aria-label="Interactive i-Kuku mobile application demo"
-        className="relative h-[min(844px,calc(100dvh-24px),calc((100vw-24px)*844/390))] aspect-[390/844] [container-type:inline-size]"
+        className="relative h-[min(844px,calc(100dvh-24px),calc((100vw-24px)*844/390))] aspect-390/844 @container"
         initial={
           shouldReduceMotion
             ? { opacity: 0 }
@@ -1499,10 +1764,10 @@ function DemoPage() {
             : { type: 'spring', stiffness: 135, damping: 18, mass: 0.9 }
         }
       >
-        <span className="absolute -left-[1.15cqw] top-[18cqw] h-[7.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
-        <span className="absolute -left-[1.15cqw] top-[29cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
-        <span className="absolute -left-[1.15cqw] top-[43cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
-        <span className="absolute -right-[1.15cqw] top-[31cqw] h-[20cqw] w-[1.4cqw] rounded-r-[1cqw] bg-[#222] shadow-[inset_-1px_0_1px_#555]" />
+        <span className="absolute left-[-1.15cqw] top-[18cqw] h-[7.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
+        <span className="absolute left-[-1.15cqw] top-[29cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
+        <span className="absolute left-[-1.15cqw] top-[43cqw] h-[12.5cqw] w-[1.4cqw] rounded-l-[1cqw] bg-[#222] shadow-[inset_1px_0_1px_#555]" />
+        <span className="absolute right-[-1.15cqw] top-[31cqw] h-[20cqw] w-[1.4cqw] rounded-r-[1cqw] bg-[#222] shadow-[inset_-1px_0_1px_#555]" />
 
         <div className="relative h-full w-full rounded-[13cqw] bg-[linear-gradient(145deg,#404040_0%,#090909_18%,#000_72%,#333_100%)] p-[2.05cqw] shadow-[0_3.5cqw_9cqw_rgba(31,39,24,0.34),inset_0_0_0_0.35cqw_#5b5b5b]">
           <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[10.95cqw] bg-white">
@@ -1535,6 +1800,7 @@ function DemoPage() {
                 >
                   {screen === 'dashboard' ? (
                     <DashboardScreen
+                      farmSummary={farmSummary}
                       onOpenFarmReport={openFarmReport}
                       onShowNotice={showNotice}
                     />
@@ -1542,20 +1808,25 @@ function DemoPage() {
                     <FarmReportScreen
                       onAddReport={openSelectBatch}
                       onBack={returnToDashboard}
+                      onOpenReport={openPreviousReport}
                       onShowNotice={showNotice}
+                      reports={farmData.reports}
                     />
                   ) : screen === 'select-batch' ? (
                     <SelectBatchScreen
+                      batches={farmData.batches}
                       onBack={returnToFarmReport}
+                      onOpenReport={(report) => openPreviousReport(report, 'select-batch')}
                       onSelectBatch={openBirdCount}
                       onShowNotice={showNotice}
+                      reports={farmData.reports}
                     />
                   ) : screen === 'bird-count' ? (
                     <BirdCountScreen
                       batch={selectedBatch}
                       data={reportData.birds}
                       onBack={editingSection === 'birds' ? returnToSummary : returnToSelectBatch}
-                      onContinue={editingSection === 'birds' ? returnToSummary : openEggStore}
+                      onContinue={editingSection === 'birds' ? returnToSummary : continueFromBirdCount}
                       onDataChange={(changes) => updateReportData('birds', changes)}
                     />
                   ) : screen === 'egg-store' ? (
@@ -1570,7 +1841,7 @@ function DemoPage() {
                     <MedicationScreen
                       batch={selectedBatch}
                       data={reportData.medication}
-                      onBack={editingSection === 'medication' ? returnToSummary : returnToEggStore}
+                      onBack={editingSection === 'medication' ? returnToSummary : returnFromMedication}
                       onContinue={openSummary}
                       onDataChange={(changes) => updateReportData('medication', changes)}
                     />
@@ -1581,6 +1852,17 @@ function DemoPage() {
                       onBack={returnToMedication}
                       onEdit={editReportSection}
                       onFinish={finishReport}
+                      preparedAt={formatReportTimestamp(draftStartedAt)}
+                      reportDate={formatReportDate(new Date(draftStartedAt))}
+                    />
+                  ) : screen === 'report-detail' && selectedHistoryReport ? (
+                    <ReportSummaryScreen
+                      batch={selectedHistoryReport.batchSnapshot}
+                      data={selectedHistoryReport.data}
+                      onBack={returnToReportOrigin}
+                      preparedAt={formatReportTimestamp(selectedHistoryReport.completedAt)}
+                      readOnly
+                      reportDate={selectedHistoryReport.date}
                     />
                   ) : (
                     <ReportSuccessScreen
@@ -1598,9 +1880,8 @@ function DemoPage() {
 
             <div
               aria-live="polite"
-              className={`pointer-events-none absolute bottom-[21cqw] left-1/2 z-40 max-w-[80cqw] -translate-x-1/2 rounded-full bg-[#243b25] px-[4cqw] py-[2.2cqw] text-center text-[3.1cqw] font-medium text-white shadow-lg transition-all duration-200 ${
-                notice ? 'translate-y-0 opacity-100' : 'translate-y-[2cqw] opacity-0'
-              }`}
+              className={`pointer-events-none absolute bottom-[21cqw] left-1/2 z-40 max-w-[80cqw] -translate-x-1/2 rounded-full bg-[#243b25] px-[4cqw] py-[2.2cqw] text-center text-[3.1cqw] font-medium text-white shadow-lg transition-all duration-200 ${notice ? 'translate-y-0 opacity-100' : 'translate-y-[2cqw] opacity-0'
+                }`}
               role="status"
             >
               {notice}
