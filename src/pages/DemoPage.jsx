@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   PiAlarmFill,
@@ -7,12 +7,14 @@ import {
   PiBatteryFullFill,
   PiBellSimple,
   PiBluetoothFill,
+  PiCalendarBlank,
   PiCaretDownFill,
   PiCaretRight,
   PiCaretUpFill,
   PiCheckCircleFill,
   PiCellSignalFullFill,
   PiHouseFill,
+  PiLinkSimple,
   PiMagnifyingGlass,
   PiPlus,
   PiPlusCircleFill,
@@ -31,6 +33,7 @@ import smartTipsIcon from '../assets/images/mobile-demo-assets/dashboard-icons/s
 import chickenIcon from '../assets/images/mobile-demo-assets/summary-icons/chicken-icon.svg'
 import eggsIcon from '../assets/images/mobile-demo-assets/summary-icons/eggs-icon.svg'
 import feedsIcon from '../assets/images/mobile-demo-assets/summary-icons/feeds-icon.svg'
+import successIllustration from '../assets/images/mobile-demo-assets/others/Success.svg'
 
 const summaryItems = [
   { label: 'Birds', value: '120', icon: chickenIcon },
@@ -62,11 +65,34 @@ const previousReports = [
 ]
 
 const batches = [
-  { name: 'Batch 1', birds: '2000 Layers', age: '1 day old', action: 'Start report' },
-  { name: 'Batch 2', birds: '1500 Layers', age: '2 weeks old', action: 'Start report' },
-  { name: 'Batch 3', birds: '260 Layers', age: '1 day old', action: 'View report', complete: true },
-  { name: 'Batch 4', birds: '520 Broilers', age: '1 day old', action: 'View report', complete: true },
+  { name: 'Batch 1', birds: '2000 Layers', birdCount: 2000, birdType: 'Layers', age: '1 day old', action: 'Start report' },
+  { name: 'Batch 2', birds: '1500 Layers', birdCount: 1500, birdType: 'Layers', age: '2 weeks old', action: 'Start report' },
+  { name: 'Batch 3', birds: '260 Layers', birdCount: 260, birdType: 'Layers', age: '1 day old', action: 'View report', complete: true },
+  { name: 'Batch 4', birds: '520 Broilers', birdCount: 520, birdType: 'Broilers', age: '1 day old', action: 'View report', complete: true },
 ]
+
+const initialReportData = {
+  birds: {
+    hasReduced: '',
+    selectedReasons: [],
+    mortalityCount: '',
+    soldCount: '',
+    sellingPrice: '',
+  },
+  eggs: {
+    collectedEggs: '',
+    brokenEggs: '',
+    shouldGrade: '',
+    deformedEggs: '',
+    smallEggs: '',
+    largeEggs: '',
+  },
+  medication: {
+    hasUsedMedicine: '',
+    selectedMedication: [],
+    medicationAmounts: {},
+  },
+}
 
 const screenVariants = {
   enter: (direction) => ({
@@ -383,24 +409,116 @@ const NumberField = ({ id, label, onChange, placeholder, prefix, value }) => {
   )
 }
 
-const BirdCountScreen = ({ onBack, onContinue }) => {
-  const [hasReduced, setHasReduced] = useState('')
-  const [selectedReasons, setSelectedReasons] = useState([])
+const parseNumber = (value) => {
+  if (value === '') return null
+  const parsedValue = Number(value)
+  return Number.isFinite(parsedValue) ? parsedValue : null
+}
+
+const ValidationMessage = ({ children }) => (
+  <p
+    aria-live="polite"
+    className="mb-[2.5cqw] rounded-[2cqw] bg-[#fff0ed] px-[3cqw] py-[2.2cqw] text-[3cqw] leading-snug text-[#a3291f]"
+    role="alert"
+  >
+    {children}
+  </p>
+)
+
+const useOutsideDismiss = (isOpen, setIsOpen) => {
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+
+    const handlePointerDown = (event) => {
+      if (!containerRef.current?.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, setIsOpen])
+
+  return containerRef
+}
+
+const BirdCountScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
   const [reasonsOpen, setReasonsOpen] = useState(false)
-  const [mortalityCount, setMortalityCount] = useState('')
-  const [soldCount, setSoldCount] = useState('')
-  const [sellingPrice, setSellingPrice] = useState('')
+  const reasonsContainerRef = useOutsideDismiss(reasonsOpen, setReasonsOpen)
+  const [validationAttempted, setValidationAttempted] = useState(false)
+  const {
+    hasReduced,
+    mortalityCount,
+    selectedReasons,
+    sellingPrice,
+    soldCount,
+  } = data
   const reasonOptions = ['Mortality', 'Sold']
   const displayedReasons = ['Sold', 'Mortality'].filter((reason) =>
     selectedReasons.includes(reason),
   )
 
   const toggleReason = (reason) => {
-    setSelectedReasons((currentReasons) =>
-      currentReasons.includes(reason)
-        ? currentReasons.filter((currentReason) => currentReason !== reason)
-        : [...currentReasons, reason],
-    )
+    const nextReasons = selectedReasons.includes(reason)
+      ? selectedReasons.filter((currentReason) => currentReason !== reason)
+      : [...selectedReasons, reason]
+    onDataChange({ selectedReasons: nextReasons })
+  }
+
+  const mortalityValue = parseNumber(mortalityCount)
+  const soldValue = parseNumber(soldCount)
+  const sellingPriceValue = parseNumber(sellingPrice)
+
+  const getValidationError = () => {
+    if (hasReduced !== 'yes') return ''
+    if (selectedReasons.length === 0) return 'Select at least one reason for the decrease.'
+
+    if (selectedReasons.includes('Mortality')) {
+      if (mortalityValue === null) return 'Enter the number of birds that died.'
+      if (!Number.isInteger(mortalityValue) || mortalityValue < 0) {
+        return 'Mortality must be a whole number of zero or more.'
+      }
+    }
+
+    if (selectedReasons.includes('Sold')) {
+      if (soldValue === null) return 'Enter the number of birds that were sold.'
+      if (!Number.isInteger(soldValue) || soldValue < 0) {
+        return 'Birds sold must be a whole number of zero or more.'
+      }
+      if (sellingPriceValue === null || sellingPriceValue <= 0) {
+        return 'Enter a selling price greater than zero.'
+      }
+    }
+
+    const totalDecrease =
+      (selectedReasons.includes('Mortality') ? mortalityValue : 0) +
+      (selectedReasons.includes('Sold') ? soldValue : 0)
+
+    if (totalDecrease <= 0) return 'The total decrease must be greater than zero.'
+    if (totalDecrease > batch.birdCount) {
+      return `The decrease total (${totalDecrease}) cannot exceed the current flock of ${batch.birdCount} birds.`
+    }
+
+    return ''
+  }
+
+  const validationError = getValidationError()
+
+  const handleContinue = () => {
+    setValidationAttempted(true)
+    if (validationError) return
+    onContinue()
   }
 
   return (
@@ -415,7 +533,7 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
           <PiArrowLeft aria-hidden="true" />
         </button>
         <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
-          Batch No. 2
+          {batch.name.replace('Batch', 'Batch No.')}
         </h1>
       </header>
 
@@ -431,13 +549,13 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
           <div className="flex flex-col">
             <span className="text-[3.45cqw] text-[#647064]">Type of Bird</span>
             <span className="mt-[1.1cqw] text-[5.9cqw] font-normal leading-none text-[#536656]">
-              Layers
+              {batch.birdType}
             </span>
           </div>
           <div className="flex flex-col items-end pr-[1.1cqw]">
             <span className="text-[3.45cqw] text-[#647064]">No of birds</span>
             <span className="mt-[1.1cqw] text-[6.2cqw] font-normal leading-none text-[#536656] tabular-nums">
-              2000
+              {batch.birdCount}
             </span>
           </div>
         </section>
@@ -456,7 +574,7 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
                   checked={hasReduced === option.toLowerCase()}
                   className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
                   name="bird-count-reduced"
-                  onChange={() => setHasReduced(option.toLowerCase())}
+                  onChange={() => onDataChange({ hasReduced: option.toLowerCase() })}
                   type="radio"
                   value={option.toLowerCase()}
                 />
@@ -476,7 +594,7 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
               key="decrease-fields"
               transition={{ duration: 0.24, ease: 'easeOut' }}
             >
-              <div className="relative mt-[7.5cqw]">
+              <div className="relative mt-[7.5cqw]" ref={reasonsContainerRef}>
                 <p className="text-[2.8cqw]">Reasons for the decrease in number</p>
                 <div className="relative mt-[2.7cqw] flex min-h-[8cqw] items-center border-b border-[#007b2f] pb-[1.7cqw]">
                   <button
@@ -558,7 +676,7 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
                   <NumberField
                     id="mortality-count"
                     label="How many birds died?"
-                    onChange={setMortalityCount}
+                    onChange={(value) => onDataChange({ mortalityCount: value })}
                     placeholder="Enter number"
                     value={mortalityCount}
                   />
@@ -568,14 +686,14 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
                     <NumberField
                       id="sold-count"
                       label="How many birds were sold?"
-                      onChange={setSoldCount}
+                      onChange={(value) => onDataChange({ soldCount: value })}
                       placeholder="Enter number"
                       value={soldCount}
                     />
                     <NumberField
                       id="selling-price"
                       label="What was the selling price per bird?"
-                      onChange={setSellingPrice}
+                      onChange={(value) => onDataChange({ sellingPrice: value })}
                       placeholder="Enter price"
                       prefix="Ksh"
                       value={sellingPrice}
@@ -589,9 +707,12 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
 
         {hasReduced && (
           <div className="mt-auto shrink-0 pt-[8cqw]">
+            {validationAttempted && validationError && (
+              <ValidationMessage>{validationError}</ValidationMessage>
+            )}
             <button
               className="flex h-[11.2cqw] w-full touch-manipulation items-center justify-center rounded-[4.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.5cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
-              onClick={onContinue}
+              onClick={handleContinue}
               type="button"
             >
               Save &amp; Continue
@@ -603,10 +724,622 @@ const BirdCountScreen = ({ onBack, onContinue }) => {
   )
 }
 
+const EggStoreScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
+  const [validationAttempted, setValidationAttempted] = useState(false)
+  const {
+    brokenEggs,
+    collectedEggs,
+    deformedEggs,
+    largeEggs,
+    shouldGrade,
+    smallEggs,
+  } = data
+
+  const remainingAfter = (total, removed) => {
+    const totalCount = parseNumber(total)
+    const removedCount = parseNumber(removed)
+    if (totalCount === null || removedCount === null) return null
+    return Math.max(0, totalCount - removedCount)
+  }
+
+  const collectedCount = parseNumber(collectedEggs)
+  const brokenCount = parseNumber(brokenEggs)
+  const deformedCount = parseNumber(deformedEggs)
+  const smallCount = parseNumber(smallEggs)
+  const largeCount = parseNumber(largeEggs)
+  const remainingAfterBroken = remainingAfter(collectedEggs, brokenEggs)
+  const remainingAfterDeformed =
+    remainingAfterBroken === null
+      ? null
+      : remainingAfter(String(remainingAfterBroken), deformedEggs)
+  const remainingAfterSmall =
+    remainingAfterDeformed === null
+      ? null
+      : remainingAfter(String(remainingAfterDeformed), smallEggs)
+
+  const getValidationError = () => {
+    if (collectedCount === null) return 'Enter the number of eggs collected today.'
+    if (!Number.isInteger(collectedCount) || collectedCount <= 0) {
+      return 'Eggs collected must be a whole number greater than zero.'
+    }
+    if (brokenCount === null) return 'Enter the number of broken eggs.'
+    if (!Number.isInteger(brokenCount) || brokenCount < 0) {
+      return 'Broken eggs must be a whole number of zero or more.'
+    }
+    if (brokenCount > collectedCount) {
+      return 'Broken eggs cannot exceed the number of eggs collected.'
+    }
+
+    if (shouldGrade === 'yes') {
+      if (deformedCount === null || smallCount === null || largeCount === null) {
+        return 'Enter the deformed, small, and large egg quantities.'
+      }
+      if (
+        !Number.isInteger(deformedCount) ||
+        !Number.isInteger(smallCount) ||
+        !Number.isInteger(largeCount) ||
+        deformedCount < 0 ||
+        smallCount < 0 ||
+        largeCount < 0
+      ) {
+        return 'All graded egg quantities must be whole numbers of zero or more.'
+      }
+
+      const eggsAvailableForGrading = collectedCount - brokenCount
+      const gradedTotal = deformedCount + smallCount + largeCount
+      if (gradedTotal !== eggsAvailableForGrading) {
+        return `Graded quantities total ${gradedTotal}, but they must add up to ${eggsAvailableForGrading} eggs.`
+      }
+    }
+
+    return ''
+  }
+
+  const validationError = getValidationError()
+
+  const handleContinue = () => {
+    setValidationAttempted(true)
+    if (validationError) return
+    onContinue()
+  }
+
+  return (
+    <>
+      <header className="relative flex h-[14cqw] shrink-0 items-center px-[2.2cqw]">
+        <button
+          aria-label="Back to bird count"
+          className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
+          onClick={onBack}
+          type="button"
+        >
+          <PiArrowLeft aria-hidden="true" />
+        </button>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
+          {batch.name.replace('Batch', 'Batch No.')}
+        </h1>
+      </header>
+
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3cqw] pb-[2.8cqw] pt-[7.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <h2 className="pl-[2.1cqw] text-[5.25cqw] font-normal tracking-[-0.025em] text-[#536656]">
+          Update Eggs in Store
+        </h2>
+
+        <section
+          aria-label="Selected batch egg summary"
+          className="mx-[1cqw] mt-[6.6cqw] flex h-[21.2cqw] shrink-0 items-start justify-between rounded-[4.3cqw] border border-[#d8d2bd] bg-[#fff9e6] px-[3.2cqw] pt-[3.5cqw]"
+        >
+          <div className="flex flex-col">
+            <span className="text-[3.45cqw] text-[#647064]">Type of Bird</span>
+            <span className="mt-[1.1cqw] text-[5.9cqw] font-normal leading-none text-[#536656]">
+              {batch.birdType}
+            </span>
+          </div>
+          <div className="flex flex-col items-end pr-[1.1cqw]">
+            <span className="text-[3.45cqw] text-[#647064]">No of birds</span>
+            <span className="mt-[1.1cqw] text-[6.2cqw] font-normal leading-none text-[#536656] tabular-nums">
+              {batch.birdCount}
+            </span>
+          </div>
+        </section>
+
+        <div className="mt-[7.7cqw] space-y-[6.7cqw]">
+          <NumberField
+            id="collected-eggs"
+            label="How many eggs have you collected today?"
+            onChange={(value) => onDataChange({ collectedEggs: value })}
+            placeholder="Enter number"
+            value={collectedEggs}
+          />
+          <NumberField
+            id="broken-eggs"
+            label={
+              collectedCount === null
+                ? 'How many eggs were broken?'
+                : `How many eggs out of ${collectedCount} were broken?`
+            }
+            onChange={(value) => onDataChange({ brokenEggs: value })}
+            placeholder="Enter number"
+            value={brokenEggs}
+          />
+        </div>
+
+        <fieldset className="mt-[7.3cqw] shrink-0">
+          <legend className="text-[4.15cqw] font-normal">Would you like to grade them</legend>
+          <div className="mt-[6.1cqw] flex items-center justify-between px-[2.4cqw] pr-[25cqw]">
+            {['Yes', 'No'].map((option) => (
+              <label
+                className="flex cursor-pointer touch-manipulation items-center gap-[3.1cqw] text-[4cqw]"
+                key={option}
+              >
+                <input
+                  checked={shouldGrade === option.toLowerCase()}
+                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
+                  name="grade-eggs"
+                  onChange={() => onDataChange({ shouldGrade: option.toLowerCase() })}
+                  type="radio"
+                  value={option.toLowerCase()}
+                />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <AnimatePresence initial={false}>
+          {shouldGrade === 'yes' && (
+            <motion.div
+              animate={{ height: 'auto', opacity: 1, y: 0 }}
+              className="shrink-0 overflow-hidden"
+              exit={{ height: 0, opacity: 0, y: -8 }}
+              initial={{ height: 0, opacity: 0, y: -8 }}
+              key="egg-grading-fields"
+              transition={{ duration: 0.24, ease: 'easeOut' }}
+            >
+              <div className="mt-[7.2cqw] space-y-[6.7cqw]">
+                <NumberField
+                  id="deformed-eggs"
+                  label={
+                    remainingAfterBroken === null
+                      ? 'How many eggs were deformed?'
+                      : `How many eggs out of ${remainingAfterBroken} were deformed?`
+                  }
+                  onChange={(value) => onDataChange({ deformedEggs: value })}
+                  placeholder="Enter number"
+                  value={deformedEggs}
+                />
+                <NumberField
+                  id="small-eggs"
+                  label={
+                    remainingAfterDeformed === null
+                      ? 'How many of the remaining eggs were small?'
+                      : `How many eggs of the remaining ${remainingAfterDeformed} were small?`
+                  }
+                  onChange={(value) => onDataChange({ smallEggs: value })}
+                  placeholder="Enter number"
+                  value={smallEggs}
+                />
+                <NumberField
+                  id="large-eggs"
+                  label={
+                    remainingAfterSmall === null
+                      ? 'How many of the remaining eggs were large?'
+                      : `How many eggs of the remaining ${remainingAfterSmall} were large?`
+                  }
+                  onChange={(value) => onDataChange({ largeEggs: value })}
+                  placeholder="Enter number"
+                  value={largeEggs}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {shouldGrade && (
+          <div className="mt-auto shrink-0 pt-[7.2cqw]">
+            {validationAttempted && validationError && (
+              <ValidationMessage>{validationError}</ValidationMessage>
+            )}
+            <button
+              className="flex h-[11.2cqw] w-full touch-manipulation items-center justify-center rounded-[4.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.5cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+              onClick={handleContinue}
+              type="button"
+            >
+              Save &amp; Continue
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+const MedicationScreen = ({ batch, data, onBack, onContinue, onDataChange }) => {
+  const medicationOptions = ['New castle', 'Gumboro']
+  const medicationStock = { 'New castle': 7, Gumboro: 7 }
+  const [medicationMenuOpen, setMedicationMenuOpen] = useState(false)
+  const medicationMenuRef = useOutsideDismiss(
+    medicationMenuOpen,
+    setMedicationMenuOpen,
+  )
+  const [validationAttempted, setValidationAttempted] = useState(false)
+  const { hasUsedMedicine, medicationAmounts, selectedMedication } = data
+
+  const toggleMedication = (medication) => {
+    const nextMedication = selectedMedication.includes(medication)
+      ? selectedMedication.filter((item) => item !== medication)
+      : [...selectedMedication, medication]
+    onDataChange({ selectedMedication: nextMedication })
+  }
+
+  const setMedicationAmount = (medication, value) => {
+    onDataChange({
+      medicationAmounts: {
+        ...medicationAmounts,
+        [medication]: value,
+      },
+    })
+  }
+
+  const getValidationError = () => {
+    if (hasUsedMedicine !== 'yes') return ''
+    if (selectedMedication.length === 0) return 'Select at least one medicine used today.'
+
+    for (const medication of selectedMedication) {
+      const amount = parseNumber(medicationAmounts[medication] ?? '')
+      if (amount === null) return `Enter the litres of ${medication} used.`
+      if (amount <= 0) return `${medication} used must be greater than zero litres.`
+      if (amount > medicationStock[medication]) {
+        return `${medication} used cannot exceed the ${medicationStock[medication]} litres in stock.`
+      }
+    }
+
+    return ''
+  }
+
+  const validationError = getValidationError()
+
+  const handleContinue = () => {
+    setValidationAttempted(true)
+    if (validationError) return
+    onContinue()
+  }
+
+  return (
+    <>
+      <header className="relative flex h-[14cqw] shrink-0 items-center px-[2.2cqw]">
+        <button
+          aria-label="Back to eggs in store"
+          className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
+          onClick={onBack}
+          type="button"
+        >
+          <PiArrowLeft aria-hidden="true" />
+        </button>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
+          {batch.name.replace('Batch', 'Batch No.')}
+        </h1>
+      </header>
+
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-[3.9cqw] pb-[2.8cqw] pt-[7.2cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <h2 className="text-[5.25cqw] font-normal tracking-[-0.025em] text-[#536656]">
+          Update medication used
+        </h2>
+
+        <section
+          aria-label="Medication stock"
+          className="mt-[6.6cqw] h-[27.5cqw] shrink-0 rounded-[4.3cqw] border border-[#d8d2bd] bg-[#fff9e6] px-[4cqw] pt-[3cqw]"
+        >
+          <h3 className="text-center text-[6cqw] font-normal leading-none">Medication</h3>
+          <div className="mx-auto mt-[5.1cqw] grid w-[47cqw] grid-cols-[1fr_auto] gap-x-[7cqw] gap-y-[1.8cqw] text-[3.35cqw] text-[#5d6f60]">
+            {medicationOptions.map((medication) => (
+              <div className="contents" key={medication}>
+                <span>{medication}</span>
+                <span className="text-[#9ba7a0]">{medicationStock[medication]} Litres</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <fieldset className="mt-[7.2cqw] shrink-0">
+          <legend className="text-[4.15cqw] font-normal">
+            Have you used any medicines today?
+          </legend>
+          <div className="mt-[6.1cqw] flex items-center justify-between px-[2.4cqw] pr-[25cqw]">
+            {['Yes', 'No'].map((option) => (
+              <label
+                className="flex cursor-pointer touch-manipulation items-center gap-[3.1cqw] text-[4cqw]"
+                key={option}
+              >
+                <input
+                  checked={hasUsedMedicine === option.toLowerCase()}
+                  className="size-[4.35cqw] shrink-0 appearance-none rounded-full border-[0.45cqw] border-[#7a7f7a] bg-white transition checked:border-[1.3cqw] checked:border-[#007b2f] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.8cqw] focus-visible:outline-[#9ebc32]"
+                  name="medicine-used"
+                  onChange={() => onDataChange({ hasUsedMedicine: option.toLowerCase() })}
+                  type="radio"
+                  value={option.toLowerCase()}
+                />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <AnimatePresence initial={false}>
+          {hasUsedMedicine === 'yes' && (
+            <motion.div
+              animate={{ height: 'auto', opacity: 1, y: 0 }}
+              className="shrink-0 overflow-visible"
+              exit={{ height: 0, opacity: 0, y: -8 }}
+              initial={{ height: 0, opacity: 0, y: -8 }}
+              key="medication-fields"
+              transition={{ duration: 0.24, ease: 'easeOut' }}
+            >
+              <div className="relative mt-[7.5cqw]" ref={medicationMenuRef}>
+                <p className="text-[2.8cqw]">What medicine have you used for layer birds</p>
+                <div className="relative mt-[2.4cqw] flex min-h-[8cqw] items-center border-b border-[#929792] pb-[1.4cqw]">
+                  <button
+                    aria-controls="medication-options-list"
+                    aria-expanded={medicationMenuOpen}
+                    aria-haspopup="listbox"
+                    aria-label="Choose medicines used"
+                    className="absolute inset-0 z-0 cursor-pointer touch-manipulation rounded-[1cqw] focus-visible:outline focus-visible:outline-[0.55cqw] focus-visible:outline-offset-[0.7cqw] focus-visible:outline-[#9ebc32]"
+                    onClick={() => setMedicationMenuOpen((isOpen) => !isOpen)}
+                    type="button"
+                  />
+                  <div className="pointer-events-none relative z-10 flex min-w-0 flex-1 flex-wrap gap-[2.1cqw]">
+                    {selectedMedication.length === 0 && (
+                      <span className="text-[3.5cqw] text-[#526454]">—select all that apply—</span>
+                    )}
+                    {selectedMedication.map((medication) => (
+                      <span
+                        className="flex items-center gap-[1.25cqw] rounded-full border border-[#4db66d] px-[2.3cqw] py-[0.9cqw] text-[3.35cqw] text-[#237a3f]"
+                        key={medication}
+                      >
+                        {medication}
+                        <button
+                          aria-label={`Remove ${medication}`}
+                          className="pointer-events-auto touch-manipulation rounded-full active:scale-90"
+                          onClick={() => toggleMedication(medication)}
+                          type="button"
+                        >
+                          <PiXCircleFill aria-hidden="true" className="text-[3.6cqw] text-[#5bae72]" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <span className="pointer-events-none relative z-10 grid size-[8cqw] shrink-0 place-items-center">
+                    {medicationMenuOpen ? (
+                      <PiCaretUpFill aria-hidden="true" className="text-[3.8cqw]" />
+                    ) : (
+                      <PiCaretDownFill aria-hidden="true" className="text-[3.8cqw]" />
+                    )}
+                  </span>
+                </div>
+
+                <AnimatePresence>
+                  {medicationMenuOpen && (
+                    <motion.div
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      aria-label="Medicines used"
+                      aria-multiselectable="true"
+                      className="absolute left-0 right-0 top-full z-50 mt-[1.5cqw] overflow-hidden rounded-[3cqw] border border-[#d3d8d2] bg-white p-[1.3cqw] shadow-[0_3cqw_8cqw_rgba(28,51,30,0.18)]"
+                      exit={{ opacity: 0, scale: 0.98, y: -4 }}
+                      id="medication-options-list"
+                      initial={{ opacity: 0, scale: 0.98, y: -4 }}
+                      role="listbox"
+                    >
+                      {medicationOptions.map((medication) => {
+                        const isSelected = selectedMedication.includes(medication)
+                        return (
+                          <button
+                            aria-selected={isSelected}
+                            className="flex h-[10cqw] w-full touch-manipulation items-center justify-between rounded-[2cqw] px-[3cqw] text-left text-[3.6cqw] hover:bg-[#f4f7f2] active:bg-[#eaf2e7]"
+                            key={medication}
+                            onClick={() => toggleMedication(medication)}
+                            role="option"
+                            type="button"
+                          >
+                            <span>{medication}</span>
+                            {isSelected && (
+                              <PiCheckCircleFill aria-hidden="true" className="text-[4.5cqw] text-[#67a847]" />
+                            )}
+                          </button>
+                        )
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-[7cqw] space-y-[7cqw]">
+                {selectedMedication.map((medication) => (
+                  <NumberField
+                    id={`medication-${medication.toLowerCase().replace(' ', '-')}`}
+                    key={medication}
+                    label={`How many litres of ${medication.toLowerCase()} was used?`}
+                    onChange={(value) => setMedicationAmount(medication, value)}
+                    placeholder="Enter litres"
+                    prefix="L"
+                    value={medicationAmounts[medication] ?? ''}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {hasUsedMedicine && (
+          <div className="mt-auto shrink-0 pt-[7.2cqw]">
+            {validationAttempted && validationError && (
+              <ValidationMessage>{validationError}</ValidationMessage>
+            )}
+            <button
+              className="flex h-[11.2cqw] w-full touch-manipulation items-center justify-center rounded-[4.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.5cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+              onClick={handleContinue}
+              type="button"
+            >
+              Save &amp; Continue
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}
+
+const SummarySection = ({ onEdit, rows, title }) => (
+  <section className="mt-[6.3cqw]">
+    <div className="flex items-center justify-between px-[4cqw]">
+      <h2 className="text-[3.55cqw] font-normal uppercase text-[#657466]">{title}</h2>
+      <button
+        className="touch-manipulation text-[3.25cqw] font-medium text-[#007b2f] underline underline-offset-[0.5cqw] transition active:scale-95"
+        onClick={onEdit}
+        type="button"
+      >
+        EDIT ITEMS
+      </button>
+    </div>
+    <div className="mt-[2.6cqw] rounded-[2cqw] bg-white px-[6.2cqw] py-[4.5cqw] shadow-[0_1.3cqw_1.4cqw_-1cqw_rgba(0,104,29,0.24)]">
+      <dl className="space-y-[3.8cqw]">
+        {rows.map((row) => (
+          <div className="flex items-center justify-between gap-[4cqw]" key={row.label}>
+            <dt className="text-[3.55cqw] text-[#344b38]">{row.label}</dt>
+            <dd className="text-right text-[3.55cqw] text-[#007b2f] tabular-nums">
+              {row.value || '—'}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+)
+
+const ReportSummaryScreen = ({ batch, data, onBack, onEdit, onFinish }) => {
+  const birdRows =
+    data.birds.hasReduced === 'yes'
+      ? [
+          ...(data.birds.selectedReasons.includes('Sold')
+            ? [
+                { label: 'Sold', value: data.birds.soldCount },
+                { label: 'Selling price / bird', value: `Ksh ${data.birds.sellingPrice}` },
+              ]
+            : []),
+          ...(data.birds.selectedReasons.includes('Mortality')
+            ? [{ label: 'Died', value: data.birds.mortalityCount }]
+            : []),
+        ]
+      : [{ label: 'Birds reduced', value: 'No' }]
+
+  const eggRows = [
+    { label: 'Collected', value: data.eggs.collectedEggs },
+    { label: 'Broken', value: data.eggs.brokenEggs },
+    ...(data.eggs.shouldGrade === 'yes'
+      ? [
+          { label: 'Small', value: data.eggs.smallEggs },
+          { label: 'Deformed', value: data.eggs.deformedEggs },
+          { label: 'Large', value: data.eggs.largeEggs },
+        ]
+      : [{ label: 'Graded', value: 'No' }]),
+  ]
+
+  const medicationRows =
+    data.medication.hasUsedMedicine === 'yes'
+      ? data.medication.selectedMedication.map((medication) => ({
+          label: medication,
+          value: `${data.medication.medicationAmounts[medication] || '—'} L`,
+        }))
+      : [{ label: 'Medication used', value: 'None' }]
+
+  return (
+    <>
+      <header className="relative flex h-[14cqw] shrink-0 items-center border-b border-[#f3f3f3] px-[2.2cqw]">
+        <button
+          aria-label="Back to medication"
+          className="grid size-[10cqw] touch-manipulation place-items-center rounded-full text-[6.5cqw] transition active:scale-90 active:bg-[#eef3ec]"
+          onClick={onBack}
+          type="button"
+        >
+          <PiArrowLeft aria-hidden="true" />
+        </button>
+        <h1 className="absolute left-1/2 -translate-x-1/2 text-[4.2cqw] font-normal tracking-[-0.02em]">
+          Farm report
+        </h1>
+      </header>
+
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-[#fbfbfb] px-[5.5cqw] pb-[3cqw] pt-[6cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <section className="rounded-[2.2cqw] bg-[#fff9e6] px-[6cqw] py-[5.2cqw]">
+          <h2 className="text-[5cqw] font-normal text-[#007b2f]">Kuku’s Farm report</h2>
+          <div className="mt-[3.2cqw] flex flex-wrap items-center gap-x-[4.2cqw] gap-y-[1.5cqw] text-[3cqw] text-[#657466]">
+            <span className="flex items-center gap-[1cqw]">
+              <PiCalendarBlank aria-hidden="true" className="text-[3.7cqw]" />
+              23rd May 2025
+            </span>
+            <span className="flex items-center gap-[1cqw]">
+              <PiLinkSimple aria-hidden="true" className="text-[3.7cqw]" />
+              {batch.name} – {batch.birdType}
+            </span>
+          </div>
+        </section>
+
+        <SummarySection
+          onEdit={() => onEdit('birds')}
+          rows={birdRows}
+          title={`Birds– ${batch.birdType}`}
+        />
+        <SummarySection onEdit={() => onEdit('eggs')} rows={eggRows} title="Eggs" />
+        <SummarySection
+          onEdit={() => onEdit('medication')}
+          rows={medicationRows}
+          title="Medication Used"
+        />
+
+        <p className="mt-[7cqw] text-center text-[3.55cqw] leading-[2] text-[#344b38]">
+          This report was prepared by Mwangi
+          <br />
+          on 24/06/2022 at 6:00am
+        </p>
+
+        <button
+          className="mt-[5.5cqw] flex h-[11.2cqw] w-full shrink-0 touch-manipulation items-center justify-center rounded-[2.2cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.8cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+          onClick={onFinish}
+          type="button"
+        >
+          Finish Reporting
+        </button>
+      </div>
+    </>
+  )
+}
+
+const ReportSuccessScreen = ({ batch, onBackToReports }) => (
+  <div className="flex min-h-0 flex-1 flex-col bg-white px-[4cqw] pb-[7cqw] pt-[16cqw]">
+    <img
+      alt="Report completed successfully"
+      className="mx-auto h-auto w-[60cqw]"
+      src={successIllustration}
+    />
+
+    <p className="mt-[10cqw] text-center text-[4cqw] leading-[1.5] text-black">
+      Yay! You are done reporting for {batch.name}!
+    </p>
+
+    <button
+      className="mt-auto flex h-[11.2cqw] w-full shrink-0 touch-manipulation items-center justify-center rounded-[4.5cqw] bg-[linear-gradient(100deg,#ffb51c_0%,#f4bd1b_48%,#9ebc32_100%)] text-[3.65cqw] font-bold uppercase tracking-[0.02em] text-[#17351f] transition active:scale-[0.98] active:brightness-95"
+      onClick={onBackToReports}
+      type="button"
+    >
+      Go Back to Farm Reports
+    </button>
+  </div>
+)
+
 function DemoPage() {
   const [notice, setNotice] = useState('')
   const [screen, setScreen] = useState('dashboard')
   const [direction, setDirection] = useState(1)
+  const [reportData, setReportData] = useState(initialReportData)
+  const [editingSection, setEditingSection] = useState(null)
+  const [selectedBatch, setSelectedBatch] = useState(batches[0])
 
   useEffect(() => {
     if (!notice) return undefined
@@ -617,6 +1350,16 @@ function DemoPage() {
 
   const showNotice = (label) => {
     setNotice(`${label} is coming in the next demo screen`)
+  }
+
+  const updateReportData = (section, changes) => {
+    setReportData((currentData) => ({
+      ...currentData,
+      [section]: {
+        ...currentData[section],
+        ...changes,
+      },
+    }))
   }
 
   const openFarmReport = () => {
@@ -643,8 +1386,9 @@ function DemoPage() {
     setScreen('farm-report')
   }
 
-  const openBirdCount = () => {
+  const openBirdCount = (batch) => {
     setNotice('')
+    setSelectedBatch(batch)
     setDirection(1)
     setScreen('bird-count')
   }
@@ -653,6 +1397,78 @@ function DemoPage() {
     setNotice('')
     setDirection(-1)
     setScreen('select-batch')
+  }
+
+  const openEggStore = () => {
+    setNotice('')
+    setDirection(1)
+    setScreen('egg-store')
+  }
+
+  const returnToBirdCount = () => {
+    setNotice('')
+    setDirection(-1)
+    setScreen('bird-count')
+  }
+
+  const openMedication = () => {
+    setNotice('')
+    setDirection(1)
+    setScreen('medication')
+  }
+
+  const returnToEggStore = () => {
+    setNotice('')
+    setDirection(-1)
+    setScreen('egg-store')
+  }
+
+  const openSummary = () => {
+    setNotice('')
+    setEditingSection(null)
+    setDirection(1)
+    setScreen('summary')
+  }
+
+  const returnToMedication = () => {
+    setNotice('')
+    setEditingSection(null)
+    setDirection(-1)
+    setScreen('medication')
+  }
+
+  const finishReport = () => {
+    setNotice('')
+    setEditingSection(null)
+    setDirection(1)
+    setScreen('success')
+  }
+
+  const returnToFarmReports = () => {
+    setNotice('')
+    setEditingSection(null)
+    setDirection(-1)
+    setScreen('farm-report')
+  }
+
+  const returnToSummary = () => {
+    setNotice('')
+    setEditingSection(null)
+    setDirection(1)
+    setScreen('summary')
+  }
+
+  const editReportSection = (section) => {
+    const targetScreen = {
+      birds: 'bird-count',
+      eggs: 'egg-store',
+      medication: 'medication',
+    }[section]
+
+    setNotice('')
+    setEditingSection(section)
+    setDirection(-1)
+    setScreen(targetScreen)
   }
 
   return (
@@ -712,10 +1528,42 @@ function DemoPage() {
                       onSelectBatch={openBirdCount}
                       onShowNotice={showNotice}
                     />
-                  ) : (
+                  ) : screen === 'bird-count' ? (
                     <BirdCountScreen
-                      onBack={returnToSelectBatch}
-                      onContinue={() => showNotice('Next farm report step')}
+                      batch={selectedBatch}
+                      data={reportData.birds}
+                      onBack={editingSection === 'birds' ? returnToSummary : returnToSelectBatch}
+                      onContinue={editingSection === 'birds' ? returnToSummary : openEggStore}
+                      onDataChange={(changes) => updateReportData('birds', changes)}
+                    />
+                  ) : screen === 'egg-store' ? (
+                    <EggStoreScreen
+                      batch={selectedBatch}
+                      data={reportData.eggs}
+                      onBack={editingSection === 'eggs' ? returnToSummary : returnToBirdCount}
+                      onContinue={editingSection === 'eggs' ? returnToSummary : openMedication}
+                      onDataChange={(changes) => updateReportData('eggs', changes)}
+                    />
+                  ) : screen === 'medication' ? (
+                    <MedicationScreen
+                      batch={selectedBatch}
+                      data={reportData.medication}
+                      onBack={editingSection === 'medication' ? returnToSummary : returnToEggStore}
+                      onContinue={openSummary}
+                      onDataChange={(changes) => updateReportData('medication', changes)}
+                    />
+                  ) : screen === 'summary' ? (
+                    <ReportSummaryScreen
+                      batch={selectedBatch}
+                      data={reportData}
+                      onBack={returnToMedication}
+                      onEdit={editReportSection}
+                      onFinish={finishReport}
+                    />
+                  ) : (
+                    <ReportSuccessScreen
+                      batch={selectedBatch}
+                      onBackToReports={returnToFarmReports}
                     />
                   )}
                 </motion.div>
