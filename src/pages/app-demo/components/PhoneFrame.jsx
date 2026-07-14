@@ -23,7 +23,7 @@ const screenVariants = {
   }),
 }
 
-const PhoneFrame = ({ children, direction, notice, screen }) => {
+const PhoneFrame = ({ bottomNavigation, children, direction, notice, screen }) => {
   const shouldReduceMotion = useReducedMotion()
   const [isSplashVisible, setIsSplashVisible] = useState(true)
 
@@ -109,21 +109,24 @@ const PhoneFrame = ({ children, direction, notice, screen }) => {
               </div>
             </div>
 
-            <div className="relative min-h-0 flex-1 overflow-hidden bg-white">
-              <AnimatePresence custom={direction} initial={false} mode="sync">
-                <motion.div
-                  animate="center"
-                  className="absolute inset-0 flex flex-col bg-white"
-                  custom={direction}
-                  exit="exit"
-                  initial="enter"
-                  key={screen}
-                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                  variants={screenVariants}
-                >
-                  {children}
-                </motion.div>
-              </AnimatePresence>
+            <div className="flex min-h-0 flex-1 flex-col bg-white">
+              <div className="relative min-h-0 flex-1 overflow-hidden bg-white">
+                <AnimatePresence custom={direction} initial={false} mode="sync">
+                  <motion.div
+                    animate="center"
+                    className="absolute inset-0 flex flex-col bg-white"
+                    custom={direction}
+                    exit="exit"
+                    initial="enter"
+                    key={screen}
+                    transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                    variants={screenVariants}
+                  >
+                    {children}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              {bottomNavigation}
             </div>
 
             <div className="flex h-[5.2cqw] shrink-0 items-start justify-center bg-white pt-[1.2cqw]">

@@ -1,9 +1,4 @@
-import {
-  PiBellSimple,
-  PiHouseFill,
-  PiStorefrontFill,
-  PiUserCircleFill,
-} from 'react-icons/pi'
+import { PiBellSimple } from 'react-icons/pi'
 
 import batchIcon from '../../../assets/images/mobile-demo-assets/dashboard-icons/batch_icon.svg'
 import extensionServicesIcon from '../../../assets/images/mobile-demo-assets/dashboard-icons/extension-services-icon.svg'
@@ -28,12 +23,6 @@ const quickActions = [
   { label: 'Financial Summary', icon: financialSummaryIcon },
   { label: 'Smart Tips', icon: smartTipsIcon },
   { label: 'Extension Services', icon: extensionServicesIcon },
-]
-
-const bottomNavigation = [
-  { label: 'Home', icon: PiHouseFill, active: true },
-  { label: 'My Shop', icon: PiStorefrontFill },
-  { label: 'Profile', icon: PiUserCircleFill },
 ]
 
 const DashboardScreen = ({
@@ -128,28 +117,6 @@ const DashboardScreen = ({
         })}
       </div>
     </section>
-
-    <nav aria-label="App navigation" className="relative z-20 grid h-[17cqw] shrink-0 grid-cols-3 bg-white px-[2cqw]">
-      {bottomNavigation.map((item) => {
-        const Icon = item.icon
-        return (
-          <button
-            aria-current={item.active ? 'page' : undefined}
-            className={`flex touch-manipulation flex-col items-center justify-center gap-[0.55cqw] rounded-[3cqw] transition active:scale-95 ${
-              item.active ? 'text-[#007b2f]' : 'text-[#9d9d9d]'
-            }`}
-            key={item.label}
-            onClick={() => !item.active && onShowNotice(item.label)}
-            type="button"
-          >
-            <Icon aria-hidden="true" className="text-[7.3cqw]" />
-            <span className={`text-[2.7cqw] ${item.active ? 'font-medium' : 'font-normal'}`}>
-              {item.label}
-            </span>
-          </button>
-        )
-      })}
-    </nav>
   </>
 )
 

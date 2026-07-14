@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import PhoneFrame from './components/PhoneFrame'
+import BottomNavigation from './components/BottomNavigation'
 import {
   cloneData,
   createEmptyReportData,
@@ -17,6 +18,7 @@ import EggStoreScreen from './screens/EggStoreScreen'
 import FarmReportScreen from './screens/FarmReportScreen'
 import FinancialSummaryScreen from './screens/FinancialSummaryScreen'
 import MedicationScreen from './screens/MedicationScreen'
+import ProfileScreen from './screens/ProfileScreen'
 import ReportSuccessScreen from './screens/ReportSuccessScreen'
 import ReportSummaryScreen from './screens/ReportSummaryScreen'
 import SelectBatchScreen from './screens/SelectBatchScreen'
@@ -151,6 +153,9 @@ const AppDemoPage = () => {
     if (screen === 'smart-tips') {
       return <SmartTipsScreen onBack={() => navigate('dashboard', -1)} onReadMore={showNotice} />
     }
+    if (screen === 'profile') {
+      return <ProfileScreen onBack={() => navigate('dashboard', -1)} onShowNotice={showNotice} />
+    }
     if (screen === 'farm-report') {
       return <FarmReportScreen onAddReport={openSelectBatch} onBack={() => navigate('dashboard', -1)} onOpenReport={openPreviousReport} onShowNotice={showNotice} reports={farmData.reports} />
     }
@@ -199,8 +204,21 @@ const AppDemoPage = () => {
     return <ReportSuccessScreen batch={selectedBatch} onBackToReports={() => navigate('farm-report', -1, { clearEditing: true })} />
   }
 
+  const bottomNavigation = ['dashboard', 'profile'].includes(screen) ? (
+    <BottomNavigation
+      activeTab={screen}
+      onNavigate={(targetScreen) => navigate(targetScreen, targetScreen === 'profile' ? 1 : -1)}
+      onShowNotice={showNotice}
+    />
+  ) : null
+
   return (
-    <PhoneFrame direction={direction} notice={notice} screen={screen}>
+    <PhoneFrame
+      bottomNavigation={bottomNavigation}
+      direction={direction}
+      notice={notice}
+      screen={screen}
+    >
       {renderScreen()}
     </PhoneFrame>
   )
