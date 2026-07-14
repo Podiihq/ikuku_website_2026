@@ -167,6 +167,12 @@
     </div>
   </div>
   <div id="root" style="visibility: hidden"></div>
+  <script>
+    if (window.location.hash.split('?')[0] === '#/demo') {
+      document.getElementById('boot-loader')?.remove()
+      document.getElementById('root').style.visibility = 'visible'
+    }
+  </script>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

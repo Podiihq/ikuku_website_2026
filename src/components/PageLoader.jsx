@@ -14,10 +14,19 @@ const waitForImage = (image) => {
 }
 
 const PageLoader = () => {
+  const isDemoRoute = window.location.hash.split('?')[0] === '#/demo'
   const [progress, setProgress] = useState(0)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(() => !isDemoRoute)
 
   useEffect(() => {
+    if (isDemoRoute) {
+      const root = document.getElementById('root')
+      const bootLoader = document.getElementById('boot-loader')
+      if (root) root.style.visibility = 'visible'
+      bootLoader?.remove()
+      return undefined
+    }
+
     let animationFrame
     let bootLoaderFrame
     let handoffFrame
@@ -111,7 +120,7 @@ const PageLoader = () => {
       window.cancelAnimationFrame(handoffFrame)
       document.body.style.overflow = ''
     }
-  }, [])
+  }, [isDemoRoute])
 
   useEffect(() => {
     if (!isVisible) {

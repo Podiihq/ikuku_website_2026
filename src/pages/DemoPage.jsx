@@ -34,6 +34,7 @@ import chickenIcon from '../assets/images/mobile-demo-assets/summary-icons/chick
 import eggsIcon from '../assets/images/mobile-demo-assets/summary-icons/eggs-icon.svg'
 import feedsIcon from '../assets/images/mobile-demo-assets/summary-icons/feeds-icon.svg'
 import successIllustration from '../assets/images/mobile-demo-assets/others/Success.svg'
+import splashScreenLogo from '../assets/images/mobile-demo-assets/others/splash_screen_logo.svg'
 
 const summaryItemDefinitions = [
   { key: 'birds', label: 'Birds', icon: chickenIcon },
@@ -251,7 +252,7 @@ const DashboardScreen = ({ farmSummary, onOpenFarmReport, onShowNotice }) => (
     </header>
 
     <section className="relative z-10 h-[31cqw] shrink-0 rounded-b-[4.2cqw] bg-white px-[3cqw] pt-[3cqw] shadow-[0_4cqw_6cqw_-2.5cqw_rgba(0,0,0,0.18)]">
-      <h2 className="text-[4cqw] font-normal">Kuku Farm</h2>
+      <h2 className="text-[5cqw] font-normal">Kuku Farm</h2>
       <div className="mt-[2.3cqw] grid grid-cols-3">
         {summaryItemDefinitions.map((item) => (
           <div
@@ -259,10 +260,10 @@ const DashboardScreen = ({ farmSummary, onOpenFarmReport, onShowNotice }) => (
             key={item.label}
           >
             <div className="flex items-center gap-[0.2cqw] text-[3.65cqw] font-medium text-[#00681d]">
-              <img alt="" className="size-[3.1cqw] object-contain" src={item.icon} />
+              <img alt="" className="size-[5.1cqw] object-contain" src={item.icon} />
               <span>{item.label}</span>
             </div>
-            <span className="mt-[0.65cqw] text-[6.2cqw] font-normal leading-none tracking-[-0.04em] tabular-nums">
+            <span className="mt-[1cqw] text-[6.2cqw] font-normal leading-none tracking-[-0.04em] tabular-nums">
               {farmSummary[item.key]}
             </span>
           </div>
@@ -278,11 +279,10 @@ const DashboardScreen = ({ farmSummary, onOpenFarmReport, onShowNotice }) => (
 
           return (
             <button
-              className={`group relative flex touch-manipulation flex-col items-center justify-center self-stretch rounded-[4cqw] px-[1cqw] transition duration-150 active:scale-[0.94] ${
-                isFarmReport
-                  ? 'mx-[1.2cqw] my-[0.8cqw] bg-[linear-gradient(145deg,#fff8df_0%,#fff1b9_100%)] ring-[0.55cqw] ring-inset ring-[#ffb51c] shadow-[0_1.8cqw_4cqw_rgba(158,188,50,0.24)] active:brightness-95'
-                  : 'active:bg-[#f7f8f5]'
-              }`}
+              className={`group relative flex touch-manipulation flex-col items-center justify-center self-stretch rounded-[4cqw] px-[1cqw] transition duration-150 active:scale-[0.94] ${isFarmReport
+                ? 'mx-[1.2cqw] my-[0.8cqw] bg-[linear-gradient(145deg,#fff8df_0%,#fff1b9_100%)] ring-[0.55cqw] ring-inset ring-[#ffb51c] shadow-[0_1.8cqw_4cqw_rgba(158,188,50,0.24)] active:brightness-95'
+                : 'active:bg-[#f7f8f5]'
+                }`}
               key={action.label}
               onClick={() =>
                 isFarmReport
@@ -301,16 +301,14 @@ const DashboardScreen = ({ farmSummary, onOpenFarmReport, onShowNotice }) => (
               )}
               <img
                 alt=""
-                className={`size-[15.15cqw] shrink-0 select-none object-contain transition duration-150 group-active:scale-95 ${
-                  isFarmReport ? 'drop-shadow-[0_1cqw_1.2cqw_rgba(0,104,29,0.2)]' : ''
-                }`}
+                className={`size-[15.15cqw] shrink-0 select-none object-contain transition duration-150 group-active:scale-95 ${isFarmReport ? 'drop-shadow-[0_1cqw_1.2cqw_rgba(0,104,29,0.2)]' : ''
+                  }`}
                 draggable="false"
                 src={action.icon}
               />
               <span
-                className={`mt-[1.3cqw] max-w-full text-[3.55cqw] leading-tight ${
-                  isFarmReport ? 'font-bold text-[#00681d]' : 'font-normal'
-                }`}
+                className={`mt-[1.3cqw] max-w-full text-[3.55cqw] leading-tight ${isFarmReport ? 'font-bold text-[#00681d]' : 'font-normal'
+                  }`}
               >
                 {action.label}
               </span>
@@ -1539,6 +1537,7 @@ const ReportSuccessScreen = ({ batch, onBackToReports }) => (
 
 function DemoPage() {
   const shouldReduceMotion = useReducedMotion()
+  const [isSplashVisible, setIsSplashVisible] = useState(true)
   const [farmData, setFarmData] = useState(loadFarmData)
   const [notice, setNotice] = useState('')
   const [screen, setScreen] = useState('dashboard')
@@ -1561,6 +1560,11 @@ function DemoPage() {
       farmData.batches.reduce((total, batch) => total + batch.eggCount, 0),
     ),
   }
+
+  useEffect(() => {
+    const splashTimer = window.setTimeout(() => setIsSplashVisible(false), 2200)
+    return () => window.clearTimeout(splashTimer)
+  }, [])
 
   useEffect(() => {
     try {
@@ -1796,6 +1800,34 @@ function DemoPage() {
             <div className="pointer-events-none absolute left-1/2 top-[2.1cqw] z-30 h-[7.2cqw] w-[25.6cqw] -translate-x-1/2 rounded-full bg-black shadow-[inset_0_-0.3cqw_0.5cqw_#272727]">
               <span className="absolute right-[2.1cqw] top-1/2 size-[1.7cqw] -translate-y-1/2 rounded-full bg-[#101922] shadow-[inset_0_0_0_0.35cqw_#162b43]" />
             </div>
+
+            <AnimatePresence>
+              {isSplashVisible && (
+                <motion.div
+                  animate={{ opacity: 1 }}
+                  aria-label="Opening i-Kuku"
+                  className="absolute inset-0 z-25 flex items-center justify-center bg-white"
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 1 }}
+                  role="status"
+                  transition={{ duration: shouldReduceMotion ? 0.15 : 0.38, ease: 'easeOut' }}
+                >
+                  <motion.img
+                    alt="i-Kuku"
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    className="h-auto w-[24cqw] select-none"
+                    draggable="false"
+                    initial={
+                      shouldReduceMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, scale: 0.86, y: '2cqw' }
+                    }
+                    src={splashScreenLogo}
+                    transition={{ duration: shouldReduceMotion ? 0.15 : 0.55, ease: 'easeOut' }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="relative z-20 flex h-[12cqw] shrink-0 items-center justify-between px-[4.3cqw] pt-[1cqw] text-[3.1cqw] font-bold">
               <time dateTime="17:13">5:13 PM</time>
