@@ -7,9 +7,6 @@ import {
   PiBellSimple,
   PiCaretDownFill,
   PiCoins,
-  PiHouseFill,
-  PiStorefrontFill,
-  PiUserCircleFill,
   PiWarehouse,
 } from 'react-icons/pi'
 
@@ -168,11 +165,6 @@ const FinancialSummaryScreen = ({ onBack, onShowNotice }) => {
         </section>
       </div>
 
-      <nav aria-label="Financial summary navigation" className="grid h-[17cqw] shrink-0 grid-cols-3 bg-white px-[2cqw]">
-        <FinancialNavItem icon={PiHouseFill} label="Home" onClick={onBack} />
-        <FinancialNavItem icon={PiStorefrontFill} label="My Shop" onClick={() => onShowNotice('My Shop')} />
-        <FinancialNavItem icon={PiUserCircleFill} label="Profile" onClick={() => onShowNotice('Profile')} />
-      </nav>
     </>
   )
 }
@@ -201,17 +193,6 @@ const FinancialTotalCard = ({ icon, label, tone, value }) => (
     </div>
     <p className="mt-[2.6cqw] text-center text-[5.1cqw] leading-none">{value}</p>
   </section>
-)
-
-const FinancialNavItem = ({ icon: Icon, label, onClick }) => (
-  <button
-    className="flex touch-manipulation flex-col items-center justify-center gap-[0.55cqw] rounded-[3cqw] text-[#9d9d9d] transition active:scale-95"
-    onClick={onClick}
-    type="button"
-  >
-    <Icon aria-hidden="true" className="text-[7.3cqw]" />
-    <span className="text-[2.7cqw]">{label}</span>
-  </button>
 )
 
 export default FinancialSummaryScreen

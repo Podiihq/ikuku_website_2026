@@ -40,6 +40,7 @@ const DashboardScreen = ({
   farmSummary,
   onOpenFarmReport,
   onOpenFinancialSummary,
+  onOpenSmartTips,
   onShowNotice,
 }) => (
   <>
@@ -81,6 +82,7 @@ const DashboardScreen = ({
         {quickActions.map((action) => {
           const isFarmReport = action.label === 'Farm Report'
           const isFinancialSummary = action.label === 'Financial Summary'
+          const isSmartTips = action.label === 'Smart Tips'
 
           return (
             <button
@@ -93,6 +95,7 @@ const DashboardScreen = ({
               onClick={() => {
                 if (isFarmReport) onOpenFarmReport()
                 else if (isFinancialSummary) onOpenFinancialSummary()
+                else if (isSmartTips) onOpenSmartTips()
                 else onShowNotice(action.label)
               }}
               type="button"

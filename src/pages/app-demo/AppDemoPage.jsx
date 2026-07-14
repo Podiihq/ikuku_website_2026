@@ -20,6 +20,7 @@ import MedicationScreen from './screens/MedicationScreen'
 import ReportSuccessScreen from './screens/ReportSuccessScreen'
 import ReportSummaryScreen from './screens/ReportSummaryScreen'
 import SelectBatchScreen from './screens/SelectBatchScreen'
+import SmartTipsScreen from './screens/SmartTipsScreen'
 
 const AppDemoPage = () => {
   const [farmData, setFarmData] = useState(loadFarmData)
@@ -142,10 +143,13 @@ const AppDemoPage = () => {
 
   const renderScreen = () => {
     if (screen === 'dashboard') {
-      return <DashboardScreen farmSummary={farmSummary} onOpenFarmReport={() => navigate('farm-report', 1)} onOpenFinancialSummary={() => navigate('financial-summary', 1)} onShowNotice={showNotice} />
+      return <DashboardScreen farmSummary={farmSummary} onOpenFarmReport={() => navigate('farm-report', 1)} onOpenFinancialSummary={() => navigate('financial-summary', 1)} onOpenSmartTips={() => navigate('smart-tips', 1)} onShowNotice={showNotice} />
     }
     if (screen === 'financial-summary') {
       return <FinancialSummaryScreen onBack={() => navigate('dashboard', -1)} onShowNotice={showNotice} />
+    }
+    if (screen === 'smart-tips') {
+      return <SmartTipsScreen onBack={() => navigate('dashboard', -1)} onReadMore={showNotice} />
     }
     if (screen === 'farm-report') {
       return <FarmReportScreen onAddReport={openSelectBatch} onBack={() => navigate('dashboard', -1)} onOpenReport={openPreviousReport} onShowNotice={showNotice} reports={farmData.reports} />
