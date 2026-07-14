@@ -10,7 +10,7 @@ import AppPage from './pages/AppPage'
 import CaseStudiesPage from './pages/CaseStudiesPage'
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage'
 import ContactPage from './pages/ContactPage'
-import DemoPage from './pages/DemoPage'
+import AppDemoPage from './pages/app-demo/AppDemoPage'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -118,7 +118,7 @@ const AppRoutes = () => {
   const { pathname } = useLocation()
 
   if (pathname === '/demo') {
-    return <DemoPage />
+    return <AppDemoPage />
   }
 
   return <AppLayout />
