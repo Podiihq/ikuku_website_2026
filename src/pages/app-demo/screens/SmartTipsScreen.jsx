@@ -34,7 +34,7 @@ const SmartTipsScreen = ({ onBack, onReadMore }) => (
       </h1>
     </header>
 
-    <div className="min-h-0 flex-1 overflow-y-auto bg-[#fafafa] px-[4cqw] pb-[7cqw] pt-[7cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="min-h-0 flex-1 overflow-y-auto bg-[#fafafa] px-[4cqw] pb-[7cqw] pt-[7cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
       <section className="px-[1.4cqw]">
         <h2 className="text-[4.75cqw] font-medium tracking-[-0.02em] text-[#243b25]">
           Educational Resources

@@ -59,7 +59,7 @@ const FinancialSummaryScreen = ({ onBack, onShowNotice }) => {
         </button>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-[4cqw] pb-[6cqw] pt-[8cqw] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="min-h-0 flex-1 overflow-y-auto px-[4cqw] pb-[6cqw] pt-[8cqw] scrollbar-none [&::-webkit-scrollbar]:hidden">
         <div className="grid grid-cols-2 gap-[8cqw]">
           <FinancialFilter label="Select batches" defaultValue="all">
             <option value="all">All Batches</option>
@@ -100,9 +100,8 @@ const FinancialSummaryScreen = ({ onBack, onShowNotice }) => {
           <div className="grid grid-cols-2 text-center text-[4cqw]">
             {['Income', 'Expenses'].map((tab) => (
               <button
-                className={`h-[8.5cqw] touch-manipulation transition active:scale-95 ${
-                  activeTab === tab ? 'font-medium text-[#007b2f]' : 'text-[#243b25]'
-                }`}
+                className={`h-[8.5cqw] touch-manipulation transition active:scale-95 ${activeTab === tab ? 'font-medium text-[#007b2f]' : 'text-[#243b25]'
+                  }`}
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 type="button"
