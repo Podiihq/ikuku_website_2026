@@ -14,10 +14,19 @@ const waitForImage = (image) => {
 }
 
 const PageLoader = () => {
+  const isDemoRoute = window.location.hash.split('?')[0] === '#/demo'
   const [progress, setProgress] = useState(0)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(() => !isDemoRoute)
 
   useEffect(() => {
+    if (isDemoRoute) {
+      const root = document.getElementById('root')
+      const bootLoader = document.getElementById('boot-loader')
+      if (root) root.style.visibility = 'visible'
+      bootLoader?.remove()
+      return undefined
+    }
+
     let animationFrame
     let bootLoaderFrame
     let handoffFrame
@@ -111,7 +120,7 @@ const PageLoader = () => {
       window.cancelAnimationFrame(handoffFrame)
       document.body.style.overflow = ''
     }
-  }, [])
+  }, [isDemoRoute])
 
   useEffect(() => {
     if (!isVisible) {
@@ -168,18 +177,6 @@ const PageLoader = () => {
                   transition={{ duration: 0.18, ease: 'easeOut' }}
                 />
               </div>
-
-              {/* <div className="mt-4 flex items-center justify-between gap-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#697B3B] sm:text-xs">
-                  Preparing your experience
-                </p>
-                <motion.span
-                  animate={{ scale: [1, 1.35, 1] }}
-                  aria-hidden="true"
-                  className="size-3 shrink-0 rounded-full bg-[#EA4335]"
-                  transition={{ duration: 1, repeat: Infinity }}
-                />
-              </div> */}
             </div>
           </motion.div>
         </motion.div>
