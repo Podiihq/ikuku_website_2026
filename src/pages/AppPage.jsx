@@ -90,7 +90,7 @@ const AppPage = () => {
           <div className="grid overflow-hidden rounded-xl border-2 border-black bg-[#697B3B] text-[#FEF8E2] lg:grid-cols-12">
             <div className="flex flex-col justify-between p-6 sm:p-10 lg:col-span-7 lg:min-h-168 lg:p-12">
               <div>
-                <p className="text-xl mb-4 font-bold">i-KUKU Mobile App</p>
+                <p className="text-xl mb-4 font-semibold uppercase">i-kuku Mobile App</p>
                 <p className="mb-5 text-sm font-bold uppercase tracking-[0.14em] text-[#FFCA55]">
                   Your farm. In your pocket.
                 </p>
