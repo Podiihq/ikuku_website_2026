@@ -1,5 +1,6 @@
 import { FiArrowUpRight } from 'react-icons/fi'
 import Button from './Button'
+import ProgressiveImage from './ProgressiveImage'
 
 const CaseStudyCard = ({ title, description, caseImage, pageLink }) => {
   return (
@@ -24,7 +25,7 @@ const CaseStudyCard = ({ title, description, caseImage, pageLink }) => {
           </Button>
         </div>
       </div>
-      <img
+      <ProgressiveImage
         src={caseImage}
         alt={title}
         className="h-full min-h-80 w-full border-t-2 border-black object-cover object-top lg:min-h-112 lg:border-l-2 lg:border-t-0"

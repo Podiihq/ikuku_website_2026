@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fi'
 import Button from '../components/Button'
 import GooglePlayMark from '../components/GooglePlayMark'
+import ProgressiveImage from '../components/ProgressiveImage'
 import { playStoreLink } from '../data/appLinks'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 import Illustration1 from '../assets/images/illustrations/illustration-7.png'
@@ -133,10 +134,11 @@ const AppPage = () => {
 
             <div className="relative min-h-120 overflow-hidden border-t-2 border-black bg-[#FFB51C] lg:col-span-5 lg:border-l-2 lg:border-t-0">
               <div className="h-full">
-                <img
+                <ProgressiveImage
                   src={Illustration1}
                   alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
                   className="w-full h-full object-cover absolute -bottom-13 lg:-bottom-21"
+                  priority
                 />
               </div>
             </div>
@@ -147,26 +149,26 @@ const AppPage = () => {
       <section className="px-4 pb-20 lg:px-12 lg:pb-28">
         <div className="mx-auto max-w-screen-2xl rounded-xl border-2 border-black">
           <div className='h-150 lg:hidden'>
-            <img src={ScreenThumb2} alt="" className='h-full w-full object-cover rounded-xl' />
+            <ProgressiveImage src={ScreenThumb2} alt="" className='h-full w-full object-cover rounded-xl' />
           </div>
 
           <div className="mt-10 lg:grid grid-cols-1 gap-4 rounded-xl px-6 pt-6 md:grid-cols-2 lg:grid-cols-4 hidden">
-            <img
+            <ProgressiveImage
               src={Screen1}
               alt="I-kuku mobile app dashboard showing birds, feed, eggs and farm actions"
               className="hidden w-full md:block"
             />
-            <img
+            <ProgressiveImage
               src={Screen2}
               alt="I-kuku mobile app poultry batch screen"
               className="w-full"
             />
-            <img
+            <ProgressiveImage
               src={Screen4}
               alt="I-kuku mobile app farm records screen"
               className="hidden w-full md:block"
             />
-            <img
+            <ProgressiveImage
               src={Screen3}
               alt="I-kuku mobile app farm records screen"
               className="hidden w-full md:block"
@@ -260,12 +262,12 @@ const AppPage = () => {
             </div>
 
             <div className="relative min-h-120 overflow-hidden rounded-xl border-2 border-black bg-[#697B3B] sm:min-h-136 lg:col-span-7 lg:min-h-160">
-              <img
+              <ProgressiveImage
                 src={Screen2}
                 alt="I-kuku app poultry batch screen"
                 className="absolute left-1/2 w-[88%] -translate-x-1/2 drop-shadow-[0_24px_20px_rgba(0,0,0,0.3)] sm:w-[72%] bottom-0 lg:-bottom-24 lg:left-[6%] lg:top-auto lg:w-[46%] lg:translate-x-0 lg:-rotate-6"
               />
-              <img
+              <ProgressiveImage
                 src={Screen3}
                 alt="I-kuku app farm records screen"
                 className="absolute hidden drop-shadow-[0_24px_20px_rgba(0,0,0,0.3)] lg:-bottom-24 lg:right-[6%] lg:block lg:w-[46%] lg:rotate-6"

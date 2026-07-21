@@ -7,6 +7,7 @@ import {
   FiUsers,
 } from 'react-icons/fi'
 import Button from '../components/Button'
+import ProgressiveImage from '../components/ProgressiveImage'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 import HeroImage from '../assets/images/photos/Image-7.png'
 import Illustration1 from '../assets/images/illustrations/illustration-11.png'
@@ -73,17 +74,18 @@ const AboutPage = () => {
             </div>
 
             <div className="relative min-h-120 overflow-hidden rounded-xl border-2 border-black lg:col-span-5">
-              <img
+              <ProgressiveImage
                 src={HeroImage}
                 alt="Two poultry farmers smiling together inside a chicken house"
                 className="absolute inset-0 h-full w-full object-cover"
+                priority
               />
             </div>
           </div>
 
           <div className="mt-4 grid gap-4 lg:grid-cols-12">
             <div className="rounded-xl border-2 border-black bg-[#FFB51C] lg:col-span-4 hidden lg:block">
-              <img src={Illustration1} alt="" className='w-full h-full' />
+              <ProgressiveImage src={Illustration1} alt="" className='w-full h-full' />
             </div>
             <div className="rounded-xl border-2 border-black bg-[#FEF8E2] p-6 lg:col-span-8 lg:p-8 space-y-2 flex flex-col">
               <p className="lg:text-xl font-bold uppercase text-[#697B3B]">Why we exist</p>
@@ -94,7 +96,7 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="rounded-xl border-2 border-black bg-[#FFB51C] lg:col-span-4 lg:hidden">
-              <img src={Illustration1} alt="" className='w-full h-full' />
+              <ProgressiveImage src={Illustration1} alt="" className='w-full h-full' />
             </div>
           </div>
         </div>
@@ -173,7 +175,7 @@ const AboutPage = () => {
 
           <div className="mt-12 grid gap-4 lg:grid-cols-12">
             <div className="relative min-h-112 overflow-hidden rounded-xl border-2 border-black lg:col-span-7">
-              <img
+              <ProgressiveImage
                 src={FarmImage}
                 alt="Poultry professionals using mobile phones to review farm activity"
                 className="absolute inset-0 h-full w-full object-cover"
@@ -277,7 +279,7 @@ const AboutPage = () => {
               Partner with us
             </Button>
           </div>
-          <img
+          <ProgressiveImage
             src={WorkshopImage}
             alt="A poultry facilitator speaking with farmers during a group workshop"
             className="h-full min-h-112 w-full border-t-2 border-black object-cover lg:border-l-2 lg:border-t-0"

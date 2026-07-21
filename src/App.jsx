@@ -1,18 +1,20 @@
 import './App.css'
-import { useEffect, useLayoutEffect } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { HashRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import PageLoader from './components/PageLoader'
-import AboutPage from './pages/AboutPage'
-import AppPage from './pages/AppPage'
-import CaseStudiesPage from './pages/CaseStudiesPage'
-import CaseStudyDetailPage from './pages/CaseStudyDetailPage'
-import ContactPage from './pages/ContactPage'
-import AppDemoPage from './pages/app-demo/AppDemoPage'
+import PageSkeleton from './components/PageSkeleton'
 import HomePage from './pages/HomePage'
-import NotFoundPage from './pages/NotFoundPage'
+
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const AppPage = lazy(() => import('./pages/AppPage'))
+const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'))
+const CaseStudyDetailPage = lazy(() => import('./pages/CaseStudyDetailPage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const AppDemoPage = lazy(() => import('./pages/app-demo/AppDemoPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 const scrollToPageTop = () => {
   window.__ikukuLenis?.scrollTo?.(0, { immediate: true, force: true })
@@ -87,15 +89,17 @@ const PageTransitionRoutes = () => {
         style={{ willChange: 'opacity, transform' }}
         transition={shouldReduceMotion ? { duration: 0.18 } : pageTransition}
       >
-        <Routes location={location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/app" element={<AppPage />} />
-          <Route path="/case-studies" element={<CaseStudiesPage />} />
-          <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<PageSkeleton />}>
+          <Routes location={location}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/app" element={<AppPage />} />
+            <Route path="/case-studies" element={<CaseStudiesPage />} />
+            <Route path="/case-studies/:slug" element={<CaseStudyDetailPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </motion.div>
     </AnimatePresence>
   )
@@ -118,7 +122,11 @@ const AppRoutes = () => {
   const { pathname } = useLocation()
 
   if (pathname === '/demo') {
-    return <AppDemoPage />
+    return (
+      <Suspense fallback={<PageSkeleton />}>
+        <AppDemoPage />
+      </Suspense>
+    )
   }
 
   return <AppLayout />

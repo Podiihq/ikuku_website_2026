@@ -3,6 +3,7 @@ import { FiArrowUpRight, FiBookOpen, FiEye, FiPhone, FiSmartphone, FiUsers } fro
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
 import Button from './Button'
 import GooglePlayMark from './GooglePlayMark'
+import ProgressiveImage from './ProgressiveImage'
 import { playStoreLink } from '../data/appLinks'
 import logo from '../assets/images/logo/i-kuku-logo.svg'
 
@@ -113,7 +114,7 @@ const Footer = () => {
                 href="#/"
                 aria-label="I-kuku home"
               >
-                <img className="h-28 w-auto sm:h-32" src={logo} alt="I-kuku" />
+                <ProgressiveImage className="h-28 w-auto sm:h-32" src={logo} alt="I-kuku" />
               </a>
             </div>
 
