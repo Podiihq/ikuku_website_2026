@@ -2,6 +2,7 @@ import { FiSmartphone, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
 import CaseStudyCard from '../components/CaseStudyCard'
 import GooglePlayMark from '../components/GooglePlayMark'
+import ProgressiveImage from '../components/ProgressiveImage'
 import { caseStudies } from '../data/caseStudies'
 import HeroImage from "../assets/images/photos/Image-8.png"
 import HeroIllustration from "../assets/images/illustrations/illustration-1.png"
@@ -27,6 +28,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { playStoreLink } from '../data/appLinks'
 import useSmoothScroll from '../hooks/useSmoothScroll'
+import { getCriticalFontTasks, getHomeCriticalImageTasks } from '../utils/criticalAssets'
 
 const HomePage = () => {
     useSmoothScroll()
@@ -43,18 +45,9 @@ const HomePage = () => {
         let animationFrame
         let isCancelled = false
 
-        const imagesReady = Array.from(document.images).map((image) => {
-            if (image.complete) return Promise.resolve()
-
-            return new Promise((resolve) => {
-                image.addEventListener('load', resolve, { once: true })
-                image.addEventListener('error', resolve, { once: true })
-            })
-        })
-
         Promise.allSettled([
-            ...imagesReady,
-            document.fonts?.ready ?? Promise.resolve(),
+            ...getHomeCriticalImageTasks(),
+            ...getCriticalFontTasks(),
         ]).then(() => {
             if (isCancelled) return
 
@@ -121,6 +114,9 @@ const HomePage = () => {
                                     src={partner.logo}
                                     alt={`${partner.name} logo`}
                                     className="w-40 md:w-50 object-contain bg-[#F8F0D8] border-2 rounded"
+                                    data-home-critical
+                                    decoding="async"
+                                    loading="eager"
                                 />
                             ))}
                         </div>
@@ -128,10 +124,26 @@ const HomePage = () => {
                 </div>
                 <div className='grid md:grid-cols-7 pt-20 gap-4 max-w-screen-2xl mx-auto relative md:px-4 lg:px-0'>
                     <div className='md:col-span-4 hidden md:block'>
-                        <img src={HeroImage} alt="" className='border-2 rounded-xl' />
+                        <img
+                            src={HeroImage}
+                            alt=""
+                            className='border-2 rounded-xl'
+                            data-home-critical
+                            decoding="async"
+                            fetchPriority="high"
+                            loading="eager"
+                        />
                     </div>
                     <div className='md:col-span-3 md:border-2 rounded-xl md:bg-[#F9B420] relative h-full'>
-                        <img src={HeroIllustration} alt="" className='md:absolute h-full w-full -top-10' />
+                        <img
+                            src={HeroIllustration}
+                            alt=""
+                            className='md:absolute h-full w-full -top-10'
+                            data-home-critical
+                            decoding="async"
+                            fetchPriority="high"
+                            loading="eager"
+                        />
                     </div>
                 </div>
             </section>
@@ -156,13 +168,13 @@ const HomePage = () => {
                         </Button>
                     </div>
                     <div className='lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 px-6 rounded-xl mt-10 hidden'>
-                        <img src={Screen1} alt="" />
-                        <img src={Screen2} alt="" className='hidden md:block' />
-                        <img src={Screen3} alt="" className='hidden md:block' />
-                        <img src={Screen4} alt="" className='hidden md:block' />
+                        <img src={Screen1} alt="" data-home-critical decoding="async" loading="eager" />
+                        <img src={Screen2} alt="" className='hidden md:block' data-home-critical decoding="async" loading="eager" />
+                        <img src={Screen3} alt="" className='hidden md:block' data-home-critical decoding="async" loading="eager" />
+                        <img src={Screen4} alt="" className='hidden md:block' data-home-critical decoding="async" loading="eager" />
                     </div>
                     <div className='h-150 lg:hidden mt-6 '>
-                        <img src={ScreenThumb} alt="" className='h-full w-full object-cover rounded-b-xl bg-[#FFB51C]' />
+                        <img src={ScreenThumb} alt="" className='h-full w-full object-cover rounded-b-xl bg-[#FFB51C]' data-home-critical decoding="async" loading="eager" />
                     </div>
 
                 </div>
@@ -192,7 +204,7 @@ const HomePage = () => {
                 <div className='mt-4 space-y-4'>
                     <div className='grid lg:grid-cols-5 gap-3'>
                         <div className='lg:col-span-3 relative h-140 lg:h-auto'>
-                            <img src={Image1} alt="" className='w-full h-full object-cover border-2 rounded-xl' />
+                            <ProgressiveImage src={Image1} alt="" className='w-full h-full object-cover border-2 rounded-xl' />
                             <div className='space-y-3 absolute bottom-10 lg:left-10 left-5 right-5 z-10 text-white'>
                                 <p className='text-5xl creative-font font-bold'>For Farmers</p>
                                 <p className='lg:w-2/3'>Step away from the paperwork. Get real-time, AI-backed guidance on flock health, feed optimization, and margins right in your pocket.</p>
@@ -208,15 +220,15 @@ const HomePage = () => {
                             </div>
                         </div>
                         <div className='lg:col-span-2 border-2 h-full rounded-xl bg-[#EA4335] hidden lg:block'>
-                            <img src={illustration1} alt="" className='w-full h-full' />
+                            <ProgressiveImage src={illustration1} alt="" className='w-full h-full' />
                         </div>
                     </div>
                     <div className='grid lg:grid-cols-5 gap-3'>
                         <div className='lg:col-span-2 border-2 h-full rounded-xl bg-[#FEC02E] hidden lg:block'>
-                            <img src={illustration2} alt="" className='w-full' />
+                            <ProgressiveImage src={illustration2} alt="" className='w-full' />
                         </div>
                         <div className='lg:col-span-3 relative h-140 lg:h-auto'>
-                            <img src={Image2} alt="" className='w-full h-full object-cover border-2 rounded-xl' />
+                            <ProgressiveImage src={Image2} alt="" className='w-full h-full object-cover border-2 rounded-xl' />
                             <div className='space-y-3 absolute bottom-10 lg:left-10 left-5 right-5 z-10 text-white'>
                                 <p className='text-5xl creative-font font-bold'>For Organizations</p>
                                 <p className='lg:w-2/3'>We collaborate with development partners and cooperatives to deploy scalable, data-driven agricultural training.</p>
@@ -307,7 +319,13 @@ export const ProcessCardComponent = ({ title, description, illustration }) => {
             </div>
             <div className='flex-1' />
             <div>
-                <img src={illustration} alt="" />
+                <img
+                    src={illustration}
+                    alt=""
+                    data-home-critical
+                    decoding="async"
+                    loading="eager"
+                />
             </div>
         </div>
     )

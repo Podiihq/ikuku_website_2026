@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { FiArrowLeft, FiArrowUpRight, FiMapPin, FiUsers } from 'react-icons/fi'
 import Button from '../components/Button'
+import ProgressiveImage from '../components/ProgressiveImage'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 import { caseStudies, getCaseStudyBySlug } from '../data/caseStudies'
 
@@ -59,10 +60,11 @@ const CaseStudyDetailPage = () => {
             </div>
 
             <div className="relative min-h-112 overflow-hidden border-t-2 border-black lg:col-span-5 lg:min-h-168 lg:border-l-2 lg:border-t-0">
-              <img
+              <ProgressiveImage
                 src={caseStudy.image}
                 alt={caseStudy.imageAlt}
                 className="absolute inset-0 h-full w-full object-cover"
+                priority
               />
             </div>
           </div>

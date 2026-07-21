@@ -1,17 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import logo from '../assets/images/logo/i-kuku-logo.svg'
-
-const waitForImage = (image) => {
-  if (image.complete) {
-    return Promise.resolve()
-  }
-
-  return new Promise((resolve) => {
-    image.addEventListener('load', resolve, { once: true })
-    image.addEventListener('error', resolve, { once: true })
-  })
-}
+import { getCriticalFontTasks, getHomeCriticalImageTasks } from '../utils/criticalAssets'
 
 const PageLoader = () => {
   const isDemoRoute = window.location.hash.split('?')[0] === '#/demo'
@@ -76,8 +66,11 @@ const PageLoader = () => {
       animationFrame = window.requestAnimationFrame(updateDisplayedProgress)
     }
 
-    const images = Array.from(document.images)
-    const totalTasks = images.length + 2
+    const isHomeRoute = window.location.hash.split('?')[0] === '#/' || !window.location.hash
+    const imageTasks = isHomeRoute ? getHomeCriticalImageTasks() : []
+    const fontTasks = getCriticalFontTasks()
+    const tasks = [...imageTasks, ...fontTasks]
+    const totalTasks = Math.max(tasks.length, 1)
     let completedTasks = 0
 
     const markTaskComplete = () => {
@@ -85,27 +78,11 @@ const PageLoader = () => {
       targetProgress = Math.round((completedTasks / totalTasks) * 100)
     }
 
-    const windowLoaded = new Promise((resolve) => {
-      if (document.readyState === 'complete') {
-        resolve()
-        return
-      }
-
-      window.addEventListener('load', resolve, { once: true })
-    })
-
-    const fontsLoaded = document.fonts?.ready ?? Promise.resolve()
-    const tasks = [
-      ...images.map((image) => waitForImage(image)),
-      windowLoaded,
-      fontsLoaded,
-    ]
-
     tasks.forEach((task) => {
-      task.finally(markTaskComplete)
+      task.then(markTaskComplete, markTaskComplete)
     })
 
-    Promise.allSettled(tasks).then(() => {
+    Promise.allSettled(tasks.length > 0 ? tasks : [Promise.resolve()]).then(() => {
       targetProgress = 100
     })
 
